@@ -1,4 +1,4 @@
--- {-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE NoMonomorphismRestriction #-}
 import           Text.ParserCombinators.Parsec hiding (spaces)
 
 -- import           System.Environment
@@ -7,14 +7,19 @@ import           Control.Monad
 
 import Control.Applicative hiding ((<|>), many)
 
-data LispVal = Atom String
+data LispVal = Atom Operator
               | List [LispVal]
               | DottedList [LispVal] LispVal
-              | Flaot Float
+              | Float Float
               | Number Integer
               | String String
               | Char Char
               | Bool Bool
+              | None
+  deriving(Show)
+
+data Operator = Quote
+              | Var String
   deriving(Show)
 
 symbol :: Parser Char
@@ -30,6 +35,9 @@ symbol = oneOf "!$%&|*+-/:<=?>@^_~#"
 spaces :: Parser ()
 spaces = skipMany space
 
+spaces1 :: Parser ()
+spaces1 = skipMany1 space
+
 (<++>) a b = (++) <$> a <*> b
 (<:>) a b = (:) <$> a <*> b
 
@@ -43,8 +51,10 @@ parsechar =
               [char '\"', char '\\', parseTab, parseNewLine]) <|> noneOf "\""
 
 enclose :: Parser a -> Parser b -> Parser b
-enclose a b =
-  a *> b <* a
+enclose a = between a a
+
+-- bracket :: Parser a -> Parser a
+-- bracket
 
 parseChar :: Parser LispVal
 parseChar =
@@ -61,21 +71,57 @@ parseAtom =
     fmap check $ (first <:> rest)
       where check "#t" = Bool True
             check "#f" = Bool False
-            check atom = Atom atom
+            check atom = Atom $ Var atom
 
 
--- number = many1 digit
--- plus = char '+' *> number
--- minus = char '-' <:> number
--- integer = plus <|> minus <|> number
+
+
+-- parseInt :: Parser LispVal
+-- parseInt = (Number . read) <$> integer
+--
+-- parseFloat :: Parser LispVal
+-- parseFloat = undefined
 
 parseNumber :: Parser LispVal
-parseNumber = (Number . read) <$> many1 digit
+parseNumber = do
+  let number = many1 digit
+      plus = char '+' *> number
+      minus = char '-' <:> number
+      integer = plus <|> minus <|> number
+      decimal = option "" $ char '.' <:> number
+      expo = option "" $ oneOf "eE" <:> integer
 
+  int <- integer
+  deci <- decimal <++> expo
+  return $ check int deci
+    where check int "" = Number (read int)
+          check int deci = Float (read (int ++ deci))
+
+-- parseList :: Parser LispVal
+-- parseList = List <$> sepBy parseExpr spaces1
+
+parseList :: Parser LispVal
+parseList =
+  let heads = endBy parseExpr spaces
+      dotted = char '.' *> spaces1 *> parseExpr
+      tails = option None dotted
+      check h None = List h
+      check h t = DottedList h t in
+    liftA2 check heads tails
+
+parseQuoted :: Parser LispVal
+parseQuoted =
+  let quoted = char '\'' *> parseExpr in
+    (\x -> List [Atom Quote, x]) <$> quoted
 
 parseExpr :: Parser LispVal
-parseExpr = parseAtom <|> parseString <|> parseNumber <|> parseChar
-
+parseExpr = parseAtom
+            <|> parseString
+            <|> parseNumber
+            <|> try parseChar
+            <|> parseQuoted
+            <|> bracket parseList
+              where bracket = between (char '(') (char ')')
 
 main :: IO()
 main = forever $
