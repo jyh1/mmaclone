@@ -1,4 +1,5 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
+{-# LANGUAGE FlexibleContexts #-}
 import           Text.ParserCombinators.Parsec hiding (spaces)
 
 -- import           System.Environment
@@ -7,20 +8,7 @@ import           Control.Monad
 
 import Control.Applicative hiding ((<|>), many)
 
-data LispVal = Atom Operator
-              | List [LispVal]
-              | DottedList [LispVal] LispVal
-              | Float Float
-              | Number Integer
-              | String String
-              | Char Char
-              | Bool Bool
-              | None
-  deriving(Show)
-
-data Operator = Quote
-              | Var String
-  deriving(Show)
+import DataType
 
 symbol :: Parser Char
 symbol = oneOf "!$%&|*+-/:<=?>@^_~#"
@@ -58,20 +46,20 @@ enclose a = between a a
 
 parseChar :: Parser LispVal
 parseChar =
-  fmap Char $ enclose (char '\'') parsechar
+  Char <$> enclose (char '\'') parsechar
 
 parseString :: Parser LispVal
 parseString =
-  fmap String $ enclose (char '\"') (many1 parsechar)
+  String <$> enclose (char '\"') (many1 parsechar)
 
 parseAtom :: Parser LispVal
 parseAtom =
   let first = letter <|> symbol
       rest = many (letter <|> digit <|> symbol) in
-    fmap check $ (first <:> rest)
+    fmap check (first <:> rest)
       where check "#t" = Bool True
             check "#f" = Bool False
-            check atom = Atom $ Var atom
+            check atom = Atom atom
 
 
 
@@ -112,7 +100,7 @@ parseList =
 parseQuoted :: Parser LispVal
 parseQuoted =
   let quoted = char '\'' *> parseExpr in
-    (\x -> List [Atom Quote, x]) <$> quoted
+    (\x -> List [Atom "quote", x]) <$> quoted
 
 parseExpr :: Parser LispVal
 parseExpr = parseAtom
