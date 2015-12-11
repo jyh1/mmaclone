@@ -1,24 +1,19 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE FlexibleContexts #-}
+
+module Eval
+    (
+    parseExpr
+    ) where
+
 import           Text.ParserCombinators.Parsec hiding (spaces)
-
--- import           System.Environment
-
 import           Control.Monad
-
 import Control.Applicative hiding ((<|>), many)
 
 import DataType
 
 symbol :: Parser Char
 symbol = oneOf "!$%&|*+-/:<=?>@^_~#"
-
--- readExpr :: String -> String
--- readExpr input =
---   case parse (spaces >> parseExpr) "lisp" input of
---     Left err -> "No match: "++ show err
---     Right (String str) -> str
---     Right _ -> "Found Value"
 
 spaces :: Parser ()
 spaces = skipMany space
@@ -41,9 +36,6 @@ parsechar =
 enclose :: Parser a -> Parser b -> Parser b
 enclose a = between a a
 
--- bracket :: Parser a -> Parser a
--- bracket
-
 parseChar :: Parser LispVal
 parseChar =
   Char <$> enclose (char '\'') parsechar
@@ -61,15 +53,6 @@ parseAtom =
             check "#f" = Bool False
             check atom = Atom atom
 
-
-
-
--- parseInt :: Parser LispVal
--- parseInt = (Number . read) <$> integer
---
--- parseFloat :: Parser LispVal
--- parseFloat = undefined
-
 parseNumber :: Parser LispVal
 parseNumber = do
   let number = many1 digit
@@ -84,9 +67,6 @@ parseNumber = do
   return $ check int deci
     where check int "" = Number (read int)
           check int deci = Float (read (int ++ deci))
-
--- parseList :: Parser LispVal
--- parseList = List <$> sepBy parseExpr spaces1
 
 parseList :: Parser LispVal
 parseList =
@@ -110,7 +90,3 @@ parseExpr = parseAtom
             <|> parseQuoted
             <|> bracket parseList
               where bracket = between (char '(') (char ')')
-
-main :: IO()
-main = forever $
-        getLine >>= parseTest (spaces >> parseExpr)
