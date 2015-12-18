@@ -8,6 +8,7 @@ module Parse
 
 import           Text.ParserCombinators.Parsec hiding (spaces)
 import Control.Applicative hiding ((<|>), many)
+import Control.Monad.Except
 
 import DataType
 
@@ -101,8 +102,8 @@ parseExpr = parseAtom
 -- >>> readExpr (1  "2" 3 4 5)
 -- (1 "2" 3 4 5)
 
-readExpr :: String -> LispVal
+readExpr :: String -> ThrowsError LispVal
 readExpr input =
   case parse parseExpr "lisp" input of
-    Left err -> String  ("ParseFailed" ++ show err)
-    Right val -> val
+    Left err -> throwError $ Parser err
+    Right val -> return val
