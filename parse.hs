@@ -1,13 +1,12 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE FlexibleContexts #-}
 
-module Eval
+module Parse
     (
-    parseExpr
+    readExpr
     ) where
 
 import           Text.ParserCombinators.Parsec hiding (spaces)
-import           Control.Monad
 import Control.Applicative hiding ((<|>), many)
 
 import DataType
@@ -90,3 +89,20 @@ parseExpr = parseAtom
             <|> parseQuoted
             <|> bracket parseList
               where bracket = between (char '(') (char ')')
+
+-- |parse string to LispVal
+--
+-- >>> readExpr 30
+-- 30
+--
+-- >>> readExpr 20.4
+-- 20.4
+--
+-- >>> readExpr (1  "2" 3 4 5)
+-- (1 "2" 3 4 5)
+
+readExpr :: String -> LispVal
+readExpr input =
+  case parse parseExpr "lisp" input of
+    Left err -> String  ("ParseFailed" ++ show err)
+    Right val -> val
