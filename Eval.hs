@@ -4,6 +4,7 @@ module Eval
     ) where
 
 import DataType
+import Hier
 
 import Control.Monad
 import Control.Monad.Except
@@ -23,20 +24,24 @@ apply func args = maybe (throwError $ NotFunction
                         lookup func primitives
 
 primitives :: [(String,[LispVal] -> ThrowsError LispVal)]
-primitives = [("+", numericBinop (+)),
-              ("-", numericBinop (-)),
-              ("*", numericBinop (*)),
-              ("/", numericBinop div),
-              ("mod", numericBinop mod),
-              ("quoteient", numericBinop quot),
-              ("remainder", numericBinop rem)]
+primitives = [("+", numericBinop plus),
+              ("-", numericBinop minus),
+              ("*", numericBinop times),
+              ("/", numericBinop divide),
+              ("mod", numericBinop modN)
+              -- ("quoteient", numericBinop quot),
+              -- ("remainder", numericBinop rem)
+              ]
 
-numericBinop :: (Integer -> Integer -> Integer) -> [LispVal]
+-- Number evaluation
+numericBinop :: (Number -> Number -> Number) -> [LispVal]
   -> ThrowsError LispVal
-
 numericBinop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
-numericBinop op params = liftM (Number . foldl1 op) (mapM unpackNum params)
+numericBinop op params = liftM (Number . foldl1 op) (unpackNumList params)
+  where unpackNumList = mapM unpackNum
 
-unpackNum :: LispVal -> ThrowsError Integer
+unpackNum :: LispVal -> ThrowsError Number
 unpackNum (Number n) = return n
 unpackNum notNum = throwError $ TypeMismatch "number" notNum
+
+-- ----------------------------------------

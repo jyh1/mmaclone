@@ -18,20 +18,20 @@ spec  = do
 
     context "when provided integer" $ do
       it "read an integer" $ do
-        testRead "3435" == Number 3435
+        testRead "3435" == (Number . Integer) 3435
 
     context "when provided float" $ do
       it "read with decimal point" $ do
-        testRead "23.6" == Float 23.6
+        testRead "23.6" == (Number . Double) 23.6
 
       it "read float with e and decimal point" $ do
-        testRead "23.6e5" == Float 23.6e5
+        testRead "23.6e5" == (Number . Double) 23.6e5
 
       it "read float without decimal point" $ do
-        testRead "24e5" == Float 24e5
+        testRead "24e5" == (Number . Double) 24e5
 
       it "read float withou decimal point capital E" $ do
-        testRead "24E5" == Float 24E5
+        testRead "24E5" == (Number . Double) 24E5
 
     context "when provided string" $ do
       it "read a common string" $ do
@@ -53,14 +53,14 @@ spec  = do
 
     context "read a list of values" $ do
       it "read a list of different value" $ do
-        testRead "(a   1 2.0 \"ss\" )" == List [Atom "a", Number 1, Float 2.0, String "ss"]
+        testRead "(a   1 2.0 \"ss\" )" == List [Atom "a", Number $ Integer 1, (Number . Double) 2.0, String "ss"]
 
       it "read abitray nested list" $ do
         testRead "(((a) b))" == List [List [List [Atom "a"], Atom "b"]]
 
     context "read a dotted list" $ do
       it "read DottedList" $ do
-        testRead "(2 #t . #f)" == DottedList [Number 2, Bool True] (Bool False)
+        testRead "(2 #t . #f)" == DottedList [Number $ Integer 2, Bool True] (Bool False)
 
       it "read nested dotted list" $ do
-        testRead "(3 . ((2) . 1))" == DottedList [Number 3] (DottedList [List [Number 2]] (Number 1))
+        testRead "(3 . ((2) . 1))" == DottedList [Number $ Integer 3] (DottedList [List [Number $ Integer 2]] (Number $ Integer 1))

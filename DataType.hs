@@ -3,12 +3,60 @@ module DataType where
 import Control.Monad.Except
 import           Text.ParserCombinators.Parsec(ParseError)
 
+import Hier
+
+-- Number Type
+data Number = Double Double
+            | Integer Integer
+  deriving(Eq,Ord)
+
+instance Show Number where
+  show (Integer i) = show i
+  show (Double d) = show d
+
+instance Hier Number where
+  rank (Integer _) = 1
+  rank (Double _) = 2
+
+  upgrade (Integer i) = Double $ fromIntegral i
+
+  downgrade (Double d) = Integer $ round d
+
+
+plus :: Number -> Number -> Number
+plus = peerOpUp plus'
+  where plus' (Integer i1) (Integer i2) = Integer $ i1 + i2
+        plus' (Double d1) (Double d2) = Double $ d1 + d2
+
+minus :: Number -> Number -> Number
+minus = peerOpUp minus'
+  where minus' (Integer i1) (Integer i2) = Integer $ i1 - i2
+        minus' (Double d1) (Double d2) = Double $ d1 - d2
+
+times :: Number -> Number -> Number
+times = peerOpUp times'
+  where times' (Integer i1) (Integer i2) = Integer $ i1 * i2
+        times' (Double d1) (Double d2) = Double $ d1 * d2
+
+divide :: Number -> Number -> Number
+divide = peerOpUp divide'
+  where divide' (Integer i1) (Integer i2) = Integer $ i1 `div` i2
+        divide' (Double d1) (Double d2) = Double $ d1 / d2
+
+modN :: Number -> Number -> Number
+modN = peerOpUp modN'
+  where modN' (Integer i1) (Integer i2) = Integer $ i1 `mod` i2
+        modN' (Double d1) (Double d2) = Double (d1 - (fromIntegral . truncate) (d1 / d2) * d2)
+
+-- quoteientN :: Number -> Number -> Number
+-- ---------------------------------------
+
+-- LispVal
 
 data LispVal = Atom String
             | List [LispVal]
             | DottedList [LispVal] LispVal
-            | Float Float
-            | Number Integer
+            | Number Number
             | String String
             | Char Char
             | Bool Bool
@@ -19,7 +67,6 @@ instance Show LispVal where
   show (Atom s) = s
   show (List s) = '(' : (unwords $ map show s) ++ ")"
   show (DottedList a b) = init (show $ List a) ++ " . " ++ show b ++ ")"
-  show (Float f) = show f
   show (Number i) = show i
   show (String s) = show s
   show (Char c) = show c
@@ -27,6 +74,10 @@ instance Show LispVal where
   show (Bool False) = "#f"
   show None = undefined
 
+
+-- ------------------------------------------
+
+-- LispError
 
 data LispError = NumArgs Integer [LispVal]
                 | TypeMismatch String LispVal
@@ -53,3 +104,5 @@ trapError action = catchError action (return . show)
 
 extractValue :: ThrowsError a -> a
 extractValue (Right val) = val
+
+-- --------------------------------------------------

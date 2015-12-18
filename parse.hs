@@ -65,8 +65,8 @@ parseNumber = do
   int <- integer
   deci <- decimal <++> expo
   return $ check int deci
-    where check int "" = Number (read int)
-          check int deci = Float (read (int ++ deci))
+    where check int "" = Number $ Integer (read int)
+          check int deci = Number $ Double (read (int ++ deci))
 
 parseList :: Parser LispVal
 parseList =
