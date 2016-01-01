@@ -8,6 +8,7 @@ import Hier
 
 import Control.Monad
 import Control.Monad.Except
+import Data.Ratio
 
 eval :: LispVal -> ThrowsError LispVal
 eval val@(List [Atom "quote", _]) = return val
@@ -28,7 +29,10 @@ primitives = [("+", numericBinop plus),
               ("-", numericBinop minus),
               ("*", numericBinop times),
               ("/", numericBinop divide),
-              ("mod", numericBinop modN)
+              ("mod", numericBinop modN),
+              ("symbol?", testHead symbolQ),
+              ("string?", testHead stringQ),
+              ("number?", testHead numberQ)
               -- ("quoteient", numericBinop quot),
               -- ("remainder", numericBinop rem)
               ]
@@ -37,11 +41,29 @@ primitives = [("+", numericBinop plus),
 numericBinop :: (Number -> Number -> Number) -> [LispVal]
   -> ThrowsError LispVal
 numericBinop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
-numericBinop op params = liftM (Number . foldl1 op) (unpackNumList params)
+numericBinop op params = liftM (Number . check . foldl1 op) (unpackNumList params)
   where unpackNumList = mapM unpackNum
+        check n@(Rational r)
+          | denominator r == 1 = Integer $ numerator r
+          | otherwise = n
+        check x = x
 
 unpackNum :: LispVal -> ThrowsError Number
 unpackNum (Number n) = return n
 unpackNum notNum = throwError $ TypeMismatch "number" notNum
 
 -- ----------------------------------------
+-- head test functions
+testHead :: (LispVal -> Bool) -> [LispVal] -> ThrowsError LispVal
+testHead test vals = return $ (Bool (and $ map test vals))
+
+symbolQ , stringQ, numberQ :: LispVal -> Bool
+
+symbolQ (Atom _) = True
+symbolQ _ = False
+
+stringQ (String _) = True
+stringQ _ = False
+
+numberQ (Number _) = True
+numberQ _ = False

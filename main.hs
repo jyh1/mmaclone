@@ -7,7 +7,7 @@ import Eval
 import Parse
 
 main :: IO()
-main = forever $ 
+main = forever $
   runExceptT repl >>= report
 
 repl :: ExceptT LispError IO LispVal
