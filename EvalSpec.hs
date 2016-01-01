@@ -3,6 +3,7 @@ module EvalSpec where
 import Eval
 import DataType
 import Parse
+import Data.Ratio
 
 import Test.Hspec
 -- import Test.QuickCheck
@@ -17,9 +18,11 @@ spec  = do
       it "adding" $ do
         testEval (readExpr "(+ 1 2 3 4)") == (Number . Integer) 10
       it "subtract" $ do
-        testEval (readExpr "(- 3 2 1)") == (Number . Integer) 0
+        testEval (readExpr "(- 3 2.0 1)") == (Number . Double) 0.0
       it "times" $ do
-        testEval (readExpr "(* 2 3 4)") == (Number . Integer) 24
+        testEval (readExpr "(/ 2 3 4)") == (Number . Rational) (1 % 6)
+      it "unesscary rational number" $ do
+        testEval (readExpr "(* (/ 3 2) 2)") == (Number . Integer) 3
 
     context "recursive" $ do
       it "recursive exp" $ do
