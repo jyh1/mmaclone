@@ -74,7 +74,7 @@ data LispVal = Atom String
             | Char Char
             | Bool Bool
             | None
-  deriving(Eq)
+  deriving(Eq, Ord)
 
 instance Show LispVal where
   show (Atom s) = s
