@@ -2,6 +2,7 @@ module ParseSpec where
 
 import Parse
 import DataType
+import Number
 
 import Test.Hspec
 import Test.QuickCheck
@@ -32,6 +33,9 @@ spec  = do
 
       it "read float withou decimal point capital E" $ do
         testRead "24E5" == (Number . Double) 24E5
+
+      it "read a negative number" $ do
+        testRead "-23" == (Number . Integer) (-23)
 
     context "when provided string" $ do
       it "read a common string" $ do
@@ -64,3 +68,6 @@ spec  = do
 
       it "read nested dotted list" $ do
         testRead "(3 . ((2) . 1))" == DottedList [Number $ Integer 3] (DottedList [List [Number $ Integer 2]] (Number $ Integer 1))
+
+      it "recognize minus symbol" $ do
+        testRead "(- 3 2)" == List [Atom "-", Number $ Integer 3, Number $ Integer 2]

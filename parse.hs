@@ -11,6 +11,7 @@ import Control.Applicative hiding ((<|>), many)
 import Control.Monad.Except
 
 import DataType
+import Number
 
 symbol :: Parser Char
 symbol = oneOf "!$%&|*+-/:<=?>@^_~#"
@@ -83,9 +84,9 @@ parseQuoted =
     (\x -> List [Atom "quote", x]) <$> quoted
 
 parseExpr :: Parser LispVal
-parseExpr = parseAtom
+parseExpr = try parseNumber
             <|> parseString
-            <|> parseNumber
+            <|> parseAtom
             <|> try parseChar
             <|> parseQuoted
             <|> bracket parseList

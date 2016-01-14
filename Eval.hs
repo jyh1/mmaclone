@@ -5,74 +5,124 @@ module Eval
 
 import DataType
 import Hier
+import Number
 
 import Control.Monad
 import Control.Monad.Except
 import Data.Ratio
+import Data.Maybe(fromMaybe)
+import Data.List(partition)
+-- import Control.Monad.Trans.Maybe
 
 eval :: LispVal -> ThrowsError LispVal
--- eval val@(List [Atom "quote", _]) = return val
--- eval (List (Atom func : args)) =
---   case lookup func primitives of
---     Nothing -> liftM (List . (Atom func :)) (mapM eval args)
---     Just f -> f args
-eval (List vs) = do
-  evaluated <- mapM eval vs
-  case evaluated of
-    val@(Atom func : args) ->
-      case lookup func primitives of
-        Nothing -> return $ List val
-        Just f -> f args
+eval val = do
+  x1 <- eval' val
+  if x1 == val then return x1 else eval x1
+  -- let ans = sequence $ iterate (>>= eval') (return val)
+  --     fixed (x1 : (x2 : xs))
+  --       | x1 == x2 = x1
+  --       | otherwise = x2 in
+  --       -- | otherwise = fixed (x2 : xs) in
+  --   liftM fixed ans
+  --   -- undefined
 
-    x -> return $ List x
--- eval val@(String _) = return val
--- eval val@(Number _) = return val
--- eval val@(Bool _) = return val
-eval x = return x
--- eval badForm = throwError $ BadSpecialForm "Unrecognized special form" badForm
+eval' :: LispVal -> ThrowsError LispVal
+eval' (List (v:vs)) = do
+  headE <- eval v
+  args <- mapM eval vs
+  let old = List (headE : args)
+      getFName (Atom f) = Just f
+      getFName _ = Nothing
+  let fun = do
+        name <- getFName headE
+        lookup name primitives
+  case fun of
+    Just f -> liftM (fromMaybe old) (f args)
+    Nothing -> return old
 
--- apply :: String -> [LispVal] -> ThrowsError LispVal
--- apply func args = maybe (throwError $ NotFunction
---                           "unrecognized primitive function args" func)
---                         ($ args) $
---                         lookup func primitives
+eval' n@(Number (Rational r))
+  | denominator r == 1 = return (Number $ Integer $ numerator r)
+  | otherwise = return n
 
-primitives :: [(String,[LispVal] -> ThrowsError LispVal)]
-primitives = [("+", numericBinop plus),
-              ("-", numericBinop minus),
-              ("*", numericBinop times),
-              ("/", numericBinop divide),
-              ("mod", numericBinop modN),
-              ("symbol?", testHead symbolQ),
-              ("string?", testHead stringQ),
-              ("number?", testHead numberQ),
-              ("quote", quoted)
+eval' x = return x
+
+primitives :: [(String,[LispVal] -> ThrowsError (Maybe LispVal))]
+primitives = [
+              ("+", numericPolop "+" plus),
+              -- ("-", binop minus),
+              ("*", numericPolop "*" times),
+              -- ("/", binop divide),
+              -- ("mod", binop modl),
+              ("^", binop powerl)
+              -- ("symbol?", testHead symbolQ),
+              -- ("string?", testHead stringQ),
+              -- ("number?", testHead numberQ),
+              -- ("quote", quoted)
               -- ("quoteient", numericBinop quot),
               -- ("remainder", numericBinop rem)
-              ]
+            ]
 -- quote
 quoted :: [LispVal] -> ThrowsError LispVal
 quoted x = return $ List (Atom "quote" : x)
 
+-- evaluation helper function
+binop :: (LispVal -> LispVal -> ThrowsError (Maybe LispVal)) -> [LispVal]
+  -> ThrowsError (Maybe LispVal)
+binop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
+binop op [a, b] = op a b
+binop _ vals = throwError $ NumArgs 2 vals
+
+liftEval :: (LispVal -> LispVal -> LispVal) ->
+              LispVal -> LispVal -> ThrowsError (Maybe LispVal)
+liftEval f a b = return $ Just (f a b)
+
+---------------------------------------------------
+
 -- Number evaluation
-numericBinop :: (Number -> Number -> Number) -> [LispVal]
-  -> ThrowsError LispVal
-numericBinop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
-numericBinop op params = liftM (Number . check . foldl1 op) (unpackNumList params)
-  where unpackNumList = mapM unpackNum
-        check n@(Rational r)
-          | denominator r == 1 = Integer $ numerator r
-          | otherwise = n
-        check x = x
+numericPolop :: String -> (Number -> Number -> Number) -> [LispVal]
+  -> ThrowsError (Maybe LispVal)
+numericPolop _ _ [a] = return $ Just a
+numericPolop name op params = do
+  let (nums,others) = partition checkNum params
+      unpacked = map unpackNum nums
+  let ans = foldl1 op unpacked
+  return . Just $ case others of
+          [] -> Number ans
+          _ -> List $ Atom name : (Number ans : others)
 
-unpackNum :: LispVal -> ThrowsError Number
-unpackNum (Number n) = return n
-unpackNum notNum = throwError $ TypeMismatch "number" notNum
+checkNum :: LispVal -> Bool
+checkNum (Number _) = True
+checkNum _ = False
 
+unpackNum :: LispVal -> Number
+unpackNum (Number n) = n
+
+numericBinop :: (Number -> Number -> Maybe Number) ->
+  LispVal -> LispVal -> ThrowsError (Maybe LispVal)
+numericBinop f a b
+  | checkNum a && checkNum b =
+    let a' = unpackNum a
+        b' = unpackNum b in
+      return $ fmap Number $ f a' b'
+  | otherwise = return Nothing
+
+minus, divide, powerl, modl :: LispVal -> LispVal -> ThrowsError (Maybe LispVal)
+minus = liftEval minus'
+  where
+    minus' a b = List [Atom "+", a, List [Atom "*", Number $ Integer (-1), b]]
+divide = liftEval divide'
+  where
+    divide' a b = List [Atom "*", a, List [Atom "^", b, Number $ Integer (-1)]]
+
+modl = numericBinop ((Just.). modN)
+powerl = numericBinop powerN
 -- ----------------------------------------
+
+
+
 -- head test functions
 testHead :: (LispVal -> Bool) -> [LispVal] -> ThrowsError LispVal
-testHead test vals = return $ (Bool (and $ map test vals))
+testHead test vals = return $ (Bool (all test vals))
 
 symbolQ , stringQ, numberQ :: LispVal -> Bool
 
