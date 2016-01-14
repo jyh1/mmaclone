@@ -18,4 +18,4 @@ repl = do
 
 report :: ThrowsError LispVal -> IO ()
 report (Left err) = print err
-report (Right val) = putStrLn $ "Out= " ++ show val
+report (Right val) = putStrLn $ "Out=  " ++ show val
