@@ -38,7 +38,9 @@ data LispError = NumArgs Integer [LispVal]
                 | BadSpecialForm String LispVal
                 | NotFunction String String
                 | UnboundVar String String
-                | Defalut String
+                | Default String
+                | PartError LispVal LispVal
+
 
 instance Show LispError where
   show (UnboundVar message varname) = message ++ ": " ++ varname
@@ -51,7 +53,13 @@ instance Show LispError where
                                         ++ ", found" ++ show found
   show (Parser parseErr) = "Parse error at " ++ show parseErr
 
+  show (PartError vs n) = "part " ++ show n ++ "of " ++ show vs ++  "does not exist"
+
+  show (Default s) = s
+
 type ThrowsError = Either LispError
+
+type Result = ThrowsError (Maybe LispVal)
 
 trapError action = catchError action (return . show)
 
@@ -59,3 +67,21 @@ extractValue :: ThrowsError a -> a
 extractValue (Right val) = val
 
 -- --------------------------------------------------
+checkNum :: LispVal -> Bool
+checkNum (Number _) = True
+checkNum _ = False
+
+unpackNum :: LispVal -> Number
+unpackNum (Number n) = n
+
+integer :: Integer -> LispVal
+integer n = Number $ Integer n
+
+hasValue :: LispVal -> ThrowsError (Maybe LispVal)
+hasValue = return . Just
+
+noChange :: Result
+noChange = return Nothing
+-- --------------------------------
+type SingleFun = LispVal -> Result
+type BinaryFun = LispVal -> LispVal -> Result

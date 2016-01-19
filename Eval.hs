@@ -11,7 +11,7 @@ import Control.Monad
 import Control.Monad.Except
 import Data.Ratio
 import Data.Maybe(fromMaybe)
-import Data.List(partition)
+import Data.List(partition, genericLength, genericIndex)
 -- import Control.Monad.Trans.Maybe
 
 eval :: LispVal -> ThrowsError LispVal
@@ -46,41 +46,74 @@ eval' n@(Number (Rational r))
 
 eval' x = return x
 
-primitives :: [(String,[LispVal] -> ThrowsError (Maybe LispVal))]
+primitives :: [(String,[LispVal] -> Result)]
 primitives = [
+              -- numeric function
               ("+", numericPolop "+" plus),
-              -- ("-", binop minus),
+              ("-", binop minus),
               ("*", numericPolop "*" times),
-              -- ("/", binop divide),
-              -- ("mod", binop modl),
-              ("^", binop powerl)
+              ("/", binop divide),
+              ("^", binop powerl),
+              -- list mainpulation
+              ("car", sinop car),
+              ("cdr", sinop cdr),
+              ("length", sinop len),
+              ("part", binop part),
+              -- ("")
+              -- comparation
+              ("<", binop lessThan),
+              ("<=", binop lessEqual),
+              (">", binop greaterThan),
+              (">=", binop greaterEqual),
               -- ("symbol?", testHead symbolQ),
               -- ("string?", testHead stringQ),
               -- ("number?", testHead numberQ),
               -- ("quote", quoted)
               -- ("quoteient", numericBinop quot),
-              -- ("remainder", numericBinop rem)
+              ("&&", binop andl),
+              ("||", binop orl),
+              ("!", sinop notl)
             ]
 -- quote
 quoted :: [LispVal] -> ThrowsError LispVal
 quoted x = return $ List (Atom "quote" : x)
 
 -- evaluation helper function
-binop :: (LispVal -> LispVal -> ThrowsError (Maybe LispVal)) -> [LispVal]
-  -> ThrowsError (Maybe LispVal)
+binop :: (BinaryFun) -> [LispVal]
+  -> Result
 binop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
 binop op [a, b] = op a b
 binop _ vals = throwError $ NumArgs 2 vals
 
+sinop :: SingleFun ->
+          [LispVal] -> Result
+sinop op [x] = op x
+sinop _ vals  = throwError $ NumArgs 1 vals
+
 liftEval :: (LispVal -> LispVal -> LispVal) ->
-              LispVal -> LispVal -> ThrowsError (Maybe LispVal)
+              BinaryFun
 liftEval f a b = return $ Just (f a b)
 
+internalBoolOp :: (Bool ->Bool -> Bool) -> Result -> Result -> Result
+internalBoolOp f a b =
+  liftM2 f'' a b
+    where
+      f'' = liftM2 f'
+      f' (Bool a) (Bool b) = Bool $ f a b
+
+internalAnd = internalBoolOp (&&)
+internalOr = internalBoolOp (||)
+
+internalNot :: Result -> Result
+internalNot a=
+  liftM f'' a
+    where f'' = liftM f'
+          f' (Bool a) = Bool $ (not a)
 ---------------------------------------------------
 
 -- Number evaluation
 numericPolop :: String -> (Number -> Number -> Number) -> [LispVal]
-  -> ThrowsError (Maybe LispVal)
+  -> Result
 numericPolop _ _ [a] = return $ Just a
 numericPolop name op params = do
   let (nums,others) = partition checkNum params
@@ -90,15 +123,9 @@ numericPolop name op params = do
           [] -> Number ans
           _ -> List $ Atom name : (Number ans : others)
 
-checkNum :: LispVal -> Bool
-checkNum (Number _) = True
-checkNum _ = False
-
-unpackNum :: LispVal -> Number
-unpackNum (Number n) = n
 
 numericBinop :: (Number -> Number -> Maybe Number) ->
-  LispVal -> LispVal -> ThrowsError (Maybe LispVal)
+  BinaryFun
 numericBinop f a b
   | checkNum a && checkNum b =
     let a' = unpackNum a
@@ -106,7 +133,7 @@ numericBinop f a b
       return $ fmap Number $ f a' b'
   | otherwise = return Nothing
 
-minus, divide, powerl, modl :: LispVal -> LispVal -> ThrowsError (Maybe LispVal)
+minus, divide, powerl:: BinaryFun
 minus = liftEval minus'
   where
     minus' a b = List [Atom "+", a, List [Atom "*", Number $ Integer (-1), b]]
@@ -114,7 +141,7 @@ divide = liftEval divide'
   where
     divide' a b = List [Atom "*", a, List [Atom "^", b, Number $ Integer (-1)]]
 
-modl = numericBinop ((Just.). modN)
+-- modl = numericBinop ((Just.). modN)
 powerl = numericBinop powerN
 -- ----------------------------------------
 
@@ -134,3 +161,68 @@ stringQ _ = False
 
 numberQ (Number _) = True
 numberQ _ = False
+
+
+-- list manipulation functions
+len :: SingleFun
+len x = return $ Just $ len' x
+        where
+          len' (List x) = integer $ genericLength x
+          len' _ = integer 0
+
+part :: BinaryFun
+part x nv@(Number (Integer n)) = part x (List [nv])
+part val (List []) = hasValue val
+part val@(List x) (List (nv@(Number (Integer n)) : ns)) =
+  if genericLength x <= n then throwError (PartError val nv)
+                   else part (genericIndex x n) (List ns)
+part x n = throwError (PartError x n)
+
+car ,cdr :: SingleFun
+car (List []) = throwError (Default "car::empty list")
+car (List (x:_)) = hasValue x
+car _ = noChange
+
+cdr (List []) = throwError (Default "cdr:: empty list")
+cdr (List (_:xs)) = hasValue (List xs)
+cdr _ = noChange
+-- ------------------------------------------
+
+
+-- compare function
+lessThan' , equal':: (Ord a) => a -> a -> Result
+lessThan' a b = hasValue $ Bool (a < b)
+equal' a b = hasValue $ Bool (a == b)
+
+lessThan :: BinaryFun
+lessThan (Number a) (Number b) = lessThan' a b
+lessThan (String a) (String b) = lessThan' a b
+lessThan (Bool a) (Bool b) = lessThan' a b
+lessThan (Char a) (Char b) = lessThan' a b
+lessThan _ _ = return Nothing
+
+equal :: BinaryFun
+equal (Number a) (Number b) = equal' a b
+equal (String a) (String b) = equal' a b
+equal (Bool a) (Bool b) = equal' a b
+equal (Char a) (Char b) = equal' a b
+equal _ _ = return Nothing
+
+lessEqual,greaterThan,greaterEqual :: BinaryFun
+lessEqual a b = internalOr (equal a b) (lessThan a b)
+greaterThan = (internalNot.). lessEqual
+greaterEqual = (internalNot.). lessThan
+-- ----------------------------
+
+-- logic function
+logic :: (Bool -> Bool -> Bool) -> BinaryFun
+logic f (Bool a) (Bool b) = hasValue $ Bool (a `f` b)
+logic _ _ _ = noChange
+
+andl, orl :: BinaryFun
+andl = logic (&&)
+orl = logic (||)
+
+notl :: SingleFun
+notl (Bool a) = hasValue $ (Bool $ not a)
+-- --------------------------------

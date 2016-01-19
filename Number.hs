@@ -1,17 +1,21 @@
 module Number where
 
 import Data.Ratio
+import Data.Function(on)
 import Hier
 -- Number Type
 data Number = Double Double
             | Rational Rational
             | Integer Integer
-  deriving(Eq,Ord)
+  deriving(Eq)
 
 instance Show Number where
   show (Integer i) = show i
   show (Double d) = show d
   show (Rational r) = show r
+
+instance Ord Number where
+  (<=) = (<=) `on` toDouble
 
 instance Hier Number where
   rank (Integer _) = 1
@@ -24,6 +28,10 @@ instance Hier Number where
   downgrade (Double d) = Rational $ toRational d
   downgrade (Rational r) = Integer (truncate $ fromRational r)
 
+toDouble :: Number -> Double
+toDouble (Integer n) = fromIntegral n
+toDouble (Rational r) = fromRational r
+toDouble (Double x) = x
 
 plus :: Number -> Number -> Number
 plus = peerOpUp plus'
@@ -51,10 +59,10 @@ times = peerOpUp times'
 --         divide' (Rational r1) (Rational r2) = Rational $ r1 / r2
 --         divide' (Double d1) (Double d2) = Double $ d1 / d2
 
-modN :: Number -> Number -> Number
-modN = peerOpUp modN'
-  where modN' (Integer i1) (Integer i2) = Integer $ i1 `mod` i2
-        modN' (Double d1) (Double d2) = Double (d1 - (fromIntegral . truncate) (d1 / d2) * d2)
+-- modN :: Number -> Number -> Number
+-- modN = peerOpUp modN'
+--   where modN' (Integer i1) (Integer i2) = Integer $ i1 `mod` i2
+--         modN' (Double d1) (Double d2) = Double (d1 - (fromIntegral . truncate) (d1 / d2) * d2)
 
 powerN :: Number -> Number -> Maybe Number
 -- double a

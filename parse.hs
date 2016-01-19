@@ -90,7 +90,7 @@ parseExpr = try parseNumber
             <|> try parseChar
             <|> parseQuoted
             <|> bracket parseList
-              where bracket = between (char '(') (char ')')
+              where bracket = between (char '(' *> spaces) (spaces *> char ')')
 
 -- |parse string to LispVal
 --
