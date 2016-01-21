@@ -1,3 +1,4 @@
+{-#LANGUAGE ExistentialQuantification#-}
 module Eval
     (
     eval
@@ -71,6 +72,7 @@ primitives = [
               ("<=", binop lessEqual),
               (">", binop greaterThan),
               (">=", binop greaterEqual),
+              ("==", binop equal),
               -- ("symbol?", testHead symbolQ),
               -- ("string?", testHead stringQ),
               -- ("number?", testHead numberQ),
@@ -85,7 +87,7 @@ quoted :: [LispVal] -> ThrowsError LispVal
 quoted x = return $ List (Atom "quote" : x)
 
 -- evaluation helper function
-binop :: (BinaryFun) -> [LispVal]
+binop :: BinaryFun -> [LispVal]
   -> Result
 binop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
 binop op [a, b] = op a b
@@ -196,23 +198,28 @@ cdr _ = noChange
 
 
 -- compare function
-lessThan' , equal':: (Ord a) => a -> a -> Result
-lessThan' a b = hasValue $ Bool (a < b)
-equal' a b = hasValue $ Bool (a == b)
+unpackCompare :: LispVal -> LispVal ->
+                  Unpacker -> ThrowsError Ordering
+unpackCompare a b (Unpacker unpack) = do
+  unpacka <- unpack a
+  unpackb <- unpack b
+  return $  compare unpacka unpackb
 
-lessThan :: BinaryFun
-lessThan (Number a) (Number b) = lessThan' a b
-lessThan (String a) (String b) = lessThan' a b
-lessThan (Bool a) (Bool b) = lessThan' a b
-lessThan (Char a) (Char b) = lessThan' a b
-lessThan _ _ = return Nothing
+getCompareResult :: LispVal -> LispVal -> ThrowsError Ordering
+getCompareResult a b =
+  sumError $ map (unpackCompare a b) unpackers
+
+getBoolResult :: Ordering -> BinaryFun
+getBoolResult e a b =
+  let boolRes x = Just . Bool $ x == e in
+    liftM boolRes (getCompareResult a b)
+      `catchError` const noChange
 
 equal :: BinaryFun
-equal (Number a) (Number b) = equal' a b
-equal (String a) (String b) = equal' a b
-equal (Bool a) (Bool b) = equal' a b
-equal (Char a) (Char b) = equal' a b
-equal _ _ = return Nothing
+equal = getBoolResult EQ
+
+lessThan :: BinaryFun
+lessThan = getBoolResult LT
 
 lessEqual,greaterThan,greaterEqual :: BinaryFun
 lessEqual a b = internalOr (equal a b) (lessThan a b)
@@ -230,5 +237,6 @@ andl = logic (&&)
 orl = logic (||)
 
 notl :: SingleFun
-notl (Bool a) = hasValue $ (Bool $ not a)
+notl (Bool a) = hasValue $ Bool $ not a
+notl _ = noChange
 -- --------------------------------

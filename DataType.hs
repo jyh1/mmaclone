@@ -1,3 +1,5 @@
+{-#LANGUAGE ExistentialQuantification #-}
+{-#LANGUAGE FlexibleInstances #-}
 module DataType where
 
 import Control.Monad.Except
@@ -26,6 +28,38 @@ instance Show LispVal where
   show (Bool True) = "#t"
   show (Bool False) = "#f"
   show None = undefined
+
+data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
+
+unpackNum' :: LispVal -> ThrowsError Number
+unpackNum' (Number n) = return n
+unpackNum' x = throwError $ TypeMismatch "number" x
+
+unpackString' :: LispVal -> ThrowsError String
+unpackString' (String s) = return s
+unpackString' x = throwError $ TypeMismatch "string" x
+
+unpackChar' :: LispVal -> ThrowsError Char
+unpackChar' (Char s) = return s
+unpackChar' x = throwError $ TypeMismatch "string" x
+
+unpackBool' :: LispVal -> ThrowsError Bool
+unpackBool' (Bool s) = return s
+unpackBool' x = throwError $ TypeMismatch "string" x
+
+unpackers :: [Unpacker]
+unpackers = [Unpacker unpackNum', Unpacker unpackString',
+            Unpacker unpackChar', Unpacker unpackBool']
+
+checkNum :: LispVal -> Bool
+checkNum (Number _) = True
+checkNum _ = False
+
+unpackNum :: LispVal -> Number
+unpackNum = extractValue . unpackNum'
+
+integer :: Integer -> LispVal
+integer n = Number $ Integer n
 
 
 -- ------------------------------------------
@@ -59,6 +93,13 @@ instance Show LispError where
 
 type ThrowsError = Either LispError
 
+plusError :: ThrowsError a -> ThrowsError a -> ThrowsError a
+plusError (Left _) l = l
+plusError a _ = a
+
+sumError :: [ThrowsError a] -> ThrowsError a
+sumError = foldr plusError (Left (Default "mzero"))
+
 type Result = ThrowsError (Maybe LispVal)
 
 trapError action = catchError action (return . show)
@@ -67,15 +108,6 @@ extractValue :: ThrowsError a -> a
 extractValue (Right val) = val
 
 -- --------------------------------------------------
-checkNum :: LispVal -> Bool
-checkNum (Number _) = True
-checkNum _ = False
-
-unpackNum :: LispVal -> Number
-unpackNum (Number n) = n
-
-integer :: Integer -> LispVal
-integer n = Number $ Integer n
 
 hasValue :: LispVal -> ThrowsError (Maybe LispVal)
 hasValue = return . Just

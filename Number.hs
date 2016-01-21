@@ -7,12 +7,14 @@ import Hier
 data Number = Double Double
             | Rational Rational
             | Integer Integer
-  deriving(Eq)
 
 instance Show Number where
   show (Integer i) = show i
   show (Double d) = show d
   show (Rational r) = show r
+
+instance Eq Number where
+  (==) = (==) `on` toDouble
 
 instance Ord Number where
   (<=) = (<=) `on` toDouble

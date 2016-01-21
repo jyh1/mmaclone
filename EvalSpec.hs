@@ -73,6 +73,11 @@ spec  = do
           test "(< 3 2)" false
         it "less" $ do
           test "(< 2.0 3)" true
+        it "equal" $ do
+          test "(== 2 2.0)" true
+        it "equal" $ do
+          test "(== 2 4.0)" false
+
 
       context "compare string" $ do
         it "less" $ do
