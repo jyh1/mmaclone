@@ -6,6 +6,7 @@ module Eval
 import DataType
 import Hier
 import Number
+-- import Attribute
 
 import Control.Monad
 import Control.Monad.Except
@@ -45,6 +46,11 @@ eval' n@(Number (Rational r))
   | otherwise = return n
 
 eval' x = return x
+
+-- attribute relating functions
+
+-- ----------------------------
+
 
 primitives :: [(String,[LispVal] -> Result)]
 primitives = [

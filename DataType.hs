@@ -85,3 +85,4 @@ noChange = return Nothing
 -- --------------------------------
 type SingleFun = LispVal -> Result
 type BinaryFun = LispVal -> LispVal -> Result
+-- ---------------------------------
