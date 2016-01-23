@@ -3,6 +3,8 @@
 module DataType where
 
 import Control.Monad.Except
+import Data.IORef
+import Control.Monad.Trans.Except
 import           Text.ParserCombinators.Parsec(ParseError)
 import Number
 
@@ -123,6 +125,23 @@ type BinaryFun = LispVal -> LispVal -> Result
 type Pattern = LispVal
 type Matched = (String, LispVal)
 type Rule = (Pattern, LispVal)
--- data Value = Primitive (Parameters -> Result)
---             | DownValue {pattern :: Pattern, body::LispVal}
---             | OwnValue LispVal
+-- IORef
+type Env = IORef [Rule]
+
+nullEnv :: IO Env
+nullEnv = newIORef []
+
+type IOThrowsError = ExceptT LispError IO
+
+liftThrows :: ThrowsError a -> IOThrowsError a
+liftThrows (Left err) = throwError err
+liftThrows (Right val) = return val
+
+setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
+setVar envRef lhs rhs = liftIO $ do
+  match <- readIORef envRef
+  writeIORef envRef ((lhs,rhs): match)
+  return rhs
+
+readRule :: Env -> IOThrowsError [Rule]
+readRule = liftIO . readIORef

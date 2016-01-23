@@ -17,15 +17,19 @@ import Data.Maybe(fromMaybe)
 import Data.List(partition, genericLength, genericIndex)
 -- import Control.Monad.Trans.Maybe
 
-eval :: LispVal -> ThrowsError LispVal
-eval val = do
-  x1 <- eval' val
-  if x1 == val then return x1 else eval x1
+eval :: Env -> LispVal -> IOThrowsError LispVal
+eval env val = do
+  x1 <- eval' env val
+  if x1 == val then return x1 else eval env x1
 
-eval' :: LispVal -> ThrowsError LispVal
-eval' (List (v:vs)) = do
-  headE <- eval v
-  args <- mapM eval vs
+eval' :: Env -> LispVal -> IOThrowsError LispVal
+eval' env (List [Atom "set", lhs, rhs]) =
+  setVar env lhs rhs
+
+eval' env (List (v:vs)) = do
+  headE <- eval env v
+  args <- mapM (eval env) vs
+  rules <- readRule env
   let old = List (headE : args)
       getFName (Atom f) = Just f
       getFName _ = Nothing
@@ -33,26 +37,30 @@ eval' (List (v:vs)) = do
         name <- getFName headE
         lookup name primitives
   case fun of
-    Just f -> liftM (fromMaybe old) (f args)
+    Just f -> liftThrows $ liftM (fromMaybe old) (f args)
     Nothing -> return (patternMatching old rules)
 
-eval' n@(Number (Rational r))
+eval' env n@(Number (Rational r))
   | denominator r == 1 = return (Number $ Integer $ numerator r)
-  | otherwise = return (patternMatching n rules)
+  | otherwise = do
+      rules <- readRule env
+      return (patternMatching n rules)
 
-eval' x = return (patternMatching x rules)
+eval' env x = do
+  rules <- readRule env
+  return (patternMatching x rules)
 
 -- attribute relating functions
 
 -- ----------------------------
 
 -- applying function
-rules :: [Rule]
-rules = [
-          -- (List [Atom "test", List [Atom "blank"]], String "hello world"),
-          (List [Atom "test", List [Atom "pattern", Atom "x", List [Atom "blank"]]],
-            List [Atom "+", Atom "x", integer 1])
-        ]
+-- rules :: [Rule]
+-- rules = [
+--           (List [Atom "test", List [Atom "blank"]], String "hello world"),
+--           (List [Atom "test", List [Atom "pattern", Atom "x", List [Atom "blank"]]],
+--             List [Atom "+", Atom "x", integer 1])
+--         ]
 
 find :: LispVal -> [Rule] -> Maybe LispVal
 find val =
@@ -132,15 +140,17 @@ internalNot a=
 -- Number evaluation
 numericPolop :: String -> (Number -> Number -> Number) -> [LispVal]
   -> Result
+numericPolop _ _ [] = throwError $ NumArgs 0 []
 numericPolop _ _ [a] = return $ Just a
 numericPolop name op params = do
   let (nums,others) = partition checkNum params
       unpacked = map unpackNum nums
-  let ans = foldl1 op unpacked
-  return . Just $ case others of
-          [] -> Number ans
-          _ -> List $ Atom name : (Number ans : others)
-
+  if unpacked /= [] then do
+    let ans = foldl1 op unpacked
+    return . Just $ case others of
+            [] -> Number ans
+            _ -> List $ Atom name : (Number ans : others)
+  else return Nothing
 
 numericBinop :: (Number -> Number -> Maybe Number) ->
   BinaryFun
