@@ -31,6 +31,8 @@ instance Show LispVal where
 
 data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
 
+-- data EqUnpacker = forall a. Eq a => EqUnpacker (LispVal -> ThrowsError a)
+
 unpackNum' :: LispVal -> ThrowsError Number
 unpackNum' (Number n) = return n
 unpackNum' x = throwError $ TypeMismatch "number" x
@@ -118,3 +120,9 @@ noChange = return Nothing
 type SingleFun = LispVal -> Result
 type BinaryFun = LispVal -> LispVal -> Result
 -- ---------------------------------
+type Pattern = LispVal
+type Matched = (String, LispVal)
+type Rule = (Pattern, LispVal)
+-- data Value = Primitive (Parameters -> Result)
+--             | DownValue {pattern :: Pattern, body::LispVal}
+--             | OwnValue LispVal

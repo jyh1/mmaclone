@@ -11,7 +11,7 @@ import Test.Hspec
 -- import Control.Exception(evaluate)
 
 testEval = extractValue . (>>= eval)
-test a b = (testEval . readExpr) a == b
+test a b = (testEval . readExpr) a `shouldBe` b
 
 true = Bool True
 false = Bool False
@@ -95,7 +95,7 @@ spec  = do
       context "||" $ do
         it "case #t #f" $ do
           test "(|| #t #f)" true
-        it "case #f #f" $ do
+        -- it "case #f #f" $ do
           test "(|| #f #f)" false
       context "!" $ do
         it "case #t" $ do

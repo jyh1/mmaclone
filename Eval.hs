@@ -5,8 +5,9 @@ module Eval
     ) where
 
 import DataType
-import Hier
+-- import Hier
 import Number
+import Pattern
 -- import Attribute
 
 import Control.Monad
@@ -20,13 +21,6 @@ eval :: LispVal -> ThrowsError LispVal
 eval val = do
   x1 <- eval' val
   if x1 == val then return x1 else eval x1
-  -- let ans = sequence $ iterate (>>= eval') (return val)
-  --     fixed (x1 : (x2 : xs))
-  --       | x1 == x2 = x1
-  --       | otherwise = x2 in
-  --       -- | otherwise = fixed (x2 : xs) in
-  --   liftM fixed ans
-  --   -- undefined
 
 eval' :: LispVal -> ThrowsError LispVal
 eval' (List (v:vs)) = do
@@ -40,18 +34,33 @@ eval' (List (v:vs)) = do
         lookup name primitives
   case fun of
     Just f -> liftM (fromMaybe old) (f args)
-    Nothing -> return old
+    Nothing -> return (patternMatching old rules)
 
 eval' n@(Number (Rational r))
   | denominator r == 1 = return (Number $ Integer $ numerator r)
-  | otherwise = return n
+  | otherwise = return (patternMatching n rules)
 
-eval' x = return x
+eval' x = return (patternMatching x rules)
 
 -- attribute relating functions
 
 -- ----------------------------
 
+-- applying function
+rules :: [Rule]
+rules = [
+          -- (List [Atom "test", List [Atom "blank"]], String "hello world"),
+          (List [Atom "test", List [Atom "pattern", Atom "x", List [Atom "blank"]]],
+            List [Atom "+", Atom "x", integer 1])
+        ]
+
+find :: LispVal -> [Rule] -> Maybe LispVal
+find val =
+  msum . map (replace val)
+
+patternMatching :: LispVal -> [Rule] -> LispVal
+patternMatching val rules = fromMaybe val (find val rules)
+-- ----------------------------
 
 primitives :: [(String,[LispVal] -> Result)]
 primitives = [
@@ -82,6 +91,7 @@ primitives = [
               ("||", binop orl),
               ("!", sinop notl)
             ]
+
 -- quote
 quoted :: [LispVal] -> ThrowsError LispVal
 quoted x = return $ List (Atom "quote" : x)
