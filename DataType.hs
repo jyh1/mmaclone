@@ -29,7 +29,7 @@ instance Show LispVal where
   show (Char c) = show c
   show (Bool True) = "#t"
   show (Bool False) = "#f"
-  show None = undefined
+  show None = ""
 
 data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
 
@@ -141,7 +141,7 @@ setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
 setVar envRef lhs rhs = liftIO $ do
   match <- readIORef envRef
   writeIORef envRef ((lhs,rhs): match)
-  return rhs
+  return None
 
 readRule :: Env -> IOThrowsError [Rule]
 readRule = liftIO . readIORef

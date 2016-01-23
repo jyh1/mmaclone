@@ -14,7 +14,7 @@ import DataType
 import Number
 
 symbol :: Parser Char
-symbol = oneOf "!$%&|*+-/:<=?>@^_~#"
+symbol = oneOf "!$%&|*+-/:<=?>@^~#"
 
 spaces :: Parser ()
 spaces = skipMany space
@@ -44,6 +44,14 @@ parseChar =
 parseString :: Parser LispVal
 parseString =
   String <$> enclose (char '\"') (many1 parsechar)
+
+parsePattern :: Parser LispVal
+parsePattern = do
+  symbolName <- many1 letter <* char '_'
+  headName <- many letter
+  let hN = if headName == "" then [] else [Atom headName]
+  return $ List [Atom "pattern", Atom symbolName, List (Atom "blank" : hN)] 
+
 
 parseAtom :: Parser LispVal
 parseAtom =
@@ -86,6 +94,7 @@ parseQuoted =
 parseExpr :: Parser LispVal
 parseExpr = try parseNumber
             <|> parseString
+            <|> try parsePattern
             <|> parseAtom
             <|> try parseChar
             <|> parseQuoted

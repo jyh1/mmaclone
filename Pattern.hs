@@ -4,7 +4,9 @@ import DataType
 import Data.Maybe
 
 getMatch :: Pattern -> LispVal -> Maybe [Matched]
-getMatch (List (Atom "blank" : _)) _ = Just []
+getMatch (List [Atom "blank"]) _ = Just []
+getMatch (List [Atom "blank", Atom x]) (List (Atom y : _)) =
+  fromBool $ x == y
 getMatch (List [Atom "pattern", Atom name ,pattern]) expr =
   fmap ((name, expr): ) $ getMatch pattern expr
 getMatch (Atom a) (Atom b) = fromBool $ a == b

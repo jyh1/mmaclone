@@ -27,4 +27,5 @@ repl env = do
 
 report :: ThrowsError LispVal -> IO ()
 report (Left err) = print err
+report (Right None) = return ()
 report (Right val) = putStrLn $ "Out=  " ++ show val
