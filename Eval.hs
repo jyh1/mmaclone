@@ -15,6 +15,7 @@ import Control.Monad.Except
 import Data.Ratio
 import Data.Maybe(fromMaybe)
 import Data.List(partition, genericLength, genericIndex)
+import qualified Data.Map.Strict as M
 -- import Control.Monad.Trans.Maybe
 
 eval :: Env -> LispVal -> IOThrowsError LispVal
@@ -23,13 +24,18 @@ eval env val = do
   if x1 == val then return x1 else eval env x1
 
 eval' :: Env -> LispVal -> IOThrowsError LispVal
-eval' env (List [Atom "set", lhs, rhs]) =
+eval' env (List [Atom "setDelayed", lhs, rhs]) =
   setVar env lhs rhs
+
+eval' env (List [Atom "set", lhs, rhs]) = do
+  evaled <- eval env rhs
+  setVar env lhs evaled
+  return evaled
+
 
 eval' env (List (v:vs)) = do
   headE <- eval env v
   args <- mapM (eval env) vs
-  rules <- readRule env
   let old = List (headE : args)
       getFName (Atom f) = Just f
       getFName _ = Nothing
@@ -38,36 +44,39 @@ eval' env (List (v:vs)) = do
         lookup name primitives
   case fun of
     Just f -> liftThrows $ liftM (fromMaybe old) (f args)
-    Nothing -> return (patternMatching old rules)
+    Nothing -> evalWithEnv env old
 
 eval' env n@(Number (Rational r))
   | denominator r == 1 = return (Number $ Integer $ numerator r)
-  | otherwise = do
-      rules <- readRule env
-      return (patternMatching n rules)
+  | otherwise = evalWithEnv env n
 
-eval' env x = do
-  rules <- readRule env
-  return (patternMatching x rules)
+eval' env x = evalWithEnv env x
 
 -- attribute relating functions
 
 -- ----------------------------
 
--- applying function
--- rules :: [Rule]
--- rules = [
---           (List [Atom "test", List [Atom "blank"]], String "hello world"),
---           (List [Atom "test", List [Atom "pattern", Atom "x", List [Atom "blank"]]],
---             List [Atom "+", Atom "x", integer 1])
---         ]
 
-find :: LispVal -> [Rule] -> Maybe LispVal
-find val =
-  msum . map (replace val)
+evalWithEnv :: Env -> LispVal -> IOThrowsError LispVal
+evalWithEnv env lhs =
+  liftM (contextReplace lhs) (readRule env)
 
-patternMatching :: LispVal -> [Rule] -> LispVal
-patternMatching val rules = fromMaybe val (find val rules)
+contextReplace :: LispVal -> Context -> LispVal
+contextReplace val cont =
+  let valueEval = valueMatching val (value cont)
+      patternEval = patternMatching val (pattern cont)
+      total = mplus valueEval patternEval in
+    fromMaybe val total
+
+
+patternMatching :: LispVal -> PatternRule -> Maybe LispVal
+patternMatching val@(List (Atom name:_)) pattRule =
+  let find v = msum . map (replace v) in
+    M.lookup name pattRule >>= find val
+patternMatching _ _ = Nothing
+
+valueMatching :: LispVal -> ValueRule -> Maybe LispVal
+valueMatching = M.lookup
 -- ----------------------------
 
 primitives :: [(String,[LispVal] -> Result)]

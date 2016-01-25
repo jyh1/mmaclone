@@ -4,6 +4,7 @@ module DataType where
 
 import Control.Monad.Except
 import Data.IORef
+import qualified Data.Map.Strict as M
 import Control.Monad.Trans.Except
 import           Text.ParserCombinators.Parsec(ParseError)
 import Number
@@ -125,11 +126,14 @@ type BinaryFun = LispVal -> LispVal -> Result
 type Pattern = LispVal
 type Matched = (String, LispVal)
 type Rule = (Pattern, LispVal)
+type ValueRule = M.Map LispVal LispVal
+type PatternRule = M.Map String [Rule]
+data Context = Context {value :: ValueRule, pattern :: PatternRule}
 -- IORef
-type Env = IORef [Rule]
+type Env = IORef Context
 
 nullEnv :: IO Env
-nullEnv = newIORef []
+nullEnv = newIORef (Context M.empty M.empty)
 
 type IOThrowsError = ExceptT LispError IO
 
@@ -140,8 +144,30 @@ liftThrows (Right val) = return val
 setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
 setVar envRef lhs rhs = liftIO $ do
   match <- readIORef envRef
-  writeIORef envRef ((lhs,rhs): match)
+  let newCont = setVar' match lhs rhs
+  writeIORef envRef newCont
   return None
 
-readRule :: Env -> IOThrowsError [Rule]
+setVar' :: Context -> Pattern -> LispVal -> Context
+setVar' cont lhs rhs
+  | isPattern lhs = Context values (insertPattern patterns lhs rhs)
+  | otherwise = Context (insertRule values lhs rhs) patterns
+    where patterns = pattern cont
+          values = value cont
+
+insertPattern :: PatternRule -> Pattern -> LispVal-> PatternRule
+insertPattern rules lhs@(List (Atom name : _)) rhs =
+  M.insertWith (++) name [(lhs,rhs)] rules
+
+insertRule :: ValueRule -> LispVal -> LispVal -> ValueRule
+insertRule rules lhs rhs =
+  M.insert lhs rhs rules
+
+isPattern :: LispVal -> Bool
+isPattern (List (Atom "pattern" : _)) = True
+isPattern (List (Atom "blank":_)) = True
+isPattern (List xs) = any isPattern xs
+isPattern _ = False
+
+readRule :: Env -> IOThrowsError Context
 readRule = liftIO . readIORef
