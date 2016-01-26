@@ -47,10 +47,12 @@ parseString =
 
 parsePattern :: Parser LispVal
 parsePattern = do
-  symbolName <- many1 letter <* char '_'
+  symbolName <- many letter <* char '_'
   headName <- many letter
   let hN = if headName == "" then [] else [Atom headName]
-  return $ List [Atom "pattern", Atom symbolName, List (Atom "blank" : hN)] 
+      hasSymbol = List [Atom "pattern", Atom symbolName, List (Atom "blank" : hN)]
+      noSymbol = List (Atom "blank" : hN)
+  return $ if symbolName == "" then noSymbol else hasSymbol
 
 
 parseAtom :: Parser LispVal

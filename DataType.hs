@@ -66,7 +66,6 @@ unpackNum = extractValue . unpackNum'
 integer :: Integer -> LispVal
 integer n = Number $ Integer n
 
-
 -- ------------------------------------------
 
 -- LispError
