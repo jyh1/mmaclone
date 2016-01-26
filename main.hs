@@ -1,7 +1,7 @@
 -- import           Text.ParserCombinators.Parsec
 import Control.Monad
 import Control.Monad.Except
-import Data.IORef
+import Text.Printf
 
 import DataType
 import Eval
@@ -11,21 +11,21 @@ import Parse
 main :: IO()
 main = do
   env <- nullEnv
-  loop env
+  loop env 1
 
-loop :: Env -> IO ()
-loop env = do
-  evaled <- runExceptT (repl env)
-  report evaled
-  loop env
+loop :: Env  -> Int -> IO ()
+loop env n = do
+  evaled <- runExceptT (repl env n)
+  report n evaled
+  loop env (n + 1)
 
-repl :: Env -> IOThrowsError LispVal
-repl env = do
-  lift $ putStr "In:= "
+repl :: Env -> Int -> IOThrowsError LispVal
+repl env n = do
+  lift $ printf "In[%d]:=" n
   expr <- ExceptT (liftM readExpr getLine)
-  eval env expr
+  evalWithRecord env n expr
 
-report :: ThrowsError LispVal -> IO ()
-report (Left err) = print err
-report (Right None) = return ()
-report (Right val) = putStrLn $ "Out=  " ++ show val
+report :: Int -> ThrowsError LispVal -> IO ()
+report _ (Left err) = print err
+report _ (Right None) = return ()
+report n (Right val) = printf "Out[%d]=" n >> print val

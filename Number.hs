@@ -7,14 +7,15 @@ import Hier
 data Number = Double Double
             | Rational Rational
             | Integer Integer
+  deriving(Eq)
 
 instance Show Number where
   show (Integer i) = show i
   show (Double d) = show d
   show (Rational r) = show r
 
-instance Eq Number where
-  (==) = (==) `on` toDouble
+-- instance Eq Number where
+  -- (==) = (==) `on` toDouble
 
 instance Ord Number where
   (<=) = (<=) `on` toDouble
@@ -41,11 +42,11 @@ plus = peerOpUp plus'
         plus' (Rational r1) (Rational r2) = Rational (r1 + r2)
         plus' (Double d1) (Double d2) = Double $ d1 + d2
 
--- minus :: Number -> Number -> Number
--- minus = peerOpUp minus'
---   where minus' (Integer i1) (Integer i2) = Integer $ i1 - i2
---         minus' (Rational r1) (Rational r2) = Rational $ r1 - r2
---         minus' (Double d1) (Double d2) = Double $ d1 - d2
+minusN :: Number -> Number -> Number
+minusN = peerOpUp minus'
+  where minus' (Integer i1) (Integer i2) = Integer $ i1 - i2
+        minus' (Rational r1) (Rational r2) = Rational $ r1 - r2
+        minus' (Double d1) (Double d2) = Double $ d1 - d2
 
 times :: Number -> Number -> Number
 times = peerOpUp times'
@@ -53,13 +54,13 @@ times = peerOpUp times'
         times' (Rational r1) (Rational r2) = Rational $ r1 * r2
         times' (Double d1) (Double d2) = Double $ d1 * d2
 
--- divide :: Number -> Number -> Number
--- divide = peerOpUp divide'
---   where divide' (Integer i1) (Integer i2)
---           | i1 `mod` i2 == 0= Integer $ i1 `div` i2
---           | otherwise = Rational $ i1 % i2
---         divide' (Rational r1) (Rational r2) = Rational $ r1 / r2
---         divide' (Double d1) (Double d2) = Double $ d1 / d2
+divideN :: Number -> Number -> Number
+divideN = peerOpUp divide'
+  where divide' (Integer i1) (Integer i2)
+          | i1 `mod` i2 == 0= Integer $ i1 `div` i2
+          | otherwise = Rational $ i1 % i2
+        divide' (Rational r1) (Rational r2) = Rational $ r1 / r2
+        divide' (Double d1) (Double d2) = Double $ d1 / d2
 
 -- modN :: Number -> Number -> Number
 -- modN = peerOpUp modN'
@@ -87,3 +88,17 @@ powerN (Rational a) (Integer b)
 powerN _ _ = Nothing
 -- quoteientN :: Number -> Number -> Number
 -- ---------------------------------------
+numberEqual :: Number -> Number -> Bool
+numberEqual (Integer a) (Integer b) = a == b
+numberEqual (Double a) (Double b) = a == b
+numberEqual (Rational a) (Rational b) = a == b
+numberEqual a b = ((==) `on` toDouble) a b
+
+isZero :: Number -> Bool
+isZero = (== zero)
+
+isOne :: Number -> Bool
+isOne = (== Integer 1)
+
+zero :: Number
+zero = Integer 0

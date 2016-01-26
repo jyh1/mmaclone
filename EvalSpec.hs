@@ -63,8 +63,9 @@ spec  = do
       it "undefined symbol" $ do
         test1 "(xyz (+ 1 2) 3)" $ List [Atom "xyz", (Number . Integer) 3,
                                                         (Number . Integer) 3]
-      it "undefined symbol" $ do
         test1 "(* a 3)" $ List [Atom "*", Number $ Integer 3, Atom "a"]
+      it "merge same head" $ do
+        test1 "(* x x 2)" $ List [Atom "*", integer 2, List [Atom "^", Atom "x",integer 2]]
 
     context "lisp mainpulation" $ do
       context "length" $ do
@@ -91,7 +92,7 @@ spec  = do
         it "less" $ do
           test1 "(< 2.0 3)" true
         it "equal" $ do
-          test1 "(== 2 2.0)" true
+          test1 "(== 2 2.0)" false
         it "equal" $ do
           test1 "(== 2 4.0)" false
 

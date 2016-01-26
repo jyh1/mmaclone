@@ -1,7 +1,8 @@
 {-#LANGUAGE ExistentialQuantification#-}
 module Eval
     (
-    eval
+    eval,
+    evalWithRecord
     ) where
 
 import DataType
@@ -12,6 +13,13 @@ import Environment
 import Control.Monad
 import Data.Ratio
 import Data.Maybe(fromMaybe)
+
+evalWithRecord :: Env -> Int -> LispVal -> IOThrowsError LispVal
+evalWithRecord env nn val = do
+  let n = integer $ fromIntegral nn
+  evaled <- eval env val
+  eval env (List [Atom "setDelayed", List [Atom "In", n], val])
+  eval env (List [Atom "set", List [Atom "Out", n], evaled])
 
 eval :: Env -> LispVal -> IOThrowsError LispVal
 eval env val = do
@@ -41,11 +49,13 @@ eval' env (List (v:vs)) = do
     Just f -> liftThrows $ liftM (fromMaybe old) (f args)
     Nothing -> evalWithEnv env old
 
-eval' env n@(Number (Rational r))
-  | denominator r == 1 = return (Number $ Integer $ numerator r)
-  | otherwise = evalWithEnv env n
+eval' env val@(Atom _) = evalWithEnv env val
 
-eval' env x = evalWithEnv env x
+eval' _ n@(Number (Rational r))
+  | denominator r == 1 = return (Number $ Integer $ numerator r)
+  | otherwise = return n
+
+eval' _ x = return x
 
 -- attribute relating functions
 
