@@ -67,6 +67,10 @@ spec  = do
       it "merge same head" $ do
         test1 "(* x x 2)" $ List [Atom "*", integer 2, List [Atom "^", Atom "x",integer 2]]
 
+    context "sequence" $ do
+      it "expand sequence" $ do
+        test1 "(f x (sequence y y))" $ List [Atom "f", Atom "x", Atom "y", Atom "y"]
+
     context "lisp mainpulation" $ do
       context "length" $ do
         it "evaluate length of a lispval" $ do

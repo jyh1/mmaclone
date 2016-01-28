@@ -6,7 +6,7 @@ import Text.Printf
 import DataType
 import Eval
 import Parse
-
+-- import Pretty
 
 main :: IO()
 main = do
@@ -28,4 +28,4 @@ repl env n = do
 report :: Int -> ThrowsError LispVal -> IO ()
 report _ (Left err) = print err
 report _ (Right None) = return ()
-report n (Right val) = printf "Out[%d]=" n >> print val
+report n (Right val) = printf "Out[%d]=" n >> putStrLn (show val)
