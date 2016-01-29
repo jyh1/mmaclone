@@ -64,8 +64,10 @@ unpackNum :: LispVal -> Number
 unpackNum = extractValue . unpackNum'
 
 integer :: Integer -> LispVal
-integer n = Number $ Integer n
+integer = Number . Integer 
 
+double :: Double -> LispVal
+double = Number . Double
 -- ------------------------------------------
 
 -- LispError
@@ -170,3 +172,6 @@ isPattern _ = False
 
 readRule :: Env -> IOThrowsError Context
 readRule = liftIO . readIORef
+
+wrapSequence :: [LispVal] -> LispVal
+wrapSequence xs = List (Atom "sequence": xs)
