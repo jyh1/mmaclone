@@ -7,12 +7,12 @@ import Hier
 data Number = Double Double
             | Rational Rational
             | Integer Integer
-  deriving(Eq)
+  deriving(Eq,Show)
 
-instance Show Number where
-  show (Integer i) = show i
-  show (Double d) = show d
-  show (Rational r) = show r
+-- instance Show Number where
+--   show (Integer i) = show i
+--   show (Double d) = show d
+--   show (Rational r) = show r
 
 -- instance Eq Number where
   -- (==) = (==) `on` toDouble
