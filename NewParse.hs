@@ -29,7 +29,7 @@ data Expr
    | Great Expr Expr
    | GreatEq Expr Expr
    | UnEq Expr Expr
-   | Compound [Expr] Expr-- Expr; Expr
+   | Compound [Expr]-- Expr; Expr
    | Apply Expr Expr
    | Fact Expr
    | Negate Expr
@@ -364,8 +364,10 @@ compoundExpr :: Parser Expr
 compoundExpr = do
   semiexs <- many1 semiExpr
   let exs = map fromSemi semiexs
-  return $ case last semiexs of
-    (Semi _) -> Compound exs None
-    (Nosemi _) -> Compound (init exs) (last exs)
+  return $ case semiexs of
+    [Nosemi e] -> e
+    _ -> case last semiexs of
+      (Semi _) -> Compound (exs ++ [None])
+      (Nosemi _) -> Compound exs
 
 parseExpr = parse (compoundExpr <* eof) "pass 1"

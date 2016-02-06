@@ -10,9 +10,8 @@ import Control.Exception(evaluate)
 
 extractValue (Right a) = a
 
-testRead = extractValue . (parse expr "")
+testRead = extractValue . parseExpr
 
-testCompound a b = (extractValue . parseExpr) a `shouldBe` b
 
 test a b = testRead a `shouldBe` b
 
@@ -117,7 +116,7 @@ spec  = do
 
     context "compound expression" $ do
       it "compound" $ do
-        testCompound "P;#" (Compound [pe] (Slot 1))
-        testCompound "P;1;2;" (Compound [pe,integer 1,integer 2] None)
+        test "P;#" (Compound [pe, (Slot 1)])
+        test "P;1;2;" (Compound [pe,integer 1,integer 2, None])
 
 main = hspec spec

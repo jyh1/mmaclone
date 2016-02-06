@@ -17,6 +17,10 @@ expr2LispVal (Args args) = do
   tran <- mapM expr2LispVal args
   throwError $ Incomplete tran
 
+expr2LispVal (PartArgs args) = do
+  tran <- mapM expr2LispVal args
+  throwError $ Incomplete tran
+
 expr2LispVal (Lis lis) = do
   tran <- mapM expr2LispVal lis
   return $ List (Atom "List" : tran)
@@ -71,6 +75,8 @@ expr2LispVal (LessEq e1 e2) = equalTrans "LessEqual" e1 e2
 expr2LispVal (Great e1 e2) = equalTrans "Great" e1 e2
 expr2LispVal (GreatEq e1 e2) = equalTrans "GreatEqual" e1 e2
 expr2LispVal (UnEq e1 e2) = equalTrans "Unequal" e1 e2
+
+
 
 expr2LispVal (Negate e) = do
   e' <- expr2LispVal e
