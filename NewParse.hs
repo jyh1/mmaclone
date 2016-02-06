@@ -1,4 +1,4 @@
-module NewParse(Expr(..), parseExpr) where
+module NewParse(Expr(..), parseExpr,Stage1,expr) where
 
 import Text.Parsec hiding (Empty)
 import Text.Parsec.String
@@ -10,14 +10,15 @@ import Text.Parsec.Expr
 import Number
 
 data Expr
-  = Number Number
-   | List [Expr]
+  = Num Number
+   | Lis [Expr]
    | Args [Expr]
    | Var String
    | Add Expr Expr
-   | Sub Expr Expr
+  --  | Sub Expr Expr
    | Mul Expr Expr
-   | Div Expr Expr
+  --  | Div Expr Expr
+   | Inverse Expr
   --  | Mod Expr Expr
    | And Expr Expr
    | Or Expr Expr
@@ -28,7 +29,7 @@ data Expr
    | Great Expr Expr
    | GreatEq Expr Expr
    | UnEq Expr Expr
-   | Semi Expr Expr -- Expr; Expr
+   | Compound [Expr] Expr-- Expr; Expr
    | Apply Expr Expr
    | Fact Expr
    | Negate Expr
@@ -62,12 +63,14 @@ data Expr
    | PatternTest Expr Expr
    | Function Expr
    | String String
+   | Char Char
    | Slot Int
    | SlotSeq Int
    | Out Int
+   | None
    deriving (Show,Eq)
 
-opNames = words ("-> :> && || ! + - * / == ; < <= > >= : @ @@ /@ //@ @@@ \' !! != /. //. = :="
+opNames = words ("-> :> && || ! + - * / ; == < <= > >= : @ @@ /@ //@ @@@ \' !! != /. //. = :="
                   ++ " // & ? *) (*")-- reserved operations
 
 lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
@@ -77,7 +80,7 @@ lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.identLetter = alphaNum
                       , Token.reservedNames = []
                       , Token.reservedOpNames = opNames
-                      , Token.opLetter = oneOf "@/"
+                      , Token.opLetter = oneOf "@/=.>"
                       }
 
 lexer = Token.makeTokenParser lexerConfig
@@ -98,9 +101,13 @@ naturalOrFloat = Token.naturalOrFloat lexer
 
 stringLiteral = Token.stringLiteral lexer
 
+charLiteral = Token.charLiteral lexer
+
 natural = Token.natural lexer
 
 lexeme = Token.lexeme lexer
+
+semi = Token.semi lexer
 
 prefix name label = Prefix (reservedOp name *> return label)
 
@@ -111,8 +118,8 @@ binary name label assoc = Infix (do{ reservedOp name
 postfix name label = Postfix (reservedOp name *> return label)
 
 opTable = [
-            [derivative],
-            [function],
+            -- [derivative],
+            -- [function],
             [binary "?" PatternTest AssocRight],
             [appl,applPart],
             [binary "@" uniapply AssocRight],
@@ -121,14 +128,16 @@ opTable = [
               binary "@@" Apply1 AssocRight,
               binary "@@@" Apply11 AssocRight
             ],
+            [derivative],
+
             [postfix "!" Fact],
             [binary "." Dot AssocLeft],
             [ binary "*" Mul AssocLeft
-            , binary "/" Div AssocLeft
+            , binary "/" divide AssocLeft
             -- , binary "%" Mod AssocLeft,
             , spaceMul ]
           , [ binary "+" Add AssocLeft
-            , binary "-" Sub AssocLeft
+            , binary "-" sub AssocLeft
             ],
             [prefix "-" Negate]
           , [ binary "==" Equal AssocLeft
@@ -145,13 +154,17 @@ opTable = [
             binary ":>" RuleDelayed AssocRight]
           , [binary "/." Replace AssocLeft,
             binary "//." ReplaceRepeated AssocLeft]
-          -- , [function]
+          , [function]
           , [binary "//" (flip uniapply) AssocLeft]
           , [binary "=" Set AssocRight,
             binary ":=" SetDelayed AssocRight,
             postfix "=." Unset]
-          , [ binary ";" Semi AssocLeft ]
+
+          , [appl,binary "@" uniapply AssocRight]
           ]
+
+sub e1 e2 = Add e1 (Negate e2)
+divide e1 e2 = Mul e1 (Inverse e2)
 
 uniapply h a = Apply h (Args [a])
 
@@ -160,6 +173,7 @@ appl = Infix space AssocLeft
             *> lookAhead (char '[')
             *> notFollowedBy (string "[[")
             *> return Apply
+
 
 function = Postfix $
   char '&' *> notFollowedBy (char '&') *> return Function
@@ -197,10 +211,10 @@ number = do
               Left a  -> Integer a
               Right b  -> Double b
   -- return (s $ Number numE)
-  return (Number numE)
+  return (Num numE)
 
 list :: Parser Expr
-list = List <$> braces (commaSep expr)
+list = Lis <$> braces (commaSep expr)
 
 
 argument :: Parser Expr
@@ -216,6 +230,9 @@ var = Var <$> identifier
 
 stringE :: Parser Expr
 stringE = String <$> stringLiteral
+
+charE :: Parser Expr
+charE = Char <$> charLiteral
 -- special form -------------------
 atomName :: Parser Expr
 atomName = do
@@ -307,6 +324,8 @@ outN = do
 
 outTerm = lexeme (try outN <|> try out)
 
+
+
 -- ----------------------------------
 
 expr :: Parser Expr
@@ -321,9 +340,32 @@ term = specialForms
       <|> var
       <|> number
       <|> stringE
+      <|> charE
       <|> try partArgs
       <|> argument
       <|> list
       <|> parens expr
 
-parseExpr s = parse expr "expr" s
+type Stage1 = Either ParseError Expr
+
+data SemiExpr = Semi Expr | Nosemi Expr
+
+fromSemi :: SemiExpr -> Expr
+fromSemi (Semi e) = e
+fromSemi (Nosemi e) = e
+
+semiExpr :: Parser SemiExpr
+semiExpr = do
+  ex <- expr
+  hasSemi <- (semi *> return Semi) <|> return Nosemi
+  return $ hasSemi ex
+
+compoundExpr :: Parser Expr
+compoundExpr = do
+  semiexs <- many1 semiExpr
+  let exs = map fromSemi semiexs
+  return $ case last semiexs of
+    (Semi _) -> Compound exs None
+    (Nosemi _) -> Compound (init exs) (last exs)
+
+parseExpr = parse (compoundExpr <* eof) "pass 1"

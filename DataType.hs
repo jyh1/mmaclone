@@ -64,7 +64,7 @@ unpackNum :: LispVal -> Number
 unpackNum = extractValue . unpackNum'
 
 integer :: Integer -> LispVal
-integer = Number . Integer 
+integer = Number . Integer
 
 double :: Double -> LispVal
 double = Number . Double
@@ -80,6 +80,7 @@ data LispError = NumArgs Integer [LispVal]
                 | UnboundVar String String
                 | Default String
                 | PartError LispVal LispVal
+                | Incomplete [LispVal]
 
 
 instance Show LispError where
@@ -95,6 +96,7 @@ instance Show LispError where
 
   show (PartError vs n) = "part " ++ show n ++ "of " ++ show vs ++  "does not exist"
 
+  show (Incomplete s) = show s ++ "is incomplete.More input is needed"
   show (Default s) = s
 
 type ThrowsError = Either LispError

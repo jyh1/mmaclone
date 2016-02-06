@@ -7,12 +7,12 @@ import Hier
 data Number = Double Double
             | Rational Rational
             | Integer Integer
-  deriving(Eq,Show)
+  deriving(Eq)
 
--- instance Show Number where
---   show (Integer i) = show i
---   show (Double d) = show d
---   show (Rational r) = show r
+instance Show Number where
+  show (Integer i) = show i
+  show (Double d) = show d
+  show (Rational r) = show r
 
 -- instance Eq Number where
   -- (==) = (==) `on` toDouble
@@ -102,3 +102,12 @@ isOne = (== Integer 1)
 
 zero :: Number
 zero = Integer 0
+
+negateN, inverseN :: Number -> Number
+negateN (Integer a) = Integer (-a)
+negateN (Double a) = Double (-a)
+negateN (Rational a) = Rational (-a)
+
+inverseN (Integer a) = Rational (1 % a)
+inverseN (Rational a) = Rational (1 / a)
+inverseN (Double a) = Double (1 / a)

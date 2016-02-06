@@ -3,20 +3,23 @@ module NewParseSpec where
 import NewParse
 import Number
 
+import Text.Parsec
 import Test.Hspec
 import Test.QuickCheck hiding (Args)
 import Control.Exception(evaluate)
 
 extractValue (Right a) = a
 
-testRead = extractValue . parseExpr
+testRead = extractValue . (parse expr "")
+
+testCompound a b = (extractValue . parseExpr) a `shouldBe` b
 
 test a b = testRead a `shouldBe` b
 
 testApply a b c = test a $ Apply (Var b) (Args c)
 
-integer = Number . Integer
-double = Number . Double
+integer = Num . Integer
+double = Num . Double
 
 preS = "F[a,b,c]"
 pre = Apply (Var "F") (Args [Var "a", Var "b", Var "c"])
@@ -67,6 +70,10 @@ spec  = do
         test "!a" (Not (Var "a"))
         test "a!" (Fact (Var "a"))
 
+      it "replace /." $ do
+        test "P/.P->P" (Replace pe (Rule pe pe))
+        test "P/.{P->P, P->P}" (Replace pe (Lis [Rule pe pe,Rule pe pe]))
+
       it "& function" $ do
         test "P&" (Function pe)
         test "P&@P" (Apply (Function pe) (Args [pe]))
@@ -75,6 +82,10 @@ spec  = do
         test "\"a string\"" $ String "a string"
       it "with standard" $ do
         test "\"\\n\\t\\\"\\\\\"" $ String "\n\t\"\\"
+    context "parse a literal char" $ do
+      it "read a char" $ do
+        test "\'c\'" $ Char 'c'
+        test "\'\\n\'" $ Char '\n'
     context "parse blank pattern" $ do
       it "blank pattern" $ do
         test "_" Blk
@@ -103,5 +114,10 @@ spec  = do
         test "%4" (Out 4)
         test "P[%]" (Apply pe (Args [Out (-1)]))
         test "#%" (Mul (Slot 1) (Out (-1)))
+
+    context "compound expression" $ do
+      it "compound" $ do
+        testCompound "P;#" (Compound [pe] (Slot 1))
+        testCompound "P;1;2;" (Compound [pe,integer 1,integer 2] None)
 
 main = hspec spec
