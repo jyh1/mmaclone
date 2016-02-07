@@ -77,11 +77,15 @@ spec  = do
           test1 "Length@{23, 3 ,2, \"sdf\" ,3/2}" $ integer 5
         it "length of an atom value" $ do
           test1 "Length@(1-2)" $ integer 0
-      -- context "part" $ do
-      --   it "part of a list,index from 0" $ do
-      --     test1 "{1,2,3,4}[[4]]" $ integer 4
-      --   it "arbitrary nest" $ do
-      --     test1 "(part (1 2 (2 (3) 3) (+ 2 3)) (2 1 0))" $ integer 3
+
+      context "part" $ do
+        it "part of a list,index from 0" $ do
+          test1 "{1,2,3,4}[[4]]" $ integer 4
+        it "arbitrary nest" $ do
+          test1 "{{1, 2, 3}, {2, 3}, 3, 4}[[{2, 1}, {1, 2}]]" $ list [list [integer 2,integer 3],list [integer 1,integer 2]]
+          test1 "{{1,2},{3,4,5}}[[2,1]]" $ integer 3
+          test1 "(1+2x+3)[[1]]" $ integer 4
+
       context "car" $ do
         it "return first element" $ do
           test1 "car[{1,2,3}]" (Atom "List")

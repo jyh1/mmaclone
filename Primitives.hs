@@ -11,6 +11,7 @@ import Control.Monad.Except
 -- import Data.Maybe(fromMaybe)
 import Data.List(partition, genericLength, genericIndex,group)
 -- import qualified Data.Map.Strict as M
+import Part
 
 primitives :: [(String,[LispVal] -> Result)]
 primitives = [
@@ -22,7 +23,7 @@ primitives = [
               ("car", sinop car),
               ("cdr", sinop cdr),
               ("Length", sinop len),
-              -- ("Part", binop part),
+              ("Part", many1op part),
               -- ("")
               -- comparation
               ("Less", binop lessThan),
@@ -51,6 +52,10 @@ sinop :: SingleFun ->
           [LispVal] -> Result
 sinop op [x] = op x
 sinop _ vals  = throwError $ NumArgs 1 vals
+
+many1op :: ([LispVal] -> Result) -> [LispVal] -> Result
+many1op _ [] = throwError $ NumArgs1
+many1op f val = f val
 
 liftEval :: (LispVal -> LispVal -> LispVal) ->
               BinaryFun
@@ -163,13 +168,7 @@ len x = return $ Just $ len' x
           len' (List x) = integer (genericLength x - 1)
           len' _ = integer 0
 
--- part :: BinaryFun
--- part x nv@(Number (Integer n)) = part x (list [nv])
--- part val (List [Atom "List"]) = hasValue val
--- part val@(List x) (List ((Atom "List") : nv@(Number (Integer n)) : ns)) =
---   if genericLength x <= n then throwError (PartError val nv)
---                    else part (genericIndex x n) (List (ns))
--- part x n = throwError (PartError x n)
+
 
 car ,cdr :: SingleFun
 car (List []) = throwError (Default "car::empty list")

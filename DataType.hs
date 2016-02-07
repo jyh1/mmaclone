@@ -94,13 +94,14 @@ double = Number . Double
 -- LispError
 
 data LispError = NumArgs Integer [LispVal]
+                | NumArgs1
                 | TypeMismatch String LispVal
                 | Parser ParseError
                 | BadSpecialForm String LispVal
                 | NotFunction String String
                 | UnboundVar String String
                 | Default String
-                | PartError LispVal LispVal
+                | PartE String LispVal
                 | Incomplete [LispVal]
 
 
@@ -111,13 +112,13 @@ instance Show LispError where
   show (NumArgs expected found) = "Expected " ++ show expected ++
                                       " args: found values " ++ unwordsList found
     where unwordsList = unwords . map show
+  show NumArgs1 = "One or more arguments are expected"
   show (TypeMismatch expected found) = "Invalid type: expected " ++ expected
                                         ++ ", found" ++ show found
   show (Parser parseErr) = "Parse error at " ++ show parseErr
 
-  show (PartError vs n) = "part " ++ show n ++ "of " ++ show vs ++  "does not exist"
-
   show (Incomplete s) = show s ++ "is incomplete.More input is needed"
+  show (PartE tag v) = show v ++" "++ tag
   show (Default s) = s
 
 type ThrowsError = Either LispError

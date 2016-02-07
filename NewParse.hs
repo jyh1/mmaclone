@@ -364,4 +364,4 @@ compoundExpr = do
       (Semi _) -> Compound (exs ++ [None])
       (Nosemi _) -> Compound exs
 
-parseExpr = parse (compoundExpr <* eof) "pass 1"
+parseExpr = parse (whiteSpace *> compoundExpr <* eof) "pass 1"
