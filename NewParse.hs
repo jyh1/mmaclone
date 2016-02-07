@@ -32,6 +32,7 @@ data Expr
    | Compound [Expr]-- Expr; Expr
    | Apply Expr Expr
    | Fact Expr
+   | Fact2 Expr
    | Negate Expr
    | Part Expr Expr
    | PartArgs [Expr]
@@ -54,24 +55,21 @@ data Expr
    | BlkSeqE Expr
    | NullSeq
    | NullSeqE Expr
-   | PattBlk Expr
-   | PattBlkE Expr Expr
-   | PattBlkSeq Expr
-   | PattBlkSeqE Expr Expr
-   | PattNullSeq Expr
-   | PattNullSeqE Expr Expr
+   | Pattern Expr Expr
    | PatternTest Expr Expr
    | Function Expr
-   | String String
-   | Char Char
    | Slot Int
    | SlotSeq Int
+   | Str String
+   | Chr Char
    | Out Int
    | None
+   | Cond Expr Expr
+   | Alter Expr Expr
    deriving (Show,Eq)
 
 opNames = words ("-> :> && || ! + - * / ; == < <= > >= : @ @@ /@ //@ @@@ \' !! != /. //. = :="
-                  ++ " // & ? *) (*")-- reserved operations
+                  ++ " // & ? *) (* !! /; : |" )-- reserved operations
 
 lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.commentEnd = "*)"
@@ -80,7 +78,7 @@ lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.identLetter = alphaNum
                       , Token.reservedNames = []
                       , Token.reservedOpNames = opNames
-                      , Token.opLetter = oneOf "@/=.>"
+                      , Token.opLetter = oneOf "@/=.>!;"
                       }
 
 lexer = Token.makeTokenParser lexerConfig
@@ -118,7 +116,7 @@ binary name label assoc = Infix (do{ reservedOp name
 postfix name label = Postfix (reservedOp name *> return label)
 
 opTable = [
-            -- [derivative],
+            [derivative],
             -- [function],
             [binary "?" PatternTest AssocRight],
             [appl,applPart],
@@ -128,9 +126,10 @@ opTable = [
               binary "@@" Apply1 AssocRight,
               binary "@@@" Apply11 AssocRight
             ],
-            [derivative],
+            -- [derivative],
 
-            [postfix "!" Fact],
+            [postfix "!" Fact,
+            postfix "!!" Fact2],
             [binary "." Dot AssocLeft],
             [ binary "*" Mul AssocLeft
             , binary "/" divide AssocLeft
@@ -150,6 +149,9 @@ opTable = [
           , [prefix "!" Not]
           , [ binary "&&" And AssocLeft ]
           , [ binary "||" Or AssocLeft ]
+          , [binary "|" Alter AssocLeft]
+          , [binary ":" Pattern AssocLeft]
+          , [binary "/;" Cond AssocLeft]
           , [binary "->" Rule AssocRight,
             binary ":>" RuleDelayed AssocRight]
           , [binary "/." Replace AssocLeft,
@@ -229,10 +231,10 @@ var :: Parser Expr
 var = Var <$> identifier
 
 stringE :: Parser Expr
-stringE = String <$> stringLiteral
+stringE = Str <$> stringLiteral
 
 charE :: Parser Expr
-charE = Char <$> charLiteral
+charE = Chr <$> charLiteral
 -- special form -------------------
 atomName :: Parser Expr
 atomName = do
@@ -240,47 +242,37 @@ atomName = do
   cs <- many alphaNum
   return $ Var (c:cs)
 
-blk :: Parser ()
-blk = string "_" *> return ()
+blk :: Parser Expr
+blk = string "_" *> return Blk
 
-blkSeq :: Parser ()
-blkSeq = string "__" *> return ()
+blkSeq :: Parser Expr
+blkSeq = string "__" *> return BlkSeq
 
-blkNullSeq :: Parser ()
-blkNullSeq = string "___" *> return ()
+blkNullSeq :: Parser Expr
+blkNullSeq = string "___" *> return NullSeq
 
-blank :: Parser () -> Expr -> Parser Expr
-blank p e =
-  p *> return e
-
-blankE :: Parser () -> (Expr -> Expr) -> Parser Expr
+blankE :: Parser Expr -> (Expr -> Expr) -> Parser Expr
 blankE p f = do
   p
   name <- atomName
   return (f name)
 
-patternBlank :: Parser () -> (Expr -> Expr) -> Parser Expr
-patternBlank p f = do
+pattern :: Parser Expr -> Parser Expr
+pattern p = do
   name <- atomName
-  p
-  return (f name)
+  blk <- p
+  return (Pattern name blk)
 
-patternBlankE :: Parser () -> (Expr -> Expr -> Expr) -> Parser Expr
-patternBlankE p f = do
-  name <- atomName
-  p
-  h <- atomName
-  return (f name h)
 
 blks = [blk, blkSeq, blkNullSeq]
 
-blanks = zipWith blank blks [Blk, BlkSeq, NullSeq]
+-- blanks = zipWith blank blks [Blk, BlkSeq, NullSeq]
 blankEs = zipWith blankE blks [BlkE, BlkSeqE, NullSeqE]
-patternBlankEs = zipWith patternBlankE blks [PattBlkE, PattBlkSeqE, PattNullSeqE]
-patternBlanks = zipWith patternBlank blks [PattBlk, PattBlkSeq, PattNullSeq]
+patternBlankEs = map pattern blankEs
+patternBlanks = map pattern blks
 
 specialForms =
-  let forms = map try (patternBlankEs ++ blankEs ++ reverse blanks ++ reverse patternBlanks) in
+  let forms = map try (patternBlankEs ++ blankEs ++ reverse blks ++ reverse patternBlanks) in
     lexeme $ foldr1 (<|>) forms
 -- ------------------------------------------------------------
 -- slot

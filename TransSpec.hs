@@ -3,7 +3,7 @@ module NewParseSpec where
 import Trans
 import NewParse
 import Number hiding(plus,times)
-import DataType
+import DataType hiding (list)
 
 import Test.Hspec
 import Test.QuickCheck hiding (Args)
@@ -23,10 +23,50 @@ plus = addHead "Plus"
 
 times = addHead "Times"
 
+comp = addHead "CompoundExpression"
+
+part = addHead "Part"
+
+map' = addHead "Map"
+mapAll = addHead "MapAll"
+apply = addHead "Apply"
+apply1 [l1,l2] = apply [l1,l2,list [one]]
+
+replace = addHead "Replace"
+replaceR = addHead "ReplaceRepeated"
+rule = addHead "Rule"
+ruleD = addHead "RuleDelayed"
+
+set = addHead "Set"
+setD = addHead "SetDelayed"
+
+unset = addHead "Unset" . return
+
+fun = addHead "Function"
+slot = addHead "Slot" . return
+s1 = slot one
+s2 = slot two
+ss1 = addHead "SlotSequence" [one]
+
+cond = addHead "Condition"
+
+deriv n l = List [List [Atom "Derivative", integer n],l]
+
+fact = addHead "Factorial" . return
+fact2 = addHead "Factorial2" . return
+
+patt = addHead "Pattern"
+pattT = addHead "PatternTest"
+blk = List [Atom "Blank"]
+
 andE = addHead "And"
 orE = addHead "Or"
 notE = addHead "Not"
 ineq = addHead "Inequality"
+
+dot = addHead "Dot"
+
+alter = addHead "Alternatives"
 
 equal = Atom "Equal"
 less = Atom "Less"
@@ -86,6 +126,11 @@ spec  = do
       it "not" $ do
         test "!P&&P" (andE [notE [pe], pe])
 
+    context "compound expression" $ do
+      it "compound" $ do
+        test "1;2;3" (comp [one,two,three])
+        test "1;2;P;" (comp [one,two,pe,atomNull])
+
     context "Inequality" $ do
       it "test equal" $ do
         test "1==2" (ineq [one,equal,two])
@@ -95,9 +140,93 @@ spec  = do
         test "1<=2+P!=3" (ineq [one, lessEq,plus [two,pe],unEq ,three])
         test "1<2>3" (ineq [one,less,two,great,three])
         test "1<=1+2!=3" (ineq [one,lessEq,plus [one,two],unEq,three])
+
+    context "function apply" $ do
+      it "nest apply" $ do
+        test "P[P[1]]" $ List [pe,List [pe, one]]
+        test "P[1,2]" $ List [pe, one,two]
+      it "curry" $ do
+        test "P[1][2]" $ List [List [pe,one], two]
+      it "operator form" $ do
+        test "P@1@2//3" $ List [three,List [pe,List [one,two]]]
+        test "P@1+2//3" $ List [three,plus [List [pe,one],two]]
+
+    context "part" $ do
+      it "part expression" $ do
+        test "P[[1,2]]" $ part [pe,one,two]
+        test "P[1][[2]]" $ part [List [pe,one],two]
+        test "P[2[[1]]]" $ List [pe, part [two, one]]
     context "Atom" $ do
       it "atom name" $ do
         test "P" pe
 
+    context "Factorial" $ do
+      it "factorial !" $ do
+        test "2!" (fact two)
+        test "1+2!" (plus [one,fact two])
+        test "2! != 3!" (ineq [fact two,unEq,fact three])
+        test "2!! != P!" (ineq [fact2 two,unEq,fact pe])
+
+    context "Map,MapAll,Apply,Apply1" $ do
+      it "Map" $ do
+        test "P/@{1,2}" (map' [pe,list [one,two]])
+        test "P/@P/@1" (map' [pe,map' [pe,one]])
+        test "P/@1@2" (map' [pe, List [one,two]])
+
+      it "MapAll" $ do
+        test "P//@1" (mapAll [pe,one])
+        test "P//@1/@2" (mapAll [pe,map' [one,two]])
+
+      it "apply" $ do
+        test "P@@1/@2@3" (apply [pe,map' [one,List [two,three]]])
+        test "P@@@2@@1" (apply1 [pe,apply [two,one]])
+
+    context "derivative" $ do
+      it "nth derivative" $ do
+        test "P'" (deriv 1 pe)
+        test "P''''" (deriv 4 pe)
+      it "apply to args" $ do
+        test "P''[1]" (List [deriv 2 pe,one])
+        test "P'[1][2]" (List [List [deriv 1 pe,one],two])
+
+    context "replace rule" $ do
+      it "replace rule operators" $ do
+        test "P/.1 -> 2" (replace [pe,rule [one,two]])
+        test "P /. (1 //. 2  -> 3) -> P" (replace [pe,rule [replaceR [one,rule [two,three]],pe]])
+        test "P//.2:>3" (replaceR [pe,ruleD [two,three]])
+      it "condition replace" $ do
+        test "1/.P_ -> 2/;P>=1" (replace [one,rule [patt [pe,blk],cond [two,ineq [pe,greatEq,one]]]])
+      it "alternative replace" $ do
+        test "1/.1|2 -> 3" (replace [one,rule [alter [one,two],three]])
+
+    context "Set SetDelayed" $ do
+      it "set" $ do
+        test "P=1" (set [pe,one])
+        test "P:=1=2" (setD [pe,set [one,two]])
+        test "P=1+2" (set [pe,plus [one,two]])
+
+    context "Unset" $ do
+      it "unset a var" $ do
+        test "P=." (unset pe)
+
+    context "Dot" $ do
+      it "Dot" $ do
+        test "P.{1,2}" (dot [pe,list [one,two]])
+        test "{1,2}.{2,3}" (dot [list [one,two],list [two,three]])
+
+    context "Pattern special form" $ do
+      it "special form" $ do
+        test "P_" (patt [pe, blk])
+        test "P_?(1+2)" (pattT [patt [pe,blk], plus [one,two]])
+
+    context "lambda function" $ do
+      it "& operator" $ do
+        test "1+#&" (fun [plus [one,s1]])
+        test "1+#&[2]" (List [fun [plus [one,s1]],two])
+        test "1 ##&[2]" (List [fun [times [one,ss1]],two])
+
+    context "alternative" $ do
+      it "| operator" $ do
+        test "1|2|3" (alter [one,two,three])
 
 main = hspec spec

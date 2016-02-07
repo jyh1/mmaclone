@@ -78,24 +78,24 @@ spec  = do
         test "P&@P" (Apply (Function pe) (Args [pe]))
     context "parse string" $ do
       it "read a common string" $ do
-        test "\"a string\"" $ String "a string"
+        test "\"a string\"" $ Str "a string"
       it "with standard" $ do
-        test "\"\\n\\t\\\"\\\\\"" $ String "\n\t\"\\"
+        test "\"\\n\\t\\\"\\\\\"" $ Str "\n\t\"\\"
     context "parse a literal char" $ do
       it "read a char" $ do
-        test "\'c\'" $ Char 'c'
-        test "\'\\n\'" $ Char '\n'
+        test "\'c\'" $ Chr 'c'
+        test "\'\\n\'" $ Chr '\n'
     context "parse blank pattern" $ do
       it "blank pattern" $ do
         test "_" Blk
         test "_P" (BlkE pe)
-        test "P_P" (PattBlkE pe pe)
+        test "P_P" (Pattern pe (BlkE pe))
         test "__" BlkSeq
         test "__P" (BlkSeqE pe)
-        test "P__P" (PattBlkSeqE pe pe)
+        test "P__P" (Pattern pe (BlkSeqE pe))
         test "___" NullSeq
         test "___P" (NullSeqE pe)
-        test "P___P" (PattNullSeqE pe pe)
+        test "P___P" (Pattern pe (NullSeqE pe))
         test "_[P]" $ Apply Blk (Args [pe])
     context "# slot" $ do
       it "slot" $ do
@@ -118,5 +118,15 @@ spec  = do
       it "compound" $ do
         test "P;#" (Compound [pe, (Slot 1)])
         test "P;1;2;" (Compound [pe,integer 1,integer 2, None])
+
+    context "conditional expression" $ do
+      it "condtion" $ do
+        test "P_ -> 1/;P" (Rule (Pattern pe Blk) (Cond (integer 1) pe))
+        test "P=1/;P" (Set pe (Cond (integer 1) pe))
+
+    context "pattern alternative" $ do
+      it ": pattern" $ do
+        test "P:_" (Pattern pe Blk)
+        test "P:(1|2)" (Pattern pe (Alter (integer 1) (integer 2)))
 
 main = hspec spec

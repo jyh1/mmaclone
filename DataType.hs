@@ -18,7 +18,6 @@ data LispVal = Atom String
             | String String
             | Char Char
             | Bool Bool
-            | None
   deriving(Eq, Ord)
 
 instance Show LispVal where
@@ -30,7 +29,14 @@ instance Show LispVal where
   show (Char c) = show c
   show (Bool True) = "#t"
   show (Bool False) = "#f"
-  show None = ""
+
+isNull :: LispVal -> Bool
+isNull (Atom "Null") = True
+isNull _ = False
+
+atomNull = Atom "Null"
+
+list ls = List $ Atom "List" : ls
 
 data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
 
@@ -63,8 +69,8 @@ checkNum _ = False
 unpackNum :: LispVal -> Number
 unpackNum = extractValue . unpackNum'
 
-integer :: Integer -> LispVal
-integer = Number . Integer
+integer :: (Integral a) => a -> LispVal
+integer = Number . Integer . fromIntegral
 
 double :: Double -> LispVal
 double = Number . Double
@@ -149,7 +155,7 @@ setVar envRef lhs rhs = liftIO $ do
   match <- readIORef envRef
   let newCont = setVar' match lhs rhs
   writeIORef envRef newCont
-  return None
+  return atomNull
 
 setVar' :: Context -> Pattern -> LispVal -> Context
 setVar' cont lhs rhs
