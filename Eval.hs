@@ -19,8 +19,8 @@ evalWithRecord :: Env -> Int -> LispVal -> IOThrowsError LispVal
 evalWithRecord env nn val = do
   let n = integer $ fromIntegral nn
   evaled <- eval env val
-  eval env (List [Atom "setDelayed", List [Atom "In", n], val])
-  eval env (List [Atom "set", List [Atom "Out", n], evaled])
+  eval env (List [Atom "SetDelayed", List [Atom "In", n], val])
+  eval env (List [Atom "Set", List [Atom "Out", n], evaled])
 
 eval :: Env -> LispVal -> IOThrowsError LispVal
 eval env val = do
@@ -28,10 +28,10 @@ eval env val = do
   if x1 == val then return x1 else eval env x1
 
 eval' :: Env -> LispVal -> IOThrowsError LispVal
-eval' env (List [Atom "setDelayed", lhs, rhs]) =
+eval' env (List [Atom "SetDelayed", lhs, rhs]) =
   setVar env lhs rhs
 
-eval' env (List [Atom "set", lhs, rhs]) = do
+eval' env (List [Atom "Set", lhs, rhs]) = do
   evaled <- eval env rhs
   setVar env lhs evaled
   return evaled
@@ -93,7 +93,7 @@ attEvalFlatten att h vals
 attEvalSeqHold :: [Attribute] -> [LispVal] -> [LispVal]
 attEvalSeqHold att vals
   | SequenceHold `elem` att = vals
-  | otherwise = deleteSameHead vals (Atom "sequence")
+  | otherwise = deleteSameHead vals (Atom "Sequence")
 
 allAttr :: [Attribute] -> LispVal-> [LispVal] -> [LispVal]
 allAttr att h = attEvalOrderless att .attEvalFlatten att h .

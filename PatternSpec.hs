@@ -1,16 +1,16 @@
 module PatternSpec where
 
 import DataType
-import Parse
+import Trans
 import Number
 import Pattern
 
 import Test.Hspec
 
 getExpr = extractValue . readExpr
-exp1 = getExpr "(+ 1 2 3)"
-patt1 = getExpr "(+ 1 2 (pattern x (blank)))"
-patt2 = getExpr "(+ 2 3 (blank))"
+exp1 = getExpr "1+2+3"
+patt1 = getExpr "1+2+x_"
+patt2 = getExpr "2+3+_"
 
 spec :: Spec
 spec  = do

@@ -17,6 +17,7 @@ data Expr
    | Add Expr Expr
   --  | Sub Expr Expr
    | Mul Expr Expr
+   | Pow Expr Expr
   --  | Div Expr Expr
    | Inverse Expr
   --  | Mod Expr Expr
@@ -69,7 +70,7 @@ data Expr
    deriving (Show,Eq)
 
 opNames = words ("-> :> && || ! + - * / ; == < <= > >= : @ @@ /@ //@ @@@ \' !! != /. //. = :="
-                  ++ " // & ? *) (* !! /; : |" )-- reserved operations
+                  ++ " // & ? *) (* !! /; : | ^" )-- reserved operations
 
 lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.commentEnd = "*)"
@@ -130,6 +131,7 @@ opTable = [
 
             [postfix "!" Fact,
             postfix "!!" Fact2],
+            [binary "^" Pow AssocRight],
             [binary "." Dot AssocLeft],
             [ binary "*" Mul AssocLeft
             , binary "/" divide AssocLeft

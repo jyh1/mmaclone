@@ -1,4 +1,4 @@
-module NewParseSpec where
+module TransSpec where
 
 import Trans
 import NewParse

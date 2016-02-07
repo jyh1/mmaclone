@@ -38,6 +38,9 @@ expr2LispVal (Mul val@(Mul _ _) e) =
 expr2LispVal (Mul e1 e2) =
   twoArgs (addHead2 "Times") e1 e2
 
+expr2LispVal (Pow e1 e2) =
+  twoArgs (addHead2 "Power") e1 e2
+
 expr2LispVal (And val@(And _ _) e) =
   flatten val e
 expr2LispVal (And e1 e2) =

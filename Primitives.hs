@@ -15,31 +15,29 @@ import Data.List(partition, genericLength, genericIndex,group)
 primitives :: [(String,[LispVal] -> Result)]
 primitives = [
               -- numeric function
-              ("+", numericPolop mergePlus groupPlus (returnWithHead "+") plus),
-              ("-", binop minus),
-              ("*", numericPolop mergeTimes groupTimes (returnWithHead "*") times),
-              ("/", binop divide),
-              ("^", binop powerl),
+              ("Plus", numericPolop mergePlus groupPlus (returnWithHead "Plus") plus),
+              ("Times", numericPolop mergeTimes groupTimes (returnWithHead "Times") times),
+              ("Power", binop powerl),
               -- list mainpulation
               ("car", sinop car),
               ("cdr", sinop cdr),
-              ("length", sinop len),
-              ("part", binop part),
+              ("Length", sinop len),
+              -- ("Part", binop part),
               -- ("")
               -- comparation
-              ("<", binop lessThan),
-              ("<=", binop lessEqual),
-              (">", binop greaterThan),
-              (">=", binop greaterEqual),
-              ("==", binop equal),
+              ("Less", binop lessThan),
+              ("LessEqual" , binop lessEqual),
+              ("Great", binop greaterThan),
+              ("GreatEqual", binop greaterEqual),
+              ("Equal", binop equal),
               -- ("symbol?", testHead symbolQ),
               -- ("string?", testHead stringQ),
               -- ("number?", testHead numberQ),
               -- ("quote", quoted)
               -- ("quoteient", numericBinop quot),
-              ("&&", binop andl),
-              ("||", binop orl),
-              ("!", sinop notl)
+              ("And", binop andl),
+              ("Or", binop orl),
+              ("Not", sinop notl)
             ]
 
 -- evaluation helper function
@@ -63,7 +61,7 @@ internalBoolOp f =
   liftM2 f''
     where
       f'' = liftM2 f'
-      f' (Bool a) (Bool b) = Bool $ f a b
+      f' a1 a2 = toBool (f (unBool a1) (unBool a2))
 
 internalAnd = internalBoolOp (&&)
 internalOr = internalBoolOp (||)
@@ -72,7 +70,7 @@ internalNot :: Result -> Result
 internalNot=
   liftM f''
     where f'' = liftM f'
-          f' (Bool a) = Bool $ not a
+          f' a = toBool $ not (unBool a)
 
 -- Number evaluation
 numericPolop :: (Number -> [LispVal] -> Result) ->
@@ -94,14 +92,14 @@ numericPolop merges groupers tagHead op params = do
 mergePlus,mergeTimes :: Number -> [LispVal] -> Result
 mergePlus num [] = hasValue (Number num)
 mergePlus num xs
-  | isZero num = returnWithHead "+" xs
-  | otherwise = merge "+" num xs
+  | isZero num = returnWithHead "Plus" xs
+  | otherwise = merge "Plus" num xs
 
 mergeTimes num [] = hasValue (Number num)
 mergeTimes num xs
   | isZero num = hasValue $ Number zero
-  | isOne num = returnWithHead "*" xs
-  | otherwise = merge "*" num xs
+  | isOne num = returnWithHead "Times" xs
+  | otherwise = merge "Times" num xs
 
 returnWithHead :: String -> [LispVal] -> Result
 returnWithHead name xs = hasValue $ List (Atom name : xs)
@@ -111,10 +109,10 @@ merge name num xs = returnWithHead name (Number num : xs)
 
 groupPlus,groupTimes :: [LispVal] -> LispVal
 groupPlus [single] = single
-groupPlus xs = List [Atom "*", integer (genericLength xs), head xs]
+groupPlus xs = List [Atom "Times", integer (genericLength xs), head xs]
 
 groupTimes [single] = single
-groupTimes xs = List [Atom "^", head xs, integer (genericLength xs)]
+groupTimes xs = List [Atom "Power", head xs, integer (genericLength xs)]
 -- --------------------------------------------------
 numericBinop :: (Number -> Number -> Maybe Number) ->
   BinaryFun
@@ -129,12 +127,12 @@ minus, divide, powerl:: BinaryFun
 minus (Number a) (Number b) = hasValue (Number $ minusN a b)
 minus a b = liftEval minus' a b
   where
-    minus' a b = List [Atom "+", a, List [Atom "*", Number $ Integer (-1), b]]
+    minus' a b = List [Atom "Plus", a, List [Atom "Times", Number $ Integer (-1), b]]
 
 divide (Number a) (Number b) = hasValue (Number $ divideN a b)
 divide a b = liftEval divide' a b
   where
-    divide' a b = List [Atom "*", a, List [Atom "^", b, Number $ Integer (-1)]]
+    divide' a b = List [Atom "Times", a, List [Atom "Power", b, Number $ Integer (-1)]]
 
 -- modl = numericBinop ((Just.). modN)
 powerl = numericBinop powerN
@@ -144,7 +142,7 @@ powerl = numericBinop powerN
 
 -- head test functions
 testHead :: (LispVal -> Bool) -> [LispVal] -> ThrowsError LispVal
-testHead test vals = return (Bool (all test vals))
+testHead test vals = return (toBool (all test vals))
 
 symbolQ , stringQ, numberQ :: LispVal -> Bool
 
@@ -162,16 +160,16 @@ numberQ _ = False
 len :: SingleFun
 len x = return $ Just $ len' x
         where
-          len' (List x) = integer $ genericLength x
+          len' (List x) = integer (genericLength x - 1)
           len' _ = integer 0
 
-part :: BinaryFun
-part x nv@(Number (Integer n)) = part x (List [nv])
-part val (List []) = hasValue val
-part val@(List x) (List (nv@(Number (Integer n)) : ns)) =
-  if genericLength x <= n then throwError (PartError val nv)
-                   else part (genericIndex x n) (List ns)
-part x n = throwError (PartError x n)
+-- part :: BinaryFun
+-- part x nv@(Number (Integer n)) = part x (list [nv])
+-- part val (List [Atom "List"]) = hasValue val
+-- part val@(List x) (List ((Atom "List") : nv@(Number (Integer n)) : ns)) =
+--   if genericLength x <= n then throwError (PartError val nv)
+--                    else part (genericIndex x n) (List (ns))
+-- part x n = throwError (PartError x n)
 
 car ,cdr :: SingleFun
 car (List []) = throwError (Default "car::empty list")
@@ -198,7 +196,7 @@ getCompareResult a b =
 
 getBoolResult :: Ordering -> BinaryFun
 getBoolResult e a b =
-  let boolRes x = Just . Bool $ x == e in
+  let boolRes x = Just . toBool $ x == e in
     liftM boolRes (getCompareResult a b)
       `catchError` const noChange
 
@@ -216,7 +214,7 @@ greaterEqual = (internalNot.). lessThan
 
 -- logic function
 logic :: (Bool -> Bool -> Bool) -> BinaryFun
-logic f (Bool a) (Bool b) = hasValue $ Bool (a `f` b)
+logic f a b = hasValue $ toBool (unBool a `f` unBool b)
 logic _ _ _ = noChange
 
 andl, orl :: BinaryFun
@@ -224,6 +222,6 @@ andl = logic (&&)
 orl = logic (||)
 
 notl :: SingleFun
-notl (Bool a) = hasValue $ Bool $ not a
+notl a = hasValue $ toBool $ not (unBool a)
 notl _ = noChange
 -- --------------------------------

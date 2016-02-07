@@ -4,16 +4,15 @@ import DataType
 import Data.Maybe
 
 getMatch :: Pattern -> LispVal -> Maybe [Matched]
-getMatch (List [Atom "blank"]) _ = Just []
-getMatch (List [Atom "blank", Atom x]) (List (Atom y : _)) =
+getMatch (List [Atom "Blank"]) _ = Just []
+getMatch (List [Atom "Blank", Atom x]) (List (Atom y : _)) =
   fromBool $ x == y
-getMatch (List [Atom "pattern", Atom name ,pattern]) expr =
+getMatch (List [Atom "Pattern", Atom name ,pattern]) expr =
   fmap ((name, expr): ) $ getMatch pattern expr
 getMatch (Atom a) (Atom b) = fromBool $ a == b
 getMatch (Number a) (Number b) = fromBool $ a == b
 getMatch (String a) (String b) = fromBool $ a == b
 getMatch (Char a) (Char b) = fromBool $ a == b
-getMatch (Bool a) (Bool b) = fromBool $ a == b
 getMatch (List a) (List b) =
   let sameL = length a == length b
       every = sequenceA $ zipWith getMatch a b in

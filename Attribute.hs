@@ -19,9 +19,9 @@ plusAttr = [Orderless, Flatten]
 
 attributes :: Attributes
 attributes = M.fromList[
-              ("+", plusAttr),
-              ("*", plusAttr),
-              ("test", [SequenceHold,HoldAll])
+              ("Plus", plusAttr),
+              ("Times", plusAttr),
+              ("Hold", [HoldAll])
               ]
 
 lookUpAttribute :: String -> Attributes -> [Attribute]
