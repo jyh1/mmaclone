@@ -1,0 +1,1343 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:36.0459788 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Eval.Primitive.Primitives 7102
+  interface hash: 4640b4906db7d9e5d477b37b6f82dee6
+  ABI hash: a6cd26bc5922595b620059c3c7d13696
+  export-list hash: 9bf0e5fca9f2497dbe40854257116e74
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 77b6106c54fdc8333c6f0415b12192fd
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Eval.Primitive.Primitives.primitives
+module dependencies: Data.DataType Data.Number.Hier
+                     Data.Number.Number Eval.Primitive.Part
+package dependencies: array-0.5.1.0@array_E0sTtauuKsGDLZoT7lTbgZ
+                      base-4.8.1.0* binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd
+                      bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH
+                      containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN
+                      deepseq-1.4.1.1@deeps_LbCWUlehDDeLxurARKDH5o ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU
+                      parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0
+                      text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh
+                      transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+         binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH:Data.ByteString.Builder
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Show
+         transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Error
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Functor.Identity
+                         base-4.8.1.0:Data.Monoid base-4.8.1.0:Data.Type.Equality
+                         base-4.8.1.0:Data.Void base-4.8.1.0:GHC.Exts
+                         base-4.8.1.0:GHC.Generics
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntMap.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntSet.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Sequence
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Set.Base
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+import  -/  base-4.8.1.0:Control.Monad dfea142d91349c4861427789d50d5b80
+import  -/  base-4.8.1.0:Data.Foldable 2e5acb797cfda6b3b7fabd7052abe290
+import  -/  base-4.8.1.0:Data.List 2a4f5f92892d432e7113f64cd9dcca53
+import  -/  base-4.8.1.0:Data.OldList 21f46c368c20a00483b41333e53a55cb
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.List f31ed8784b3e05f1397195751f7d74ea
+import  -/  base-4.8.1.0:GHC.Num 9f42750c866f5832ca565146bd660c60
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
+import  -/  Data.DataType c371d6fa81ae9f0301da5ca425bb3968
+  exports: 085545853aa06ac5ecb7dc9bef058506
+  Atom 07ea59aa4e810b3562eaa798e4b5c76b
+  BinaryFun 6b7442980fd4ce5d5ed1c85cf933dae8
+  Default 761fa2365158984558c413944b394444
+  LispVal f70327bb01160acdaa903077fba7f03a
+  List 1dd2cf24c8e01106ae239f6b22b15c51
+  NumArgs e260cf35a4231a5c3fc2b290f356de1b
+  NumArgs1 5714b296b0b6297a1f9eda18c571fbc8
+  Number e387ab7157ef16d9857ca76a6e55f510
+  Result 8ffdf17365fa1e675e6c9cde9487e997
+  SingleFun d52be948f52552f41c01fef6d162a889
+  String 749b1441ef79d451fbbaa004153c455f
+  ThrowsError 1e8f053207d9a08fff23b089436e8acb
+  Unpacker 2e38d1a3c8c7dc671d69fd7e03daf503
+  Unpacker c0ba131642d2b8dfc57590eac4765ae2
+  checkNum c77ad358c404eaac1f6126768de3a5d9
+  hasValue 471108dcb2ccac1764b7277cb7a55e2e
+  integer 6626800fee4ca5fd9d3f73f2ed5e8592
+  noChange ea276fb3006201bbf43d0926ed88dcab
+  sumError 60bf87a3371659dc605c6a635eb59342
+  toBool b6b8e5f3d00a4e7705ff1e78b24def4d
+  unBool 1a6d1c5a14175dc0975f0bef34895537
+  unpackNum 9f1dcc8d78a2b7afb1f67d6178320373
+  unpackers 75ff37d4144527e2d609b343ab2f8c12
+import  -/  Data.Number.Number 2ac8bfb8a00bd9e3712221b1e929b631
+  exports: c2c926f6c2c1eef8393e1f6cda1b117c
+  Integer ff3d0cdf85cbf1ba5bc0ca7ede0fd44b
+  Number 053c2dbacc4e48f6b812046fba0663d4
+  divideN 754eb4f12bd9a952af33fd0a321eabae
+  isOne 66ab167c406eaca56434660575a70acf
+  isZero 38cbccd7ab39b266301fb4b99b7ed689
+  minusN 72eda0e142e23d81e329cf0d9c83fbdc
+  plus 75a1d07916cd0d98449b5fc12c5c091e
+  powerN f4a46357a0cce0aa738919d6bab07427
+  times b9d7866c73c0cf4e8bf96490b8275a8a
+  zero 46b4e13837047d9cce2acad8b967819c
+import  -/  Eval.Primitive.Part acc319d0c7ccc2178121f47543de4f18
+  exports: 95a909342e68f1ad008d1d6f122b6731
+  part 2d0097d13b44775a97f4fc018e51790d
+import  -/  mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU:Control.Monad.Error.Class ba990105c31f50ec068e65779adef46a
+import  -/  mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU:Control.Monad.Except 794a4a733dd47f7fbb820afcb8ea0779
+aafb9eed47aa02b1091fbf8736cc2413
+  $wgetBoolResult ::
+    GHC.Types.Ordering
+    -> Data.DataType.LispVal
+    -> Data.DataType.LispVal
+    -> (# GHC.Base.Maybe Data.DataType.LispVal #)
+  {- Arity: 3, Strictness: <L,1*U><L,U><L,U>, Inline: [0],
+     Unfolding: (\ w :: GHC.Types.Ordering
+                   w1 :: Data.DataType.LispVal
+                   w2 :: Data.DataType.LispVal ->
+                 case Data.DataType.sumError1
+                        @ GHC.Types.Ordering
+                        (GHC.Base.map
+                           @ Data.DataType.Unpacker
+                           @ (Data.Either.Either Data.DataType.LispError GHC.Types.Ordering)
+                           (\ ds :: Data.DataType.Unpacker ->
+                            case ds of wild { Data.DataType.Unpacker a $dOrd unpack ->
+                            case unpack w1 of wild1 {
+                              Data.Either.Left l
+                              -> Data.Either.Left
+                                   @ Data.DataType.LispError
+                                   @ GHC.Types.Ordering
+                                   l
+                              Data.Either.Right r
+                              -> case unpack w2 of wild2 {
+                                   Data.Either.Left l
+                                   -> Data.Either.Left
+                                        @ Data.DataType.LispError
+                                        @ GHC.Types.Ordering
+                                        l
+                                   Data.Either.Right r1
+                                   -> Data.Either.Right
+                                        @ Data.DataType.LispError
+                                        @ GHC.Types.Ordering
+                                        (GHC.Classes.compare @ a $dOrd r r1) } } })
+                           Data.DataType.unpackers) of wild {
+                   Data.Either.Left l
+                   -> (# GHC.Base.Nothing @ Data.DataType.LispVal #)
+                   Data.Either.Right r
+                   -> (# GHC.Base.Just
+                           @ Data.DataType.LispVal
+                           (case r of wild1 {
+                              GHC.Types.LT
+                              -> case w of wild2 {
+                                   DEFAULT -> Data.DataType.toBool3
+                                   GHC.Types.LT -> Data.DataType.toBool1 }
+                              GHC.Types.EQ
+                              -> case w of wild2 {
+                                   DEFAULT -> Data.DataType.toBool3
+                                   GHC.Types.EQ -> Data.DataType.toBool1 }
+                              GHC.Types.GT
+                              -> case w of wild2 {
+                                   DEFAULT -> Data.DataType.toBool3
+                                   GHC.Types.GT -> Data.DataType.toBool1 } }) #) }) -}
+29b8076bfabc5856c5793a801b961cb6
+  $wgo ::
+    [Data.DataType.LispVal]
+    -> (# [Data.DataType.LispVal], [Data.DataType.LispVal] #)
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>, Inline: [0] -}
+a2bb008facdec8f6ca845a1530bea88d
+  $wlogic ::
+    (GHC.Types.Bool -> GHC.Types.Bool -> GHC.Types.Bool)
+    -> Data.DataType.LispVal
+    -> Data.DataType.LispVal
+    -> (# GHC.Base.Maybe Data.DataType.LispVal #)
+  {- Arity: 3, Strictness: <L,1*C1(C1(U))><S,1*U><L,1*U>,
+     Inline: [0],
+     Unfolding: (\ w :: GHC.Types.Bool
+                        -> GHC.Types.Bool -> GHC.Types.Bool
+                   w1 :: Data.DataType.LispVal
+                   w2 :: Data.DataType.LispVal ->
+                 case w1 of wild {
+                   DEFAULT -> (# GHC.Base.Nothing @ Data.DataType.LispVal #)
+                   Data.DataType.Atom ds
+                   -> case w2 of wild1 {
+                        DEFAULT -> (# GHC.Base.Nothing @ Data.DataType.LispVal #)
+                        Data.DataType.Atom ds1
+                        -> (# GHC.Base.Just
+                                @ Data.DataType.LispVal
+                                (case w (case GHC.Base.eqString ds Data.DataType.toBool4 of wild2 {
+                                           GHC.Types.False
+                                           -> case GHC.Base.eqString
+                                                     ds
+                                                     Data.DataType.toBool2 of wild3 {
+                                                GHC.Types.False -> Data.DataType.unBool1
+                                                GHC.Types.True -> GHC.Types.True }
+                                           GHC.Types.True -> GHC.Types.False })
+                                        (case GHC.Base.eqString ds1 Data.DataType.toBool4 of wild2 {
+                                           GHC.Types.False
+                                           -> case GHC.Base.eqString
+                                                     ds1
+                                                     Data.DataType.toBool2 of wild3 {
+                                                GHC.Types.False -> Data.DataType.unBool1
+                                                GHC.Types.True -> GHC.Types.True }
+                                           GHC.Types.True -> GHC.Types.False }) of wild2 {
+                                   GHC.Types.False -> Data.DataType.toBool3
+                                   GHC.Types.True -> Data.DataType.toBool1 }) #) } }) -}
+d108f8d1028b082643f605430ced8cb8
+  $wmergePlus ::
+    Data.Number.Number.Number
+    -> [Data.DataType.LispVal]
+    -> (# GHC.Base.Maybe Data.DataType.LispVal #)
+  {- Arity: 2, Strictness: <L,U><S,1*U>, Inline: [0],
+     Unfolding: (\ w :: Data.Number.Number.Number
+                   w1 :: [Data.DataType.LispVal] ->
+                 case w1 of wild {
+                   []
+                   -> (# GHC.Base.Just
+                           @ Data.DataType.LispVal
+                           (Data.DataType.Number w) #)
+                   : ipv ipv1
+                   -> case w of wild1 {
+                        DEFAULT
+                        -> (# GHC.Base.Just
+                                @ Data.DataType.LispVal
+                                (Data.DataType.List
+                                   (GHC.Types.:
+                                      @ Data.DataType.LispVal
+                                      Eval.Primitive.Primitives.primitives86
+                                      (GHC.Types.:
+                                         @ Data.DataType.LispVal
+                                         (Data.DataType.Number wild1)
+                                         wild))) #)
+                        Data.Number.Number.Integer a1
+                        -> case GHC.Integer.Type.eqInteger#
+                                  a1
+                                  Data.Number.Number.$fHierNumber5 of wild2 { DEFAULT ->
+                           case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild2 of wild3 {
+                             GHC.Types.False
+                             -> (# GHC.Base.Just
+                                     @ Data.DataType.LispVal
+                                     (Data.DataType.List
+                                        (GHC.Types.:
+                                           @ Data.DataType.LispVal
+                                           Eval.Primitive.Primitives.primitives86
+                                           (GHC.Types.:
+                                              @ Data.DataType.LispVal
+                                              (Data.DataType.Number wild1)
+                                              wild))) #)
+                             GHC.Types.True
+                             -> (# GHC.Base.Just
+                                     @ Data.DataType.LispVal
+                                     (Data.DataType.List
+                                        (GHC.Types.:
+                                           @ Data.DataType.LispVal
+                                           Eval.Primitive.Primitives.primitives86
+                                           wild)) #) } } } }) -}
+a86e24fc7d2e12a8ef099a3d75469b0c
+  groupPlus :: [Data.DataType.LispVal] -> Data.DataType.LispVal
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ ds :: [Data.DataType.LispVal] ->
+                 let {
+                   fail :: GHC.Prim.Void# -> Data.DataType.LispVal
+                     {- Arity: 1, Strictness: <L,A> -}
+                   = \ ds1 :: GHC.Prim.Void#[OneShot] ->
+                     Data.DataType.List
+                       (GHC.Types.:
+                          @ Data.DataType.LispVal
+                          Eval.Primitive.Primitives.primitives79
+                          (GHC.Types.:
+                             @ Data.DataType.LispVal
+                             (Data.DataType.Number
+                                (Data.Number.Number.Integer
+                                   (Data.OldList.strictGenericLength
+                                      @ Data.DataType.LispVal
+                                      @ GHC.Integer.Type.Integer
+                                      GHC.Num.$fNumInteger
+                                      ds)))
+                             (GHC.Types.:
+                                @ Data.DataType.LispVal
+                                (GHC.List.head @ Data.DataType.LispVal ds)
+                                (GHC.Types.[] @ Data.DataType.LispVal))))
+                 } in
+                 case ds of wild {
+                   [] -> fail GHC.Prim.void#
+                   : single ds1
+                   -> case ds1 of wild1 {
+                        [] -> single : ipv ipv1 -> fail GHC.Prim.void# } }) -}
+6a23d9f02cb5f843066bb429c403954b
+  groupTimes :: [Data.DataType.LispVal] -> Data.DataType.LispVal
+  {- Arity: 1, Strictness: <S,U>,
+     Unfolding: (\ ds :: [Data.DataType.LispVal] ->
+                 let {
+                   fail :: GHC.Prim.Void# -> Data.DataType.LispVal
+                     {- Arity: 1, Strictness: <L,A> -}
+                   = \ ds1 :: GHC.Prim.Void#[OneShot] ->
+                     Data.DataType.List
+                       (GHC.Types.:
+                          @ Data.DataType.LispVal
+                          Eval.Primitive.Primitives.primitives75
+                          (GHC.Types.:
+                             @ Data.DataType.LispVal
+                             (GHC.List.head @ Data.DataType.LispVal ds)
+                             (GHC.Types.:
+                                @ Data.DataType.LispVal
+                                (Data.DataType.Number
+                                   (Data.Number.Number.Integer
+                                      (Data.OldList.strictGenericLength
+                                         @ Data.DataType.LispVal
+                                         @ GHC.Integer.Type.Integer
+                                         GHC.Num.$fNumInteger
+                                         ds)))
+                                (GHC.Types.[] @ Data.DataType.LispVal))))
+                 } in
+                 case ds of wild {
+                   [] -> fail GHC.Prim.void#
+                   : single ds1
+                   -> case ds1 of wild1 {
+                        [] -> single : ipv ipv1 -> fail GHC.Prim.void# } }) -}
+c68f55705155b6a4b0294f30c99dca63
+  lessEqual :: Data.DataType.BinaryFun
+  {- Arity: 2, Strictness: <L,U><L,U>,
+     Unfolding: (\ a :: Data.DataType.LispVal
+                   b :: Data.DataType.LispVal ->
+                 case Eval.Primitive.Primitives.$wgetBoolResult
+                        GHC.Types.EQ
+                        a
+                        b of ww { (##) ww1 ->
+                 case Eval.Primitive.Primitives.$wgetBoolResult
+                        GHC.Types.LT
+                        a
+                        b of ww2 { (##) ww3 ->
+                 Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   (case ww1 of wild {
+                      GHC.Base.Nothing -> GHC.Base.Nothing @ Data.DataType.LispVal
+                      GHC.Base.Just a4
+                      -> case ww3 of wild1 {
+                           GHC.Base.Nothing -> GHC.Base.Nothing @ Data.DataType.LispVal
+                           GHC.Base.Just a5
+                           -> GHC.Base.Just
+                                @ Data.DataType.LispVal
+                                (case Data.DataType.unBool a4 of wild2 {
+                                   GHC.Types.False
+                                   -> case Data.DataType.unBool a5 of wild3 {
+                                        GHC.Types.False -> Data.DataType.toBool3
+                                        GHC.Types.True -> Data.DataType.toBool1 }
+                                   GHC.Types.True -> Data.DataType.toBool1 }) } }) } }) -}
+b68410a9e1d8ed4cdc66dc81f0422bf1
+  mergePlus ::
+    Data.Number.Number.Number
+    -> [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 2, Strictness: <L,U><S,1*U>m2, Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ w :: Data.Number.Number.Number w1 :: [Data.DataType.LispVal] ->
+                 case Eval.Primitive.Primitives.$wmergePlus w w1 of ww { (##) ww1 ->
+                 Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   ww1 }) -}
+ecb01485d96497de107e35c838e797e7
+  mergeTimes ::
+    Data.Number.Number.Number
+    -> [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 2, Strictness: <L,U><S,1*U>,
+     Unfolding: (\ num :: Data.Number.Number.Number
+                   ds :: [Data.DataType.LispVal] ->
+                 case ds of wild {
+                   []
+                   -> Data.Either.Right
+                        @ Data.DataType.LispError
+                        @ (GHC.Base.Maybe Data.DataType.LispVal)
+                        (GHC.Base.Just @ Data.DataType.LispVal (Data.DataType.Number num))
+                   : ipv ipv1
+                   -> let {
+                        $j :: GHC.Prim.Void# -> Data.DataType.Result
+                          {- Arity: 1, Strictness: <L,A> -}
+                        = \ w :: GHC.Prim.Void#[OneShot] ->
+                          case num of wild1 {
+                            DEFAULT
+                            -> Data.Either.Right
+                                 @ Data.DataType.LispError
+                                 @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                 (GHC.Base.Just
+                                    @ Data.DataType.LispVal
+                                    (Data.DataType.List
+                                       (GHC.Types.:
+                                          @ Data.DataType.LispVal
+                                          Eval.Primitive.Primitives.primitives79
+                                          (GHC.Types.:
+                                             @ Data.DataType.LispVal
+                                             (Data.DataType.Number wild1)
+                                             wild))))
+                            Data.Number.Number.Integer a1
+                            -> case GHC.Integer.Type.eqInteger#
+                                      a1
+                                      Data.Number.Number.$fHierNumber6 of wild2 { DEFAULT ->
+                               case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild2 of wild3 {
+                                 GHC.Types.False
+                                 -> Data.Either.Right
+                                      @ Data.DataType.LispError
+                                      @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                      (GHC.Base.Just
+                                         @ Data.DataType.LispVal
+                                         (Data.DataType.List
+                                            (GHC.Types.:
+                                               @ Data.DataType.LispVal
+                                               Eval.Primitive.Primitives.primitives79
+                                               (GHC.Types.:
+                                                  @ Data.DataType.LispVal
+                                                  (Data.DataType.Number wild1)
+                                                  wild))))
+                                 GHC.Types.True
+                                 -> Data.Either.Right
+                                      @ Data.DataType.LispError
+                                      @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                      (GHC.Base.Just
+                                         @ Data.DataType.LispVal
+                                         (Data.DataType.List
+                                            (GHC.Types.:
+                                               @ Data.DataType.LispVal
+                                               Eval.Primitive.Primitives.primitives79
+                                               wild))) } } }
+                      } in
+                      case num of wild1 {
+                        DEFAULT -> $j GHC.Prim.void#
+                        Data.Number.Number.Integer a1
+                        -> case GHC.Integer.Type.eqInteger#
+                                  a1
+                                  Data.Number.Number.$fHierNumber5 of wild2 { DEFAULT ->
+                           case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild2 of wild3 {
+                             GHC.Types.False -> $j GHC.Prim.void#
+                             GHC.Types.True
+                             -> Eval.Primitive.Primitives.primitives76 } } } }) -}
+7723497beb79f0b50e81c99d348cdc7f
+  numericPolop ::
+    (Data.Number.Number.Number
+     -> [Data.DataType.LispVal] -> Data.DataType.Result)
+    -> ([Data.DataType.LispVal] -> Data.DataType.LispVal)
+    -> ([Data.DataType.LispVal] -> Data.DataType.Result)
+    -> (Data.Number.Number.Number
+        -> Data.Number.Number.Number -> Data.Number.Number.Number)
+    -> [Data.DataType.LispVal]
+    -> Data.DataType.Result
+  {- Arity: 5,
+     Strictness: <L,1*C1(C1(U))><L,C(U)><L,1*C1(U)><L,C(C1(U))><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                         -> [Data.DataType.LispVal] -> Data.DataType.Result
+                   ds1 :: [Data.DataType.LispVal] -> Data.DataType.LispVal
+                   ds2 :: [Data.DataType.LispVal] -> Data.DataType.Result
+                   ds3 :: Data.Number.Number.Number
+                          -> Data.Number.Number.Number -> Data.Number.Number.Number
+                   ds4 :: [Data.DataType.LispVal] ->
+                 case ds4 of wild {
+                   [] -> Eval.Primitive.Primitives.primitives80
+                   : a ds5
+                   -> case ds5 of wild1 {
+                        []
+                        -> Data.Either.Right
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (GHC.Base.Just @ Data.DataType.LispVal a)
+                        : ipv ipv1
+                        -> case Eval.Primitive.Primitives.$wgo
+                                  wild of ww { (#,#) ww1 ww2 ->
+                           let {
+                             unpacked :: [Data.Number.Number.Number]
+                             = GHC.Base.map
+                                 @ Data.DataType.LispVal
+                                 @ Data.Number.Number.Number
+                                 Data.DataType.unpackNum
+                                 ww1
+                           } in
+                           case GHC.Classes.$fEq[]_$c==
+                                  @ Data.Number.Number.Number
+                                  Data.Number.Number.$fEqNumber
+                                  unpacked
+                                  (GHC.Types.[] @ Data.Number.Number.Number) of wild2 {
+                             GHC.Types.False
+                             -> ds
+                                  (GHC.List.foldl1 @ Data.Number.Number.Number ds3 unpacked)
+                                  (GHC.Base.map
+                                     @ [Data.DataType.LispVal]
+                                     @ Data.DataType.LispVal
+                                     ds1
+                                     (Data.OldList.groupBy
+                                        @ Data.DataType.LispVal
+                                        Data.DataType.$fEqLispVal_$c==
+                                        ww2))
+                             GHC.Types.True
+                             -> ds2
+                                  (GHC.Base.map
+                                     @ [Data.DataType.LispVal]
+                                     @ Data.DataType.LispVal
+                                     ds1
+                                     (Data.OldList.groupBy
+                                        @ Data.DataType.LispVal
+                                        Data.DataType.$fEqLispVal_$c==
+                                        ww2)) } } } }) -}
+fdcf42a8983227fa1a73921c16d34fe4
+  primitives ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives82
+                   Eval.Primitive.Primitives.primitives1) -}
+463409b62e68beb528c51e5f9ba56b14
+  primitives1 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives71
+                   Eval.Primitive.Primitives.primitives2) -}
+d4b396e031afe3a282f2866f623c5352
+  primitives10 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives33
+                   Eval.Primitive.Primitives.primitives11) -}
+8c3dd7b9fe8f093aa458259181139727
+  primitives11 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives30
+                   Eval.Primitive.Primitives.primitives12) -}
+7b02c6a9dd249c16c19fa502b9dda0e3
+  primitives12 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives27
+                   Eval.Primitive.Primitives.primitives13) -}
+ffa64b24053fbfeb6dbbb68461dd233f
+  primitives13 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives21
+                   Eval.Primitive.Primitives.primitives14) -}
+aa1069e684fe6baa2c1c656a74cd0f7c
+  primitives14 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives15
+                   (GHC.Types.[]
+                      @ (GHC.Base.String,
+                         [Data.DataType.LispVal] -> Data.DataType.Result))) -}
+f82eceb07d7696e7508c255ab65c868a
+  primitives15 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives20,
+                  Eval.Primitive.Primitives.primitives16)) -}
+14d2322e02e6f8db415226f529ee17a6
+  primitives16 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: [Data.DataType.LispVal] ->
+                 case ds of wild {
+                   [] -> Eval.Primitive.Primitives.primitives18
+                   : x ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Right
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (GHC.Base.Just
+                                @ Data.DataType.LispVal
+                                (case Data.DataType.unBool x of wild2 {
+                                   GHC.Types.False -> Data.DataType.toBool1
+                                   GHC.Types.True -> Data.DataType.toBool3 }))
+                        : ipv ipv1
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs
+                                Eval.Primitive.Primitives.primitives17
+                                wild) } }) -}
+d7648aca864da33abc51df569aebb78e
+  primitives17 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 1) -}
+bd83830fff4c60bb0e3b3c004bfe19b9
+  primitives18 ::
+    Data.Either.Either
+      Data.DataType.LispError (GHC.Base.Maybe Data.DataType.LispVal)
+  {- HasNoCafRefs,
+     Unfolding: (Data.Either.Left
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Eval.Primitive.Primitives.primitives19) -}
+24347674b97355feffe80b1c03f39751
+  primitives19 :: Data.DataType.LispError
+  {- HasNoCafRefs,
+     Unfolding: (Data.DataType.NumArgs
+                   Eval.Primitive.Primitives.primitives17
+                   (GHC.Types.[] @ Data.DataType.LispVal)) -}
+03bcf6550f1b9999bd50288e26faf2da
+  primitives2 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives67
+                   Eval.Primitive.Primitives.primitives3) -}
+60b403b481b8308ff6d29d51394b9d53
+  primitives20 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Not"#) -}
+fe0649054fa91cdcf30a52eed379148b
+  primitives21 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives26,
+                  Eval.Primitive.Primitives.primitives22)) -}
+4f0c298ba17a3c81b5b289fefc87f5c1
+  primitives22 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case Eval.Primitive.Primitives.$wlogic
+                                       GHC.Classes.||
+                                       ds
+                                       b of ww { (##) ww1 ->
+                                Data.Either.Right
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  ww1 }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+ebffa41e1205b841a0f8cb3b20dfeed7
+  primitives23 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 2) -}
+34ec550cee9c4e36800c0e67150f4e2c
+  primitives24 ::
+    Data.Either.Either
+      Data.DataType.LispError (GHC.Base.Maybe Data.DataType.LispVal)
+  {- HasNoCafRefs,
+     Unfolding: (Data.Either.Left
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Eval.Primitive.Primitives.primitives25) -}
+c1a377ffd1a8a9a7d07d79d23c967190
+  primitives25 :: Data.DataType.LispError
+  {- HasNoCafRefs,
+     Unfolding: (Data.DataType.NumArgs
+                   Eval.Primitive.Primitives.primitives23
+                   (GHC.Types.[] @ Data.DataType.LispVal)) -}
+806e71d4cbfd296bd9f11c3e7c1b993e
+  primitives26 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Or"#) -}
+37ce6568e63b3421b785d9e463644882
+  primitives27 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives29,
+                  Eval.Primitive.Primitives.primitives28)) -}
+3a80ed7cff5d3b39362bf848c3026b9c
+  primitives28 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case Eval.Primitive.Primitives.$wlogic
+                                       GHC.Classes.&&
+                                       ds
+                                       b of ww { (##) ww1 ->
+                                Data.Either.Right
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  ww1 }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+5bd13385467d0e848ef639a8d47d3780
+  primitives29 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "And"#) -}
+d5a233558af847d7b68b3e8726173284
+  primitives3 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives61
+                   Eval.Primitive.Primitives.primitives4) -}
+88f54f09699a6f288938d1ebb7e5268e
+  primitives30 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives32,
+                  Eval.Primitive.Primitives.primitives31)) -}
+3b23168feee44b0204489c7f3fe1b544
+  primitives31 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case Eval.Primitive.Primitives.$wgetBoolResult
+                                       GHC.Types.EQ
+                                       ds
+                                       b of ww { (##) ww1 ->
+                                Data.Either.Right
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  ww1 }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+71f759dac4c942a20e8347ee8199ac7d
+  primitives32 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Equal"#) -}
+9f4475f88ea4faf1f275da532c873504
+  primitives33 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives35,
+                  Eval.Primitive.Primitives.primitives34)) -}
+392abd8fb775ef5c542c7d68d6cd7e58
+  primitives34 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case Eval.Primitive.Primitives.$wgetBoolResult
+                                       GHC.Types.LT
+                                       ds
+                                       b of ww { (##) ww1 ->
+                                Data.Either.Right
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (case ww1 of wild3 {
+                                     GHC.Base.Nothing -> GHC.Base.Nothing @ Data.DataType.LispVal
+                                     GHC.Base.Just a1
+                                     -> GHC.Base.Just
+                                          @ Data.DataType.LispVal
+                                          (case Data.DataType.unBool a1 of wild4 {
+                                             GHC.Types.False -> Data.DataType.toBool1
+                                             GHC.Types.True -> Data.DataType.toBool3 }) }) }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+b539d8a1cd0aef09a009b971d999cc53
+  primitives35 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "GreatEqual"#) -}
+9566f6e1a99eb6509838d8b1b798281a
+  primitives36 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives38,
+                  Eval.Primitive.Primitives.primitives37)) -}
+90d019e50a4a130efb77ad00f2e62e96
+  primitives37 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case Eval.Primitive.Primitives.lessEqual ds b of wild3 {
+                                  Data.Either.Left l -> wild3
+                                  Data.Either.Right r
+                                  -> Data.Either.Right
+                                       @ Data.DataType.LispError
+                                       @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                       (case r of wild4 {
+                                          GHC.Base.Nothing
+                                          -> GHC.Base.Nothing @ Data.DataType.LispVal
+                                          GHC.Base.Just a1
+                                          -> GHC.Base.Just
+                                               @ Data.DataType.LispVal
+                                               (case Data.DataType.unBool a1 of wild5 {
+                                                  GHC.Types.False -> Data.DataType.toBool1
+                                                  GHC.Types.True -> Data.DataType.toBool3 }) }) }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+7a8d9cb348ce1b9227459c4f7fdc13ac
+  primitives38 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Great"#) -}
+dca85b742992be6c9ee90c126065461c
+  primitives39 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives41,
+                  Eval.Primitive.Primitives.primitives40)) -}
+8b79236ee57ed42a97bdd4bcc8437ee1
+  primitives4 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives55
+                   Eval.Primitive.Primitives.primitives5) -}
+37aee84a2b4b2ef31f00bcdc95b7482d
+  primitives40 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             [] -> Eval.Primitive.Primitives.lessEqual ds b
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+0cbf25a1f951dd7e42302e3957dabc65
+  primitives41 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "LessEqual"#) -}
+7854221bab90a53e43a01b152880e114
+  primitives42 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives44,
+                  Eval.Primitive.Primitives.primitives43)) -}
+bebc2ffa23de80b3e4125cb820ed83a4
+  primitives43 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case Eval.Primitive.Primitives.$wgetBoolResult
+                                       GHC.Types.LT
+                                       ds
+                                       b of ww { (##) ww1 ->
+                                Data.Either.Right
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  ww1 }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+dda74e2c8d250f7f7831ed91208659b5
+  primitives44 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Less"#) -}
+a771858f0842cd1ed80a5e9d6f926217
+  primitives45 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives48,
+                  Eval.Primitive.Primitives.primitives46)) -}
+81f04ec8392bfda8688c6ff51ded1691
+  primitives46 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: [Data.DataType.LispVal] ->
+                 case ds of wild {
+                   [] -> Eval.Primitive.Primitives.primitives47
+                   : ipv ipv1 -> Eval.Primitive.Part.part wild }) -}
+e3276e34abf83a835835ea79662145e3
+  primitives47 :: Data.DataType.Result
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Data.DataType.NumArgs1) -}
+eedefa2d975a580ca2fc4bfd380961e7
+  primitives48 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Part"#) -}
+869af6b565f7cdde892d41f985f08c78
+  primitives49 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives54,
+                  Eval.Primitive.Primitives.primitives50)) -}
+e31d9290f1849e77643a7c93c09cb8f4
+  primitives5 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives49
+                   Eval.Primitive.Primitives.primitives6) -}
+c207099fb35566abdfe1a0ea474ed92b
+  primitives50 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: [Data.DataType.LispVal] ->
+                 case ds of wild {
+                   [] -> Eval.Primitive.Primitives.primitives18
+                   : x ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Right
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (GHC.Base.Just
+                                @ Data.DataType.LispVal
+                                (case x of wild2 {
+                                   DEFAULT -> Eval.Primitive.Primitives.primitives51
+                                   Data.DataType.List x1
+                                   -> Data.DataType.Number
+                                        (Data.Number.Number.Integer
+                                           (GHC.Integer.Type.minusInteger
+                                              (Data.OldList.strictGenericLength
+                                                 @ Data.DataType.LispVal
+                                                 @ GHC.Integer.Type.Integer
+                                                 GHC.Num.$fNumInteger
+                                                 x1)
+                                              Eval.Primitive.Primitives.primitives17)) }))
+                        : ipv ipv1
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs
+                                Eval.Primitive.Primitives.primitives17
+                                wild) } }) -}
+85a9f92cdd533335767f8ffb2ae8de3f
+  primitives51 :: Data.DataType.LispVal
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (Data.DataType.Number
+                   Eval.Primitive.Primitives.primitives52) -}
+8461755efb7a6d42f2689b5e64374ca9
+  primitives52 :: Data.Number.Number.Number
+  {- HasNoCafRefs, Strictness: m3,
+     Unfolding: (Data.Number.Number.Integer
+                   Eval.Primitive.Primitives.primitives53) -}
+ccb3d7afb18bc4114f991dc6d5a3177a
+  primitives53 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 0) -}
+17ac4255179f267e6112ff2182f6abe8
+  primitives54 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Length"#) -}
+097091204bed7446c6671952ea689eaf
+  primitives55 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives60,
+                  Eval.Primitive.Primitives.primitives56)) -}
+8324e58f439a89eb7a1d044063e7d492
+  primitives56 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: [Data.DataType.LispVal] ->
+                 case ds of wild {
+                   [] -> Eval.Primitive.Primitives.primitives18
+                   : x ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> case x of wild2 {
+                             DEFAULT -> Data.DataType.noChange
+                             Data.DataType.List ds2
+                             -> case ds2 of wild3 {
+                                  [] -> Eval.Primitive.Primitives.primitives57
+                                  : ds3 xs
+                                  -> Data.Either.Right
+                                       @ Data.DataType.LispError
+                                       @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                       (GHC.Base.Just
+                                          @ Data.DataType.LispVal
+                                          (Data.DataType.List xs)) } }
+                        : ipv ipv1
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs
+                                Eval.Primitive.Primitives.primitives17
+                                wild) } }) -}
+ca5fa3ac03ca6560449c66dbaccce4bd
+  primitives57 ::
+    Data.Either.Either
+      Data.DataType.LispError (GHC.Base.Maybe Data.DataType.LispVal)
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Eval.Primitive.Primitives.primitives58) -}
+f99059004fe3163c39047f8574060aa4
+  primitives58 :: Data.DataType.LispError
+  {- Strictness: m8,
+     Unfolding: (Data.DataType.Default
+                   Eval.Primitive.Primitives.primitives59) -}
+826a31300b6bed30102dcc92fdd961d3
+  primitives59 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cdr:: empty list"#) -}
+e77b41e22fd92d0c22eda5ed9636f535
+  primitives6 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives45
+                   Eval.Primitive.Primitives.primitives7) -}
+2eac5c123b9aaac72a23a85a68005e74
+  primitives60 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "cdr"#) -}
+37009dd4ca877c692f9708704e161dd0
+  primitives61 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives66,
+                  Eval.Primitive.Primitives.primitives62)) -}
+e7c884dac3fc1f341e596ec8252ab38b
+  primitives62 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: [Data.DataType.LispVal] ->
+                 case ds of wild {
+                   [] -> Eval.Primitive.Primitives.primitives18
+                   : x ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> case x of wild2 {
+                             DEFAULT -> Data.DataType.noChange
+                             Data.DataType.List ds2
+                             -> case ds2 of wild3 {
+                                  [] -> Eval.Primitive.Primitives.primitives63
+                                  : x1 ds3 -> Data.DataType.hasValue x1 } }
+                        : ipv ipv1
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs
+                                Eval.Primitive.Primitives.primitives17
+                                wild) } }) -}
+a13417e23a57dde70fe1a6a57f11bb59
+  primitives63 ::
+    Data.Either.Either
+      Data.DataType.LispError (GHC.Base.Maybe Data.DataType.LispVal)
+  {- Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Eval.Primitive.Primitives.primitives64) -}
+3a10d05b6723a70741ad5f7cea5f9cef
+  primitives64 :: Data.DataType.LispError
+  {- Strictness: m8,
+     Unfolding: (Data.DataType.Default
+                   Eval.Primitive.Primitives.primitives65) -}
+f504084bfc684630898a37fc3105b4e3
+  primitives65 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "car::empty list"#) -}
+0ae9644f4fa3ffaff936b00fd7c7b3b3
+  primitives66 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "car"#) -}
+9d56dee5182d7f4622f32b9e354b260e
+  primitives67 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives70,
+                  Eval.Primitive.Primitives.primitives68)) -}
+8d234bf0981ed49d63b6ba8e0c1a270c
+  primitives68 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ singleVal :: [Data.DataType.LispVal] ->
+                 case singleVal of wild {
+                   [] -> Eval.Primitive.Primitives.primitives24
+                   : ds ds1
+                   -> case ds1 of wild1 {
+                        []
+                        -> Data.Either.Left
+                             @ Data.DataType.LispError
+                             @ (GHC.Base.Maybe Data.DataType.LispVal)
+                             (Data.DataType.NumArgs Eval.Primitive.Primitives.primitives23 wild)
+                        : b ds2
+                        -> case ds2 of wild2 {
+                             []
+                             -> case ds of wild3 {
+                                  DEFAULT -> Eval.Primitive.Primitives.primitives69
+                                  Data.DataType.Number ds3
+                                  -> case b of wild4 {
+                                       DEFAULT -> Eval.Primitive.Primitives.primitives69
+                                       Data.DataType.Number ds4
+                                       -> Data.Either.Right
+                                            @ Data.DataType.LispError
+                                            @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                            (case Data.Number.Number.powerN ds3 ds4 of wild5 {
+                                               GHC.Base.Nothing
+                                               -> GHC.Base.Nothing @ Data.DataType.LispVal
+                                               GHC.Base.Just a1
+                                               -> GHC.Base.Just
+                                                    @ Data.DataType.LispVal
+                                                    (Data.DataType.Number a1) }) } }
+                             : ipv ipv1
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ (GHC.Base.Maybe Data.DataType.LispVal)
+                                  (Data.DataType.NumArgs
+                                     Eval.Primitive.Primitives.primitives23
+                                     wild) } } }) -}
+689dd3bf293f52516482c68f139bd6c2
+  primitives69 ::
+    Data.Either.Either
+      Data.DataType.LispError (GHC.Base.Maybe Data.DataType.LispVal)
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   (GHC.Base.Nothing @ Data.DataType.LispVal)) -}
+0d10342d20160934fc91e751212c8226
+  primitives7 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives42
+                   Eval.Primitive.Primitives.primitives8) -}
+163777048211dea653005f292e144f07
+  primitives70 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Power"#) -}
+1d19bf22348e53e34525f312a375b22f
+  primitives71 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives74,
+                  Eval.Primitive.Primitives.primitives72)) -}
+299059420c00c2ce1205b2c43b83d933
+  primitives72 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1,
+     Unfolding: (Eval.Primitive.Primitives.numericPolop
+                   Eval.Primitive.Primitives.mergeTimes
+                   Eval.Primitive.Primitives.groupTimes
+                   Eval.Primitive.Primitives.primitives73
+                   Data.Number.Number.times) -}
+b2cf0eeaa1e04697bab9642094bc278d
+  primitives73 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1,
+     Unfolding: (Eval.Primitive.Primitives.returnWithHead
+                   Eval.Primitive.Primitives.primitives74) -}
+6964aef61cca0179480d7a52d5551a18
+  primitives74 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Times"#) -}
+3b62c9cc7214f0e5fdc5fcc751381513
+  primitives75 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom
+                   Eval.Primitive.Primitives.primitives70) -}
+3cfdc0aca7b2c56b9fd3bfdd47e90518
+  primitives76 :: Data.DataType.Result
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Eval.Primitive.Primitives.primitives77) -}
+b796f09a4b56c65550da9d76a6969c90
+  primitives77 :: GHC.Base.Maybe Data.DataType.LispVal
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Base.Just
+                   @ Data.DataType.LispVal
+                   Eval.Primitive.Primitives.primitives78) -}
+16d17552db071ceb63fba3dc896f81e1
+  primitives78 :: Data.DataType.LispVal
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (Data.DataType.Number Data.Number.Number.zero) -}
+fa7d3c3ad5efe695a493be0def34d886
+  primitives79 :: Data.DataType.LispVal
+  {- Unfolding: (Data.DataType.Atom
+                   Eval.Primitive.Primitives.primitives74) -}
+d08313f72de3dcb8186fa1327270392d
+  primitives8 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives39
+                   Eval.Primitive.Primitives.primitives9) -}
+4506b6fdbca72f7ac25e779cf80939b8
+  primitives80 :: Data.DataType.Result
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (Data.Either.Left
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   Eval.Primitive.Primitives.primitives81) -}
+66c530e26e3e522c3cb8b4e1b87c8579
+  primitives81 :: Data.DataType.LispError
+  {- HasNoCafRefs, Strictness: m1,
+     Unfolding: (Data.DataType.NumArgs
+                   Eval.Primitive.Primitives.primitives53
+                   (GHC.Types.[] @ Data.DataType.LispVal)) -}
+df80d61e8849f7c18178355b31cde669
+  primitives82 ::
+    ([GHC.Types.Char], [Data.DataType.LispVal] -> Data.DataType.Result)
+  {- Strictness: m,
+     Unfolding: ((Eval.Primitive.Primitives.primitives85,
+                  Eval.Primitive.Primitives.primitives83)) -}
+c094fb3be0c853c1c37353c990693148
+  primitives83 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1,
+     Unfolding: (Eval.Primitive.Primitives.numericPolop
+                   Eval.Primitive.Primitives.mergePlus
+                   Eval.Primitive.Primitives.groupPlus
+                   Eval.Primitive.Primitives.primitives84
+                   Data.Number.Number.plus) -}
+a4f696538ee8b822d450f9e4e2873acd
+  primitives84 :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1,
+     Unfolding: (Eval.Primitive.Primitives.returnWithHead
+                   Eval.Primitive.Primitives.primitives85) -}
+88cdeec1f99fe3210c8c9b5396b2f1f5
+  primitives85 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Plus"#) -}
+9b442fa559d0730ba656896a99789bee
+  primitives86 :: Data.DataType.LispVal
+  {- Unfolding: (Data.DataType.Atom
+                   Eval.Primitive.Primitives.primitives85) -}
+340c40380fafa4bfc75e3cc4fdecbef7
+  primitives9 ::
+    [(GHC.Base.String,
+      [Data.DataType.LispVal] -> Data.DataType.Result)]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String,
+                      [Data.DataType.LispVal] -> Data.DataType.Result)
+                   Eval.Primitive.Primitives.primitives36
+                   Eval.Primitive.Primitives.primitives10) -}
+7d68c10ba72ed6e6491b4bb78f968d0a
+  returnWithHead ::
+    GHC.Base.String -> [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 2, HasNoCafRefs, Strictness: <L,U><L,U>m2,
+     Unfolding: InlineRule (2, True, False)
+                (\ name :: GHC.Base.String xs :: [Data.DataType.LispVal] ->
+                 Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   (GHC.Base.Just
+                      @ Data.DataType.LispVal
+                      (Data.DataType.List
+                         (GHC.Types.:
+                            @ Data.DataType.LispVal
+                            (Data.DataType.Atom name)
+                            xs)))) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

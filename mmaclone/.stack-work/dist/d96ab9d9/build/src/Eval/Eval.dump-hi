@@ -1,0 +1,248 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:36.4322519 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Eval.Eval 7102
+  interface hash: 7a187f9fb694f240fb95752e2114374d
+  ABI hash: 360eaf3e30e382aa6bc67b362ebc71ce
+  export-list hash: 58c86455d8a2004a4a76826d4cfee146
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 6caa14dbddbd544ce4102e4edc288682
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Eval.Eval.eval
+  Eval.Eval.evalWithRecord
+module dependencies: Data.Attribute Data.DataType Data.Number.Hier
+                     Data.Number.Number Eval.Environment Eval.Patt.Pattern
+                     Eval.Primitive.Part Eval.Primitive.Primitives
+package dependencies: array-0.5.1.0@array_E0sTtauuKsGDLZoT7lTbgZ
+                      base-4.8.1.0* binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd
+                      bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH
+                      containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN
+                      deepseq-1.4.1.1@deeps_LbCWUlehDDeLxurARKDH5o ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU
+                      parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0
+                      text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh
+                      transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+         binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH:Data.ByteString.Builder
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Show
+         transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Error
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Functor.Identity
+                         base-4.8.1.0:Data.Monoid base-4.8.1.0:Data.Type.Equality
+                         base-4.8.1.0:Data.Void base-4.8.1.0:GHC.Exts
+                         base-4.8.1.0:GHC.Generics
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntMap.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntSet.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Sequence
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Set.Base
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+import  -/  base-4.8.1.0:Control.Monad dfea142d91349c4861427789d50d5b80
+import  -/  base-4.8.1.0:Data.Foldable 2e5acb797cfda6b3b7fabd7052abe290
+import  -/  base-4.8.1.0:Data.List 2a4f5f92892d432e7113f64cd9dcca53
+import  -/  base-4.8.1.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
+import  -/  base-4.8.1.0:Data.OldList 21f46c368c20a00483b41333e53a55cb
+import  -/  base-4.8.1.0:Data.Ratio b1977eb692a1a76da7306ee837b72f75
+import  -/  base-4.8.1.0:Data.Traversable 89769555cf5e62f4edd3d085405c2caa
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.List f31ed8784b3e05f1397195751f7d74ea
+import  -/  base-4.8.1.0:GHC.Real 4c3b525ecbd4d62bb287aec36d4c2f0d
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  Data.Attribute a60e4f349973dc40740fd80e3e598989
+  exports: f665add004417ff2167db7d77064f783
+  Attribute e1e0ec7ce737b165611b030c11305276
+  Flatten 2ee991671fe0e04dd042c774fccde5b1
+  HoldAll 0be2ecd564a061cd9a7b872618f3f65d
+  HoldFirst f8b2adf97ab3e70fd1488c5dad16a158
+  HoldRest 32e975b9e5a93bf61e730df346f87ac5
+  Orderless f8ea7451b18c2bdfe0e6813883948d4d
+  SequenceHold 283271537cec561f6746a86bd0b47333
+  attributes 92968549b14c3726ef1811b61b2d84b7
+  getAttributes a8630d4ccf3d2a43840c98733a79ee16
+import  -/  Data.DataType c371d6fa81ae9f0301da5ca425bb3968
+  exports: 085545853aa06ac5ecb7dc9bef058506
+  Atom 07ea59aa4e810b3562eaa798e4b5c76b
+  Env fc573da003d7c5bfd7f3e33e987e75bf
+  IOThrowsError 19a4e167a2e8ab64f1e20722498116b4
+  LispVal f70327bb01160acdaa903077fba7f03a
+  List 1dd2cf24c8e01106ae239f6b22b15c51
+  Number e387ab7157ef16d9857ca76a6e55f510
+  integer 6626800fee4ca5fd9d3f73f2ed5e8592
+  liftThrows b6a59ea4c07801d4fdcbf9dd768a09ed
+  setVar b63b2d5e8182578b3f046608f0044058
+import  -/  Data.Number.Number 2ac8bfb8a00bd9e3712221b1e929b631
+  exports: c2c926f6c2c1eef8393e1f6cda1b117c
+  Integer ff3d0cdf85cbf1ba5bc0ca7ede0fd44b
+  Rational 2c2dceb3acf72c81371d71c2a2b0d8cc
+import  -/  Eval.Environment 8c46026201e11c6c422296bbca98fa64
+  exports: 9fbd4b4e14195047d3915f7e4c8c414a
+  evalWithEnv 1f903682ad2ed06cc491adeeaa7d8b5a
+import  -/  Eval.Primitive.Primitives a6cd26bc5922595b620059c3c7d13696
+  exports: 9bf0e5fca9f2497dbe40854257116e74
+  primitives fdcf42a8983227fa1a73921c16d34fe4
+bbe20e3246034130c7425234c44355c3
+  eval ::
+    Data.DataType.Env
+    -> Data.DataType.LispVal
+    -> Data.DataType.IOThrowsError Data.DataType.LispVal
+  {- Arity: 3, Strictness: <L,U(U)><S,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Eval.Eval.eval1
+                  `cast`
+                (<Data.DataType.Env>_R
+                 ->_R <Data.DataType.LispVal>_R
+                 ->_R Trans
+                          (Sym (GHC.Types.NTCo:IO[0]
+                                    <Data.Either.Either
+                                       Data.DataType.LispError Data.DataType.LispVal>_R))
+                          (Sym (Control.Monad.Trans.Except.NTCo:ExceptT[0]
+                                    <Data.DataType.LispError>_N
+                                    <GHC.Types.IO>_R
+                                    <Data.DataType.LispVal>_N))) -}
+9567a0778ca5b6974c71faaae87ab4ae
+  eval1 ::
+    Data.DataType.Env
+    -> Data.DataType.LispVal
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          Data.Either.Either Data.DataType.LispError Data.DataType.LispVal #)
+  {- Arity: 3, Strictness: <L,U(U)><S,U><L,U> -}
+0579e6e8002c79c4f4ef5bc9fe375b49
+  evalWithRecord ::
+    Data.DataType.Env
+    -> GHC.Types.Int
+    -> Data.DataType.LispVal
+    -> Data.DataType.IOThrowsError Data.DataType.LispVal
+  {- Arity: 4, Strictness: <L,U(U)><L,1*U(U)><S,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Eval.Eval.evalWithRecord1
+                  `cast`
+                (<Data.DataType.Env>_R
+                 ->_R <GHC.Types.Int>_R
+                 ->_R <Data.DataType.LispVal>_R
+                 ->_R Trans
+                          (Sym (GHC.Types.NTCo:IO[0]
+                                    <Data.Either.Either
+                                       Data.DataType.LispError Data.DataType.LispVal>_R))
+                          (Sym (Control.Monad.Trans.Except.NTCo:ExceptT[0]
+                                    <Data.DataType.LispError>_N
+                                    <GHC.Types.IO>_R
+                                    <Data.DataType.LispVal>_N))) -}
+f97b04ecf4a3717198d5d7e52437b25c
+  evalWithRecord1 ::
+    Data.DataType.Env
+    -> GHC.Types.Int
+    -> Data.DataType.LispVal
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          Data.Either.Either Data.DataType.LispError Data.DataType.LispVal #)
+  {- Arity: 4, Strictness: <L,U(U)><L,1*U(U)><S,U><L,U>,
+     Unfolding: (\ env :: Data.DataType.Env
+                   nn :: GHC.Types.Int
+                   val :: Data.DataType.LispVal
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case Eval.Eval.eval1 env val eta of ds1 { (#,#) ipv ipv1 ->
+                 case ipv1 of wild {
+                   Data.Either.Left e1 -> ds1
+                   Data.Either.Right x
+                   -> let {
+                        a10 :: GHC.Integer.Type.Integer
+                        = case nn of wild1 { GHC.Types.I# i ->
+                          GHC.Integer.Type.smallInteger i }
+                      } in
+                      let {
+                        a11 :: Data.Number.Number.Number = Data.Number.Number.Integer a10
+                      } in
+                      let {
+                        n :: Data.DataType.LispVal = Data.DataType.Number a11
+                      } in
+                      case Eval.Eval.eval1
+                             env
+                             (Data.DataType.List
+                                (GHC.Types.:
+                                   @ Data.DataType.LispVal
+                                   Eval.Eval.evalWithRecord8
+                                   (GHC.Types.:
+                                      @ Data.DataType.LispVal
+                                      (Data.DataType.List
+                                         (GHC.Types.:
+                                            @ Data.DataType.LispVal
+                                            Eval.Eval.evalWithRecord6
+                                            (GHC.Types.:
+                                               @ Data.DataType.LispVal
+                                               n
+                                               (GHC.Types.[] @ Data.DataType.LispVal))))
+                                      (GHC.Types.:
+                                         @ Data.DataType.LispVal
+                                         val
+                                         (GHC.Types.[] @ Data.DataType.LispVal)))))
+                             ipv of ds2 { (#,#) ipv2 ipv3 ->
+                      case ipv3 of wild1 {
+                        Data.Either.Left e1 -> ds2
+                        Data.Either.Right x1
+                        -> Eval.Eval.eval1
+                             env
+                             (Data.DataType.List
+                                (GHC.Types.:
+                                   @ Data.DataType.LispVal
+                                   Eval.Eval.evalWithRecord4
+                                   (GHC.Types.:
+                                      @ Data.DataType.LispVal
+                                      (Data.DataType.List
+                                         (GHC.Types.:
+                                            @ Data.DataType.LispVal
+                                            Eval.Eval.evalWithRecord2
+                                            (GHC.Types.:
+                                               @ Data.DataType.LispVal
+                                               n
+                                               (GHC.Types.[] @ Data.DataType.LispVal))))
+                                      (GHC.Types.:
+                                         @ Data.DataType.LispVal
+                                         x
+                                         (GHC.Types.[] @ Data.DataType.LispVal)))))
+                             ipv2 } } } }) -}
+19aa382d84b8ba09708aefc575be2c6f
+  evalWithRecord2 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Eval.Eval.evalWithRecord3) -}
+96d15e5986a99d1e019278eaed789ca7
+  evalWithRecord3 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Out"#) -}
+76c9fc7edf16646905155a444508acb6
+  evalWithRecord4 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Eval.Eval.evalWithRecord5) -}
+76a6a2bcea15fc971f21030ff3b15a5a
+  evalWithRecord5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Set"#) -}
+4b1654c965f2acd9289b4bbc0d5c453a
+  evalWithRecord6 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Eval.Eval.evalWithRecord7) -}
+45d6b6650ce1c19f062e98e3759eb555
+  evalWithRecord7 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "In"#) -}
+783b08cad591445362b37e40a5a5eb30
+  evalWithRecord8 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Eval.Eval.evalWithRecord9) -}
+7adc0b046ddb545334ccb72525386cec
+  evalWithRecord9 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "SetDelayed"#) -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

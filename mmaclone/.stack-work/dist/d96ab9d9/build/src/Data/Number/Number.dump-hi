@@ -1,0 +1,1006 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:33.2099829 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Data.Number.Number 7102
+  interface hash: 74a5291a1db351b9ee0e6072795552b5
+  ABI hash: 2ac8bfb8a00bd9e3712221b1e929b631
+  export-list hash: c2c926f6c2c1eef8393e1f6cda1b117c
+  orphan hash: a3daf046fd3651166bb3dcf2ded9fa09
+  flag hash: 268454ecc09bbeafc68cd52f2d6dfe3a
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Data.Number.Number.divideN
+  Data.Number.Number.inverseN
+  Data.Number.Number.isOne
+  Data.Number.Number.isZero
+  Data.Number.Number.minusN
+  Data.Number.Number.negateN
+  Data.Number.Number.numberEqual
+  Data.Number.Number.plus
+  Data.Number.Number.powerN
+  Data.Number.Number.times
+  Data.Number.Number.toDouble
+  Data.Number.Number.zero
+  Data.Number.Number.Number{Data.Number.Number.Double Data.Number.Number.Integer Data.Number.Number.Rational}
+module dependencies: Data.Number.Hier
+package dependencies: base-4.8.1.0* ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Monoid
+                         base-4.8.1.0:Data.Type.Equality base-4.8.1.0:GHC.Generics
+import  -/  base-4.8.1.0:Data.Function 6b13a8d3a5e3bd757a91434dce3fc7f3
+import  -/  base-4.8.1.0:Data.Ratio b1977eb692a1a76da7306ee837b72f75
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.Float a2f1c8675ca4f780f3a8aa0b05d1a5eb
+import  -/  base-4.8.1.0:GHC.Num 9f42750c866f5832ca565146bd660c60
+import  -/  base-4.8.1.0:GHC.Real 4c3b525ecbd4d62bb287aec36d4c2f0d
+import  -/  base-4.8.1.0:GHC.Show b8c65ca3124f92a166c9f05120382442
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  integer-gmp-1.0.0.0:GHC.Integer.Type b2150b5b3c95352fa0c73bbab4afa9c4
+import  -/  Data.Number.Hier 9c377021524c0185cdafd7dbcbf5f9c1
+  exports: 7173580f7086e69d3f54e6dc8bf4dc51
+  Hier 0418a73ab860a4c5cc85d896da416665
+  downgrade c46bbb3fa99380fe7dd350f8e98749f8
+  peerOpUp d297b154244d028960543e893cc818f7
+  rank 7573c7b6b133d3c1e1ffa0779372461b
+  upgrade 56b39725624e5aeb4414b6563d7e9088
+053c2dbacc4e48f6b812046fba0663d4
+  $fEqNumber :: GHC.Classes.Eq Data.Number.Number.Number
+  DFunId[0]
+  {- HasNoCafRefs, Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Number.Number.Number
+                  Data.Number.Number.$fEqNumber_$c==
+                  Data.Number.Number.$fEqNumber_$c/= -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fEqNumber_$c/= ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ a :: Data.Number.Number.Number b :: Data.Number.Number.Number ->
+                 case Data.Number.Number.$fEqNumber_$c== a b of wild {
+                   GHC.Types.False -> GHC.Types.True
+                   GHC.Types.True -> GHC.Types.False }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fEqNumber_$c== ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                   ds1 :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double a1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Number.Number.Double b1 -> GHC.Classes.$fEqDouble_$c== a1 b1 }
+                   Data.Number.Number.Rational a1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Number.Number.Rational b1 -> GHC.Real.$fEqRatio_$s$c== a1 b1 }
+                   Data.Number.Number.Integer a1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Number.Number.Integer b1
+                        -> GHC.Integer.Type.eqInteger a1 b1 } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber :: Data.Number.Hier.Hier Data.Number.Number.Number
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Number.Number.Number
+                  Data.Number.Number.$fHierNumber_$cupgrade
+                  Data.Number.Number.$fHierNumber_$cdowngrade
+                  Data.Number.Number.$fHierNumber_$crank
+                  Data.Number.Number.$fHierNumber_$cpeerQ
+                  Data.Number.Number.$fHierNumber_$csuperQ
+                  Data.Number.Number.$fHierNumber_$cinferQ -}
+183f96ca43b42f03603106130667dabd
+  $fHierNumber1 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 1) -}
+510624ae0a079542dadefdaaba0a8d05
+  $fHierNumber2 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 2) -}
+718b509af37a32e86040b703794039bc
+  $fHierNumber3 :: GHC.Types.Int
+  {- HasNoCafRefs, Strictness: m, Unfolding: (GHC.Types.I# 3) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber4 :: Data.Number.Number.Number
+  {- Strictness: b -}
+36a89e1976dcb14095b6599db663e8d9
+  $fHierNumber5 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 0) -}
+280fa8c9f56b2cf462fcdda1c8a0dfcb
+  $fHierNumber6 :: GHC.Integer.Type.Integer
+  {- HasNoCafRefs, Unfolding: (__integer 1) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber7 :: Data.Number.Number.Number
+  {- Strictness: b -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber_$cdowngrade ::
+    Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double d
+                   -> Data.Number.Number.Rational
+                        (GHC.Float.$fRealDouble_$ctoRational d)
+                   Data.Number.Number.Rational r
+                   -> Data.Number.Number.Integer
+                        (case r of wild1 { GHC.Real.:% n d ->
+                         case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# x1 ->
+                         case GHC.Integer.Type.decodeDoubleInteger
+                                x1 of ds1 { (#,#) ipv ipv1 ->
+                         case GHC.Prim.tagToEnum#
+                                @ GHC.Types.Bool
+                                (GHC.Prim.<# ipv1 0) of wild3 {
+                           GHC.Types.False -> GHC.Integer.Type.shiftLInteger ipv ipv1
+                           GHC.Types.True
+                           -> let {
+                                s :: GHC.Prim.Int# = GHC.Prim.negateInt# ipv1
+                              } in
+                              case GHC.Prim.tagToEnum#
+                                     @ GHC.Types.Bool
+                                     (GHC.Prim.># s 52) of wild4 {
+                                GHC.Types.False
+                                -> case GHC.Integer.Type.ltInteger#
+                                          ipv
+                                          Data.Number.Number.$fHierNumber5 of wild5 { DEFAULT ->
+                                   case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild5 of wild6 {
+                                     GHC.Types.False
+                                     -> case GHC.Integer.Type.integerToInt ipv of n1 { DEFAULT ->
+                                        GHC.Integer.Type.smallInteger
+                                          (GHC.Prim.uncheckedIShiftRA# n1 s) }
+                                     GHC.Types.True
+                                     -> case GHC.Integer.Type.integerToInt
+                                               (GHC.Integer.Type.negateInteger
+                                                  ipv) of n1 { DEFAULT ->
+                                        GHC.Integer.Type.smallInteger
+                                          (GHC.Prim.negateInt#
+                                             (GHC.Prim.uncheckedIShiftRA# n1 s)) } } }
+                                GHC.Types.True -> Data.Number.Number.$fHierNumber5 } } } } })
+                   Data.Number.Number.Integer ipv
+                   -> Data.Number.Number.$fHierNumber4 }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber_$cinferQ ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ eta :: Data.Number.Number.Number
+                   eta1 :: Data.Number.Number.Number ->
+                 case eta of wild {
+                   Data.Number.Number.Double ds
+                   -> case eta1 of wild1 { DEFAULT -> GHC.Types.False }
+                   Data.Number.Number.Rational ds
+                   -> case eta1 of wild1 {
+                        Data.Number.Number.Double ds1 -> GHC.Types.True
+                        Data.Number.Number.Rational ds1 -> GHC.Types.False
+                        Data.Number.Number.Integer ds1 -> GHC.Types.False }
+                   Data.Number.Number.Integer ds
+                   -> case eta1 of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Number.Number.Integer ds1 -> GHC.Types.False } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber_$cpeerQ ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ eta :: Data.Number.Number.Number
+                   eta1 :: Data.Number.Number.Number ->
+                 case eta of wild {
+                   Data.Number.Number.Double ds
+                   -> case eta1 of wild1 {
+                        Data.Number.Number.Double ds1 -> GHC.Types.True
+                        Data.Number.Number.Rational ds1 -> GHC.Types.False
+                        Data.Number.Number.Integer ds1 -> GHC.Types.False }
+                   Data.Number.Number.Rational ds
+                   -> case eta1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Number.Number.Rational ds1 -> GHC.Types.True }
+                   Data.Number.Number.Integer ds
+                   -> case eta1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Number.Number.Integer ds1 -> GHC.Types.True } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber_$crank :: Data.Number.Number.Number -> GHC.Types.Int
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>m,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double ds1 -> Data.Number.Number.$fHierNumber3
+                   Data.Number.Number.Rational ds1 -> Data.Number.Number.$fHierNumber2
+                   Data.Number.Number.Integer ds1
+                   -> Data.Number.Number.$fHierNumber1 }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber_$csuperQ ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ eta :: Data.Number.Number.Number
+                   eta1 :: Data.Number.Number.Number ->
+                 case eta of wild {
+                   Data.Number.Number.Double ds
+                   -> case eta1 of wild1 {
+                        Data.Number.Number.Double ds1 -> GHC.Types.False
+                        Data.Number.Number.Rational ds1 -> GHC.Types.True
+                        Data.Number.Number.Integer ds1 -> GHC.Types.True }
+                   Data.Number.Number.Rational ds
+                   -> case eta1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Number.Number.Integer ds1 -> GHC.Types.True }
+                   Data.Number.Number.Integer ds
+                   -> case eta1 of wild1 { DEFAULT -> GHC.Types.False } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fHierNumber_$cupgrade ::
+    Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double ipv -> Data.Number.Number.$fHierNumber7
+                   Data.Number.Number.Rational r
+                   -> Data.Number.Number.Double
+                        (GHC.Float.$fFractionalDouble_$cfromRational r)
+                   Data.Number.Number.Integer i
+                   -> Data.Number.Number.Rational
+                        (case GHC.Real.$w$s%
+                                i
+                                Data.Number.Number.$fHierNumber6 of ww { (#,#) ww1 ww2 ->
+                         GHC.Real.:% @ GHC.Integer.Type.Integer ww1 ww2 }) }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber :: GHC.Classes.Ord Data.Number.Number.Number
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Number.Number.Number
+                  Data.Number.Number.$fEqNumber
+                  Data.Number.Number.$fOrdNumber_$ccompare
+                  Data.Number.Number.$fOrdNumber_$c<
+                  Data.Number.Number.$fOrdNumber_$c<=
+                  Data.Number.Number.$fOrdNumber_$c>
+                  Data.Number.Number.$fOrdNumber_$c>=
+                  Data.Number.Number.$fOrdNumber_$cmax
+                  Data.Number.Number.$fOrdNumber_$cmin -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$c< ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,U><S,U>,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   y :: Data.Number.Number.Number ->
+                 case Data.Number.Number.$fEqNumber_$c== x y of wild {
+                   GHC.Types.False
+                   -> let {
+                        $j :: GHC.Prim.Double# -> GHC.Types.Bool
+                          {- Arity: 1, Strictness: <L,U> -}
+                        = \ x1 :: GHC.Prim.Double#[OneShot] ->
+                          case y of wild1 {
+                            Data.Number.Number.Double x2
+                            -> case x2 of wild2 { GHC.Types.D# y1 ->
+                               GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.<=## x1 y1) }
+                            Data.Number.Number.Rational r
+                            -> case r of wild2 { GHC.Real.:% n d ->
+                               case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# y1 ->
+                               GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.<=## x1 y1) } }
+                            Data.Number.Number.Integer n
+                            -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                               GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.<=## x1 wild2) } }
+                      } in
+                      case x of wild1 {
+                        Data.Number.Number.Double x1
+                        -> case x1 of wild2 { GHC.Types.D# x2 -> $j x2 }
+                        Data.Number.Number.Rational r
+                        -> case r of wild2 { GHC.Real.:% n d ->
+                           case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# x1 ->
+                           $j x1 } }
+                        Data.Number.Number.Integer n
+                        -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                           $j wild2 } }
+                   GHC.Types.True -> GHC.Types.False }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$c<= ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   y :: Data.Number.Number.Number ->
+                 let {
+                   $j :: GHC.Prim.Double# -> GHC.Types.Bool
+                     {- Arity: 1, Strictness: <L,U> -}
+                   = \ x1 :: GHC.Prim.Double#[OneShot] ->
+                     case y of wild {
+                       Data.Number.Number.Double x2
+                       -> case x2 of wild1 { GHC.Types.D# y1 ->
+                          GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.<=## x1 y1) }
+                       Data.Number.Number.Rational r
+                       -> case r of wild1 { GHC.Real.:% n d ->
+                          case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# y1 ->
+                          GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.<=## x1 y1) } }
+                       Data.Number.Number.Integer n
+                       -> case GHC.Integer.Type.doubleFromInteger n of wild1 { DEFAULT ->
+                          GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.<=## x1 wild1) } }
+                 } in
+                 case x of wild {
+                   Data.Number.Number.Double x1
+                   -> case x1 of wild1 { GHC.Types.D# x2 -> $j x2 }
+                   Data.Number.Number.Rational r
+                   -> case r of wild1 { GHC.Real.:% n d ->
+                      case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# x1 ->
+                      $j x1 } }
+                   Data.Number.Number.Integer n
+                   -> case GHC.Integer.Type.doubleFromInteger n of wild1 { DEFAULT ->
+                      $j wild1 } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$c> ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,U><S,U>,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   y :: Data.Number.Number.Number ->
+                 case Data.Number.Number.$fEqNumber_$c== x y of wild {
+                   GHC.Types.False
+                   -> let {
+                        $j :: GHC.Prim.Double# -> GHC.Types.Bool
+                          {- Arity: 1, Strictness: <L,U> -}
+                        = \ x1 :: GHC.Prim.Double#[OneShot] ->
+                          case y of wild1 {
+                            Data.Number.Number.Double x2
+                            -> case x2 of wild2 { GHC.Types.D# y1 ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x1 y1) of wild3 {
+                                 GHC.Types.False -> GHC.Types.True
+                                 GHC.Types.True -> GHC.Types.False } }
+                            Data.Number.Number.Rational r
+                            -> case r of wild2 { GHC.Real.:% n d ->
+                               case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# y1 ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x1 y1) of wild4 {
+                                 GHC.Types.False -> GHC.Types.True
+                                 GHC.Types.True -> GHC.Types.False } } }
+                            Data.Number.Number.Integer n
+                            -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x1 wild2) of wild3 {
+                                 GHC.Types.False -> GHC.Types.True
+                                 GHC.Types.True -> GHC.Types.False } } }
+                      } in
+                      case x of wild1 {
+                        Data.Number.Number.Double x1
+                        -> case x1 of wild2 { GHC.Types.D# x2 -> $j x2 }
+                        Data.Number.Number.Rational r
+                        -> case r of wild2 { GHC.Real.:% n d ->
+                           case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# x1 ->
+                           $j x1 } }
+                        Data.Number.Number.Integer n
+                        -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                           $j wild2 } }
+                   GHC.Types.True -> GHC.Types.False }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$c>= ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,U><S,U>,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   y :: Data.Number.Number.Number ->
+                 case Data.Number.Number.$fEqNumber_$c== x y of wild {
+                   GHC.Types.False
+                   -> let {
+                        $j :: GHC.Prim.Double# -> GHC.Types.Bool
+                          {- Arity: 1, Strictness: <L,U> -}
+                        = \ x1 :: GHC.Prim.Double#[OneShot] ->
+                          case y of wild1 {
+                            Data.Number.Number.Double x2
+                            -> case x2 of wild2 { GHC.Types.D# y1 ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x1 y1) of wild3 {
+                                 GHC.Types.False -> GHC.Types.True
+                                 GHC.Types.True -> GHC.Types.False } }
+                            Data.Number.Number.Rational r
+                            -> case r of wild2 { GHC.Real.:% n d ->
+                               case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# y1 ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x1 y1) of wild4 {
+                                 GHC.Types.False -> GHC.Types.True
+                                 GHC.Types.True -> GHC.Types.False } } }
+                            Data.Number.Number.Integer n
+                            -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x1 wild2) of wild3 {
+                                 GHC.Types.False -> GHC.Types.True
+                                 GHC.Types.True -> GHC.Types.False } } }
+                      } in
+                      case x of wild1 {
+                        Data.Number.Number.Double x1
+                        -> case x1 of wild2 { GHC.Types.D# x2 -> $j x2 }
+                        Data.Number.Number.Rational r
+                        -> case r of wild2 { GHC.Real.:% n d ->
+                           case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# x1 ->
+                           $j x1 } }
+                        Data.Number.Number.Integer n
+                        -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                           $j wild2 } }
+                   GHC.Types.True -> GHC.Types.True }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$ccompare ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Ordering
+  {- Arity: 2, Strictness: <S,U><S,U>,
+     Unfolding: (\ eta :: Data.Number.Number.Number
+                   eta1 :: Data.Number.Number.Number ->
+                 case Data.Number.Number.$fEqNumber_$c== eta eta1 of wild {
+                   GHC.Types.False
+                   -> let {
+                        $j :: GHC.Prim.Double# -> GHC.Types.Ordering
+                          {- Arity: 1, Strictness: <L,U> -}
+                        = \ x :: GHC.Prim.Double#[OneShot] ->
+                          case eta1 of wild1 {
+                            Data.Number.Number.Double x1
+                            -> case x1 of wild2 { GHC.Types.D# y ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x y) of wild3 {
+                                 GHC.Types.False -> GHC.Types.GT GHC.Types.True -> GHC.Types.LT } }
+                            Data.Number.Number.Rational r
+                            -> case r of wild2 { GHC.Real.:% n d ->
+                               case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# y ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x y) of wild4 {
+                                 GHC.Types.False -> GHC.Types.GT
+                                 GHC.Types.True -> GHC.Types.LT } } }
+                            Data.Number.Number.Integer n
+                            -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                               case GHC.Prim.tagToEnum#
+                                      @ GHC.Types.Bool
+                                      (GHC.Prim.<=## x wild2) of wild3 {
+                                 GHC.Types.False -> GHC.Types.GT
+                                 GHC.Types.True -> GHC.Types.LT } } }
+                      } in
+                      case eta of wild1 {
+                        Data.Number.Number.Double x
+                        -> case x of wild2 { GHC.Types.D# x1 -> $j x1 }
+                        Data.Number.Number.Rational r
+                        -> case r of wild2 { GHC.Real.:% n d ->
+                           case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# x ->
+                           $j x } }
+                        Data.Number.Number.Integer n
+                        -> case GHC.Integer.Type.doubleFromInteger n of wild2 { DEFAULT ->
+                           $j wild2 } }
+                   GHC.Types.True -> GHC.Types.EQ }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$cmax ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,U><S,1*U>,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   y :: Data.Number.Number.Number ->
+                 let {
+                   $j :: GHC.Prim.Double# -> Data.Number.Number.Number
+                     {- Arity: 1, Strictness: <L,U> -}
+                   = \ x1 :: GHC.Prim.Double#[OneShot] ->
+                     case y of wild {
+                       Data.Number.Number.Double x2
+                       -> case x2 of wild1 { GHC.Types.D# y1 ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.<=## x1 y1) of wild2 {
+                            GHC.Types.False -> x GHC.Types.True -> wild } }
+                       Data.Number.Number.Rational r
+                       -> case r of wild1 { GHC.Real.:% n d ->
+                          case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# y1 ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.<=## x1 y1) of wild3 {
+                            GHC.Types.False -> x GHC.Types.True -> wild } } }
+                       Data.Number.Number.Integer n
+                       -> case GHC.Integer.Type.doubleFromInteger n of wild1 { DEFAULT ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.<=## x1 wild1) of wild2 {
+                            GHC.Types.False -> x GHC.Types.True -> wild } } }
+                 } in
+                 case x of wild {
+                   Data.Number.Number.Double x1
+                   -> case x1 of wild1 { GHC.Types.D# x2 -> $j x2 }
+                   Data.Number.Number.Rational r
+                   -> case r of wild1 { GHC.Real.:% n d ->
+                      case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# x1 ->
+                      $j x1 } }
+                   Data.Number.Number.Integer n
+                   -> case GHC.Integer.Type.doubleFromInteger n of wild1 { DEFAULT ->
+                      $j wild1 } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fOrdNumber_$cmin ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,U><S,1*U>,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   y :: Data.Number.Number.Number ->
+                 let {
+                   $j :: GHC.Prim.Double# -> Data.Number.Number.Number
+                     {- Arity: 1, Strictness: <L,U> -}
+                   = \ x1 :: GHC.Prim.Double#[OneShot] ->
+                     case y of wild {
+                       Data.Number.Number.Double x2
+                       -> case x2 of wild1 { GHC.Types.D# y1 ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.<=## x1 y1) of wild2 {
+                            GHC.Types.False -> wild GHC.Types.True -> x } }
+                       Data.Number.Number.Rational r
+                       -> case r of wild1 { GHC.Real.:% n d ->
+                          case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# y1 ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.<=## x1 y1) of wild3 {
+                            GHC.Types.False -> wild GHC.Types.True -> x } } }
+                       Data.Number.Number.Integer n
+                       -> case GHC.Integer.Type.doubleFromInteger n of wild1 { DEFAULT ->
+                          case GHC.Prim.tagToEnum#
+                                 @ GHC.Types.Bool
+                                 (GHC.Prim.<=## x1 wild1) of wild2 {
+                            GHC.Types.False -> wild GHC.Types.True -> x } } }
+                 } in
+                 case x of wild {
+                   Data.Number.Number.Double x1
+                   -> case x1 of wild1 { GHC.Types.D# x2 -> $j x2 }
+                   Data.Number.Number.Rational r
+                   -> case r of wild1 { GHC.Real.:% n d ->
+                      case GHC.Float.rationalToDouble n d of wild2 { GHC.Types.D# x1 ->
+                      $j x1 } }
+                   Data.Number.Number.Integer n
+                   -> case GHC.Integer.Type.doubleFromInteger n of wild1 { DEFAULT ->
+                      $j wild1 } }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fShowNumber :: GHC.Show.Show Data.Number.Number.Number
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Number.Number.Number
+                  Data.Number.Number.$fShowNumber_$cshowsPrec
+                  Data.Number.Number.$fShowNumber_$cshow
+                  Data.Number.Number.$fShowNumber_$cshowList -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fShowNumber1 ::
+    Data.Number.Number.Number -> GHC.Base.String -> [GHC.Types.Char]
+  {- Arity: 2,
+     Unfolding: (\ x :: Data.Number.Number.Number
+                   s :: GHC.Base.String[OneShot] ->
+                 GHC.Base.++
+                   @ GHC.Types.Char
+                   (Data.Number.Number.$fShowNumber_$cshow x)
+                   s) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fShowNumber_$cshow :: Data.Number.Number.Number -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double d -> GHC.Float.$fShowDouble_$cshow d
+                   Data.Number.Number.Rational r -> GHC.Real.$fShowRatio_$s$cshow r
+                   Data.Number.Number.Integer i
+                   -> GHC.Show.$fShowInteger_$cshow i }) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fShowNumber_$cshowList ::
+    [Data.Number.Number.Number] -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*U><L,U>,
+     Unfolding: (\ ls :: [Data.Number.Number.Number]
+                   s :: GHC.Base.String ->
+                 GHC.Show.showList__
+                   @ Data.Number.Number.Number
+                   Data.Number.Number.$fShowNumber1
+                   ls
+                   s) -}
+053c2dbacc4e48f6b812046fba0663d4
+  $fShowNumber_$cshowsPrec ::
+    GHC.Types.Int -> Data.Number.Number.Number -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,A><S,1*U><L,1*U>,
+     Unfolding: InlineRule (3, True, False)
+                (\ ds :: GHC.Types.Int
+                   x :: Data.Number.Number.Number
+                   s :: GHC.Base.String ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b c :: GHC.Types.Char -> b -> b[OneShot] n :: b[OneShot] ->
+                    GHC.Base.foldr
+                      @ GHC.Types.Char
+                      @ b
+                      c
+                      n
+                      (Data.Number.Number.$fShowNumber_$cshow x))
+                   s) -}
+6d5846142ade399a13ebe5274ab822ca
+  $s^1 :: GHC.Types.Double
+  {- Strictness: b -}
+25b05dfdd3e70a982455252c36589040
+  $s^^ ::
+    GHC.Types.Double -> GHC.Integer.Type.Integer -> GHC.Types.Double
+  {- Arity: 2, Strictness: <L,U(U)><S,U>m, Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ w :: GHC.Types.Double w1 :: GHC.Integer.Type.Integer ->
+                 case Data.Number.Number.$w$s^^ w w1 of ww { DEFAULT ->
+                 GHC.Types.D# ww }) -}
+f77b3f7037a799e7118ed41b6964980c
+  $w$s^ ::
+    GHC.Types.Double -> GHC.Integer.Type.Integer -> GHC.Prim.Double#
+  {- Arity: 2, Strictness: <L,U(U)><S,U>, Inline: [0],
+     Unfolding: (\ w :: GHC.Types.Double
+                   w1 :: GHC.Integer.Type.Integer ->
+                 case GHC.Integer.Type.ltInteger#
+                        w1
+                        Data.Number.Number.$fHierNumber5 of wild { DEFAULT ->
+                 case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild of wild1 {
+                   GHC.Types.False
+                   -> case GHC.Integer.Type.eqInteger#
+                             w1
+                             Data.Number.Number.$fHierNumber5 of wild2 { DEFAULT ->
+                      case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild2 of wild3 {
+                        GHC.Types.False
+                        -> case w of ww { GHC.Types.D# ww1 ->
+                           Data.Number.Number.$wf ww1 w1 }
+                        GHC.Types.True -> 1.0 } }
+                   GHC.Types.True
+                   -> case Data.Number.Number.$s^1
+                      ret_ty GHC.Prim.Double#
+                      of {} } }) -}
+1f20149906be3712d6c725a260f4da90
+  $w$s^^ ::
+    GHC.Types.Double -> GHC.Integer.Type.Integer -> GHC.Prim.Double#
+  {- Arity: 2, Strictness: <L,U(U)><S,U>, Inline: [0],
+     Unfolding: (\ w :: GHC.Types.Double
+                   w1 :: GHC.Integer.Type.Integer ->
+                 case GHC.Integer.Type.geInteger#
+                        w1
+                        Data.Number.Number.$fHierNumber5 of wild { DEFAULT ->
+                 case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild of wild1 {
+                   GHC.Types.False
+                   -> case Data.Number.Number.$w$s^
+                             w
+                             (GHC.Integer.Type.negateInteger w1) of ww { DEFAULT ->
+                      GHC.Prim./## 1.0 ww }
+                   GHC.Types.True -> Data.Number.Number.$w$s^ w w1 } }) -}
+8248cf6e2448ac97f369ba29422c29a0
+  $wf ::
+    GHC.Prim.Double# -> GHC.Integer.Type.Integer -> GHC.Prim.Double#
+  {- Arity: 2, Strictness: <L,U><L,U>, Inline: [0] -}
+053c2dbacc4e48f6b812046fba0663d4
+  data Number
+    = Double GHC.Types.Double
+    | Rational GHC.Real.Rational
+    | Integer GHC.Integer.Type.Integer
+754eb4f12bd9a952af33fd0a321eabae
+  divideN ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2,
+     Unfolding: (Data.Number.Hier.peerOpUp
+                   @ Data.Number.Number.Number
+                   @ Data.Number.Number.Number
+                   Data.Number.Number.$fHierNumber
+                   Data.Number.Number.divideN_divide') -}
+ceabfd6285e8a517ec081967b3fe2b65
+  divideN1 :: Data.Number.Number.Number
+  {- Strictness: b -}
+4f61a2fc3cc8951b06841fe9ab639003
+  divideN_divide' ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                   ds1 :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double d1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.divideN1
+                        Data.Number.Number.Double d2
+                        -> Data.Number.Number.Double (GHC.Float.divideDouble d1 d2) }
+                   Data.Number.Number.Rational r1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.divideN1
+                        Data.Number.Number.Rational r2
+                        -> Data.Number.Number.Rational
+                             (GHC.Real.$fFractionalRatio_$s$c/ r1 r2) }
+                   Data.Number.Number.Integer i1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.divideN1
+                        Data.Number.Number.Integer i2
+                        -> case GHC.Integer.Type.eqInteger#
+                                  i2
+                                  Data.Number.Number.$fHierNumber5 of wild2 { DEFAULT ->
+                           case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild2 of wild3 {
+                             GHC.Types.False
+                             -> case GHC.Integer.Type.eqInteger#
+                                       (GHC.Integer.Type.modInteger i1 i2)
+                                       Data.Number.Number.$fHierNumber5 of wild4 { DEFAULT ->
+                                case GHC.Prim.tagToEnum# @ GHC.Types.Bool wild4 of wild5 {
+                                  GHC.Types.False
+                                  -> Data.Number.Number.Rational (GHC.Real.%_$s% i1 i2)
+                                  GHC.Types.True
+                                  -> Data.Number.Number.Integer
+                                       (GHC.Real.$fIntegralInteger_$cdiv i1 i2) } }
+                             GHC.Types.True
+                             -> case GHC.Real.divZeroError
+                                ret_ty Data.Number.Number.Number
+                                of {} } } } }) -}
+dee6aa876911ed991351cac737f2962f
+  inverseN :: Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double a
+                   -> Data.Number.Number.Double
+                        (case a of wild1 { GHC.Types.D# y ->
+                         case GHC.Prim./## 1.0 y of wild2 { DEFAULT ->
+                         GHC.Types.D# wild2 } })
+                   Data.Number.Number.Rational a
+                   -> Data.Number.Number.Rational
+                        (case a of ww3 { GHC.Real.:% ww4 ww5 ->
+                         case GHC.Real.$w$s$c/
+                                Data.Number.Number.$fHierNumber6
+                                GHC.Real.$fEnumRatio2
+                                ww4
+                                ww5 of ww6 { (#,#) ww7 ww8 ->
+                         GHC.Real.:% @ GHC.Integer.Type.Integer ww7 ww8 } })
+                   Data.Number.Number.Integer a
+                   -> Data.Number.Number.Rational
+                        (case GHC.Real.$w$s%
+                                Data.Number.Number.$fHierNumber6
+                                a of ww { (#,#) ww1 ww2 ->
+                         GHC.Real.:% @ GHC.Integer.Type.Integer ww1 ww2 }) }) -}
+66ab167c406eaca56434660575a70acf
+  isOne :: Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   DEFAULT -> GHC.Types.False
+                   Data.Number.Number.Integer a1
+                   -> case GHC.Integer.Type.eqInteger#
+                             a1
+                             Data.Number.Number.$fHierNumber6 of wild1 { DEFAULT ->
+                      GHC.Prim.tagToEnum# @ GHC.Types.Bool wild1 } }) -}
+38cbccd7ab39b266301fb4b99b7ed689
+  isZero :: Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   DEFAULT -> GHC.Types.False
+                   Data.Number.Number.Integer a1
+                   -> case GHC.Integer.Type.eqInteger#
+                             a1
+                             Data.Number.Number.$fHierNumber5 of wild1 { DEFAULT ->
+                      GHC.Prim.tagToEnum# @ GHC.Types.Bool wild1 } }) -}
+72eda0e142e23d81e329cf0d9c83fbdc
+  minusN ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2,
+     Unfolding: (Data.Number.Hier.peerOpUp
+                   @ Data.Number.Number.Number
+                   @ Data.Number.Number.Number
+                   Data.Number.Number.$fHierNumber
+                   Data.Number.Number.minusN_minus') -}
+b0fecf2ef8afa891c7de1650fa80b34c
+  minusN1 :: Data.Number.Number.Number
+  {- Strictness: b -}
+810c7546fe3c8acbc7dc7abc89239892
+  minusN_minus' ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                   ds1 :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double d1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.minusN1
+                        Data.Number.Number.Double d2
+                        -> Data.Number.Number.Double (GHC.Float.minusDouble d1 d2) }
+                   Data.Number.Number.Rational r1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.minusN1
+                        Data.Number.Number.Rational r2
+                        -> Data.Number.Number.Rational (GHC.Real.$fEnumRatio_$s$c- r1 r2) }
+                   Data.Number.Number.Integer i1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.minusN1
+                        Data.Number.Number.Integer i2
+                        -> Data.Number.Number.Integer
+                             (GHC.Integer.Type.minusInteger i1 i2) } }) -}
+38783887fe7682622ac25469baf024e1
+  negateN :: Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double a
+                   -> Data.Number.Number.Double (GHC.Float.negateDouble a)
+                   Data.Number.Number.Rational a
+                   -> Data.Number.Number.Rational (GHC.Real.$fNumRatio_$s$cnegate a)
+                   Data.Number.Number.Integer a
+                   -> Data.Number.Number.Integer
+                        (GHC.Integer.Type.negateInteger a) }) -}
+99e09e50e48b4daf30fe20589d6f3943
+  numberEqual ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                   ds1 :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double a
+                   -> case ds1 of wild1 {
+                        DEFAULT
+                        -> case a of wild2 { GHC.Types.D# x ->
+                           case wild1 of wild3 {
+                             Data.Number.Number.Rational r
+                             -> case r of wild4 { GHC.Real.:% n d ->
+                                case GHC.Float.rationalToDouble n d of wild5 { GHC.Types.D# y ->
+                                GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.==## x y) } }
+                             Data.Number.Number.Integer n
+                             -> case GHC.Integer.Type.doubleFromInteger n of wild4 { DEFAULT ->
+                                GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.==## x wild4) } } }
+                        Data.Number.Number.Double b -> GHC.Classes.$fEqDouble_$c== a b }
+                   Data.Number.Number.Rational a
+                   -> case ds1 of wild1 {
+                        DEFAULT
+                        -> case a of wild2 { GHC.Real.:% n d ->
+                           case GHC.Float.rationalToDouble n d of wild3 { GHC.Types.D# x ->
+                           case wild1 of wild4 {
+                             Data.Number.Number.Double x1
+                             -> case x1 of wild5 { GHC.Types.D# y ->
+                                GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.==## x y) }
+                             Data.Number.Number.Integer n1
+                             -> case GHC.Integer.Type.doubleFromInteger n1 of wild5 { DEFAULT ->
+                                GHC.Prim.tagToEnum#
+                                  @ GHC.Types.Bool
+                                  (GHC.Prim.==## x wild5) } } } }
+                        Data.Number.Number.Rational b -> GHC.Real.$fEqRatio_$s$c== a b }
+                   Data.Number.Number.Integer a
+                   -> case ds1 of wild1 {
+                        DEFAULT
+                        -> case GHC.Integer.Type.doubleFromInteger a of wild2 { DEFAULT ->
+                           case wild1 of wild3 {
+                             Data.Number.Number.Double x
+                             -> case x of wild4 { GHC.Types.D# y ->
+                                GHC.Prim.tagToEnum# @ GHC.Types.Bool (GHC.Prim.==## wild2 y) }
+                             Data.Number.Number.Rational r
+                             -> case r of wild4 { GHC.Real.:% n d ->
+                                case GHC.Float.rationalToDouble n d of wild5 { GHC.Types.D# y ->
+                                GHC.Prim.tagToEnum#
+                                  @ GHC.Types.Bool
+                                  (GHC.Prim.==## wild2 y) } } } }
+                        Data.Number.Number.Integer b
+                        -> GHC.Integer.Type.eqInteger a b } }) -}
+75a1d07916cd0d98449b5fc12c5c091e
+  plus ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2,
+     Unfolding: (Data.Number.Hier.peerOpUp
+                   @ Data.Number.Number.Number
+                   @ Data.Number.Number.Number
+                   Data.Number.Number.$fHierNumber
+                   Data.Number.Number.plus_plus') -}
+07cfe587b1ba662acffca91f3026bb88
+  plus1 :: Data.Number.Number.Number
+  {- Strictness: b -}
+49d2363fcc5a256c5cc983f3470f149c
+  plus_plus' ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                   ds1 :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double d1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.plus1
+                        Data.Number.Number.Double d2
+                        -> Data.Number.Number.Double (GHC.Float.plusDouble d1 d2) }
+                   Data.Number.Number.Rational r1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.plus1
+                        Data.Number.Number.Rational r2
+                        -> Data.Number.Number.Rational (GHC.Real.$fEnumRatio_$s$c+ r1 r2) }
+                   Data.Number.Number.Integer i1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.plus1
+                        Data.Number.Number.Integer i2
+                        -> Data.Number.Number.Integer
+                             (GHC.Integer.Type.plusInteger i1 i2) } }) -}
+f4a46357a0cce0aa738919d6bab07427
+  powerN ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number
+    -> GHC.Base.Maybe Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,1*U><S,1*U> -}
+b9d7866c73c0cf4e8bf96490b8275a8a
+  times ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2,
+     Unfolding: (Data.Number.Hier.peerOpUp
+                   @ Data.Number.Number.Number
+                   @ Data.Number.Number.Number
+                   Data.Number.Number.$fHierNumber
+                   Data.Number.Number.times_times') -}
+57d5962333783c5a669c140725a68205
+  times1 :: Data.Number.Number.Number
+  {- Strictness: b -}
+8b289a877fcd7ad6c1813d9b4f6c3317
+  times_times' ::
+    Data.Number.Number.Number
+    -> Data.Number.Number.Number -> Data.Number.Number.Number
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Number.Number.Number
+                   ds1 :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double d1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.times1
+                        Data.Number.Number.Double d2
+                        -> Data.Number.Number.Double (GHC.Float.timesDouble d1 d2) }
+                   Data.Number.Number.Rational r1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.times1
+                        Data.Number.Number.Rational r2
+                        -> Data.Number.Number.Rational (GHC.Real.$fNumRatio_$s$c* r1 r2) }
+                   Data.Number.Number.Integer i1
+                   -> case ds1 of wild1 {
+                        DEFAULT -> Data.Number.Number.times1
+                        Data.Number.Number.Integer i2
+                        -> Data.Number.Number.Integer
+                             (GHC.Integer.Type.timesInteger i1 i2) } }) -}
+d0cf03cb72ece0275b31435de90cfe05
+  toDouble :: Data.Number.Number.Number -> GHC.Types.Double
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.Number.Number.Number ->
+                 case ds of wild {
+                   Data.Number.Number.Double x -> x
+                   Data.Number.Number.Rational r
+                   -> GHC.Float.$fFractionalDouble_$cfromRational r
+                   Data.Number.Number.Integer n
+                   -> GHC.Float.$fNumDouble_$cfromInteger n }) -}
+46b4e13837047d9cce2acad8b967819c
+  zero :: Data.Number.Number.Number
+  {- HasNoCafRefs, Strictness: m3,
+     Unfolding: (Data.Number.Number.Integer
+                   Data.Number.Number.$fHierNumber5) -}
+instance GHC.Classes.Eq [Data.Number.Number.Number]
+  = Data.Number.Number.$fEqNumber
+instance Data.Number.Hier.Hier [Data.Number.Number.Number]
+  = Data.Number.Number.$fHierNumber
+instance GHC.Classes.Ord [Data.Number.Number.Number]
+  = Data.Number.Number.$fOrdNumber
+instance GHC.Show.Show [Data.Number.Number.Number]
+  = Data.Number.Number.$fShowNumber
+"SPEC/Data.Number.Number ^^ @ Double @ Integer" [1] forall $dFractional :: GHC.Real.Fractional
+                                                                             GHC.Types.Double
+                                                           $dIntegral :: GHC.Real.Integral
+                                                                           GHC.Integer.Type.Integer
+  GHC.Real.^^ @ GHC.Types.Double
+              @ GHC.Integer.Type.Integer
+              $dFractional
+              $dIntegral
+  = Data.Number.Number.$s^^
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

@@ -1,0 +1,998 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:35.2023976 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Data.DataType 7102
+  interface hash: 185545c53535b787f61873e554bef30e
+  ABI hash: c371d6fa81ae9f0301da5ca425bb3968
+  export-list hash: 085545853aa06ac5ecb7dc9bef058506
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 787b6f860893012cc83b37b647f1baaa
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Data.DataType.atomNull
+  Data.DataType.checkNum
+  Data.DataType.double
+  Data.DataType.extractValue
+  Data.DataType.fullForm
+  Data.DataType.hasValue
+  Data.DataType.insertPattern
+  Data.DataType.insertRule
+  Data.DataType.integer
+  Data.DataType.isNull
+  Data.DataType.isPattern
+  Data.DataType.liftThrows
+  Data.DataType.list
+  Data.DataType.noChange
+  Data.DataType.nullEnv
+  Data.DataType.plusError
+  Data.DataType.readRule
+  Data.DataType.setVar
+  Data.DataType.setVar'
+  Data.DataType.sumError
+  Data.DataType.toBool
+  Data.DataType.trapError
+  Data.DataType.trueQ
+  Data.DataType.unBool
+  Data.DataType.unpackBool'
+  Data.DataType.unpackChar'
+  Data.DataType.unpackNum
+  Data.DataType.unpackNum'
+  Data.DataType.unpackString'
+  Data.DataType.unpackers
+  Data.DataType.wrapSequence
+  Data.DataType.BinaryFun
+  Data.DataType.Context{Data.DataType.Context Data.DataType.pattern Data.DataType.value}
+  Data.DataType.Env
+  Data.DataType.IOThrowsError
+  Data.DataType.LispError{Data.DataType.BadSpecialForm Data.DataType.Default Data.DataType.Incomplete Data.DataType.NotFunction Data.DataType.NumArgs Data.DataType.NumArgs1 Data.DataType.Parser Data.DataType.PartE Data.DataType.TypeMismatch Data.DataType.UnboundVar}
+  Data.DataType.LispVal{Data.DataType.Atom Data.DataType.Char Data.DataType.List Data.DataType.Number Data.DataType.String}
+  Data.DataType.Matched
+  Data.DataType.Pattern
+  Data.DataType.PatternRule
+  Data.DataType.Result
+  Data.DataType.Rule
+  Data.DataType.SingleFun
+  Data.DataType.ThrowsError
+  Data.DataType.Unpacker{Data.DataType.Unpacker}
+  Data.DataType.ValueRule
+module dependencies: Data.Number.Hier Data.Number.Number
+package dependencies: array-0.5.1.0@array_E0sTtauuKsGDLZoT7lTbgZ
+                      base-4.8.1.0* binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd
+                      bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH
+                      containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN*
+                      deepseq-1.4.1.1@deeps_LbCWUlehDDeLxurARKDH5o ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU
+                      parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0
+                      text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh
+                      transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+         binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH:Data.ByteString.Builder
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Show
+         transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Error
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Functor.Identity
+                         base-4.8.1.0:Data.Monoid base-4.8.1.0:Data.Type.Equality
+                         base-4.8.1.0:Data.Void base-4.8.1.0:GHC.Exts
+                         base-4.8.1.0:GHC.Generics
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntMap.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntSet.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Sequence
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Set.Base
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+import  -/  base-4.8.1.0:Data.Either bc9482e78cc431fce439b593377aa2e6
+import  -/  base-4.8.1.0:Data.Foldable 2e5acb797cfda6b3b7fabd7052abe290
+import  -/  base-4.8.1.0:Data.IORef d11b1514c62648b5630f6a04aaafce97
+import  -/  base-4.8.1.0:Data.List 2a4f5f92892d432e7113f64cd9dcca53
+import  -/  base-4.8.1.0:Data.OldList 21f46c368c20a00483b41333e53a55cb
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.IORef f95959c2b4be40a568ad7a2e4621726d
+import  -/  base-4.8.1.0:GHC.Real 4c3b525ecbd4d62bb287aec36d4c2f0d
+import  -/  base-4.8.1.0:GHC.Show b8c65ca3124f92a166c9f05120382442
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base 5c2ff57702bb6d3bb1e1daa9506827de
+import  -/  containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Strict da4f8d9da9474d9e5066f35b15fbc85c
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  ghc-prim-0.4.0.0:GHC.Types 6b27fb3fdbd0e3f0925a4496c66513bb
+import  -/  integer-gmp-1.0.0.0:GHC.Integer.Type b2150b5b3c95352fa0c73bbab4afa9c4
+import  -/  Data.Number.Number 2ac8bfb8a00bd9e3712221b1e929b631
+  exports: c2c926f6c2c1eef8393e1f6cda1b117c
+  Double b9bbe454e3be1be40c91da2bbfb02ef1
+  Integer ff3d0cdf85cbf1ba5bc0ca7ede0fd44b
+  Number 053c2dbacc4e48f6b812046fba0663d4
+import  -/  mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU:Control.Monad.Error.Class ba990105c31f50ec068e65779adef46a
+import  -/  mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU:Control.Monad.Except 794a4a733dd47f7fbb820afcb8ea0779
+import  -/  parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0:Text.Parsec.Error 3f9177ed0003ecb8a44066d0c7b115fb
+import  -/  parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0:Text.ParserCombinators.Parsec fed41157d76515d041e8b89ebc51bfb3
+import  -/  transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.IO.Class 9605d683dd45bfe8c9f8bdf894951b7c
+import  -/  transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Except 6f1b34d26da1a1af7fa950333c6031b3
+f70327bb01160acdaa903077fba7f03a
+  $fEqLispVal :: GHC.Classes.Eq Data.DataType.LispVal
+  DFunId[0]
+  {- HasNoCafRefs, Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.DataType.LispVal
+                  Data.DataType.$fEqLispVal_$c==
+                  Data.DataType.$fEqLispVal_$c/= -}
+f70327bb01160acdaa903077fba7f03a
+  $fEqLispVal_$c/= ::
+    Data.DataType.LispVal -> Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ a16 :: Data.DataType.LispVal b :: Data.DataType.LispVal ->
+                 case Data.DataType.$fEqLispVal_$c== a16 b of wild {
+                   GHC.Types.False -> GHC.Types.True
+                   GHC.Types.True -> GHC.Types.False }) -}
+f70327bb01160acdaa903077fba7f03a
+  $fEqLispVal_$c== ::
+    Data.DataType.LispVal -> Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U> -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal :: GHC.Classes.Ord Data.DataType.LispVal
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.DataType.LispVal
+                  Data.DataType.$fEqLispVal
+                  Data.DataType.$fOrdLispVal_$ccompare
+                  Data.DataType.$fOrdLispVal_$c<
+                  Data.DataType.$fOrdLispVal_$c<=
+                  Data.DataType.$fOrdLispVal_$c>
+                  Data.DataType.$fOrdLispVal_$c>=
+                  Data.DataType.$fOrdLispVal_$cmax
+                  Data.DataType.$fOrdLispVal_$cmin -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$c< ::
+    Data.DataType.LispVal -> Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.LispVal y :: Data.DataType.LispVal ->
+                 case Data.DataType.$fOrdLispVal_$ccompare x y of wild {
+                   DEFAULT -> GHC.Types.False GHC.Types.LT -> GHC.Types.True }) -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$c<= ::
+    Data.DataType.LispVal -> Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.LispVal y :: Data.DataType.LispVal ->
+                 case Data.DataType.$fOrdLispVal_$ccompare x y of wild {
+                   DEFAULT -> GHC.Types.True GHC.Types.GT -> GHC.Types.False }) -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$c> ::
+    Data.DataType.LispVal -> Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.LispVal y :: Data.DataType.LispVal ->
+                 case Data.DataType.$fOrdLispVal_$ccompare x y of wild {
+                   DEFAULT -> GHC.Types.False GHC.Types.GT -> GHC.Types.True }) -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$c>= ::
+    Data.DataType.LispVal -> Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 2, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.LispVal y :: Data.DataType.LispVal ->
+                 case Data.DataType.$fOrdLispVal_$ccompare x y of wild {
+                   DEFAULT -> GHC.Types.True GHC.Types.LT -> GHC.Types.False }) -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$ccompare ::
+    Data.DataType.LispVal
+    -> Data.DataType.LispVal -> GHC.Types.Ordering
+  {- Arity: 2, Strictness: <S,1*U><S,1*U> -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$cmax ::
+    Data.DataType.LispVal
+    -> Data.DataType.LispVal -> Data.DataType.LispVal
+  {- Arity: 2, Strictness: <S,U><S,U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.LispVal y :: Data.DataType.LispVal ->
+                 case Data.DataType.$fOrdLispVal_$ccompare x y of wild {
+                   DEFAULT -> y GHC.Types.GT -> x }) -}
+f70327bb01160acdaa903077fba7f03a
+  $fOrdLispVal_$cmin ::
+    Data.DataType.LispVal
+    -> Data.DataType.LispVal -> Data.DataType.LispVal
+  {- Arity: 2, Strictness: <S,U><S,U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.LispVal y :: Data.DataType.LispVal ->
+                 case Data.DataType.$fOrdLispVal_$ccompare x y of wild {
+                   DEFAULT -> x GHC.Types.GT -> y }) -}
+cba277bd3aa0c5f997a0d809dac4bad3
+  $fShowLispError :: GHC.Show.Show Data.DataType.LispError
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.DataType.LispError
+                  Data.DataType.$fShowLispError_$s$dmshowsPrec
+                  Data.DataType.$fShowLispError_$cshow
+                  Data.DataType.$fShowLispError_$cshowList -}
+cba277bd3aa0c5f997a0d809dac4bad3
+  $fShowLispError1 ::
+    Data.DataType.LispError -> GHC.Base.String -> [GHC.Types.Char]
+  {- Arity: 2,
+     Unfolding: (\ x :: Data.DataType.LispError
+                   s :: GHC.Base.String[OneShot] ->
+                 GHC.Base.++
+                   @ GHC.Types.Char
+                   (Data.DataType.$fShowLispError_$cshow x)
+                   s) -}
+cba277bd3aa0c5f997a0d809dac4bad3
+  $fShowLispError_$cshow ::
+    Data.DataType.LispError -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U> -}
+cba277bd3aa0c5f997a0d809dac4bad3
+  $fShowLispError_$cshowList ::
+    [Data.DataType.LispError] -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*U><L,U>,
+     Unfolding: (\ ls :: [Data.DataType.LispError]
+                   s :: GHC.Base.String ->
+                 GHC.Show.showList__
+                   @ Data.DataType.LispError
+                   Data.DataType.$fShowLispError1
+                   ls
+                   s) -}
+cba277bd3aa0c5f997a0d809dac4bad3
+  $fShowLispError_$s$dmshowsPrec ::
+    GHC.Types.Int -> Data.DataType.LispError -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,A><S,1*U><L,1*U>,
+     Unfolding: InlineRule (-1, True, False)
+                (\ ds :: GHC.Types.Int
+                   x :: Data.DataType.LispError
+                   s :: GHC.Base.String ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b c :: GHC.Types.Char -> b -> b[OneShot] n :: b[OneShot] ->
+                    GHC.Base.foldr
+                      @ GHC.Types.Char
+                      @ b
+                      c
+                      n
+                      (Data.DataType.$fShowLispError_$cshow x))
+                   s) -}
+f70327bb01160acdaa903077fba7f03a
+  $fShowLispVal :: GHC.Show.Show Data.DataType.LispVal
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.DataType.LispVal
+                  Data.DataType.$fShowLispVal_$s$dmshowsPrec
+                  Data.DataType.fullForm
+                  Data.DataType.$fShowLispVal_$cshowList -}
+f70327bb01160acdaa903077fba7f03a
+  $fShowLispVal1 ::
+    Data.DataType.LispVal -> GHC.Base.String -> [GHC.Types.Char]
+  {- Arity: 2,
+     Unfolding: (\ x :: Data.DataType.LispVal
+                   s :: GHC.Base.String[OneShot] ->
+                 GHC.Base.++ @ GHC.Types.Char (Data.DataType.fullForm x) s) -}
+f70327bb01160acdaa903077fba7f03a
+  $fShowLispVal_$cshowList ::
+    [Data.DataType.LispVal] -> GHC.Show.ShowS
+  {- Arity: 2, Strictness: <S,1*U><L,U>,
+     Unfolding: (\ ls :: [Data.DataType.LispVal] s :: GHC.Base.String ->
+                 GHC.Show.showList__
+                   @ Data.DataType.LispVal
+                   Data.DataType.$fShowLispVal1
+                   ls
+                   s) -}
+f70327bb01160acdaa903077fba7f03a
+  $fShowLispVal_$s$dmshowsPrec ::
+    GHC.Types.Int -> Data.DataType.LispVal -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,A><S,1*U><L,1*U>,
+     Unfolding: InlineRule (-1, True, False)
+                (\ ds :: GHC.Types.Int
+                   x :: Data.DataType.LispVal
+                   s :: GHC.Base.String ->
+                 GHC.Base.augment
+                   @ GHC.Types.Char
+                   (\ @ b c :: GHC.Types.Char -> b -> b[OneShot] n :: b[OneShot] ->
+                    GHC.Base.foldr @ GHC.Types.Char @ b c n (Data.DataType.fullForm x))
+                   s) -}
+5518526b2b72d80821a24fa8c1ac8202
+  $sinsertWith_$sgo4 ::
+    (GHC.Base.String -> a1 -> a1 -> a1)
+    -> GHC.Base.String
+    -> a1
+    -> Data.Map.Base.Map GHC.Base.String a1
+    -> Data.Map.Base.Map GHC.Base.String a1
+  {- Arity: 4, Strictness: <L,1*C1(C1(C1(U)))><S,1*U><L,U><S,1*U> -}
+dc6a1ef4e64591af38c723673d067fc7
+  $sinsert_$sgo4 ::
+    Data.DataType.LispVal
+    -> a1
+    -> Data.Map.Base.Map Data.DataType.LispVal a1
+    -> Data.Map.Base.Map Data.DataType.LispVal a1
+  {- Arity: 3, Strictness: <S,1*U><S,1*U><S,1*U> -}
+6b7442980fd4ce5d5ed1c85cf933dae8
+  type BinaryFun =
+    Data.DataType.LispVal
+    -> Data.DataType.LispVal -> Data.DataType.Result
+d71a22e628c445e694dd5121fcdebfdf
+  data Context
+    = Context {value :: Data.DataType.ValueRule,
+               pattern :: Data.DataType.PatternRule}
+fc573da003d7c5bfd7f3e33e987e75bf
+  type Env = GHC.IORef.IORef Data.DataType.Context
+19a4e167a2e8ab64f1e20722498116b4
+  type IOThrowsError =
+    Control.Monad.Trans.Except.ExceptT
+      Data.DataType.LispError GHC.Types.IO
+cba277bd3aa0c5f997a0d809dac4bad3
+  data LispError
+    = NumArgs GHC.Integer.Type.Integer [Data.DataType.LispVal]
+    | NumArgs1
+    | TypeMismatch GHC.Base.String Data.DataType.LispVal
+    | Parser Text.Parsec.Error.ParseError
+    | BadSpecialForm GHC.Base.String Data.DataType.LispVal
+    | NotFunction GHC.Base.String GHC.Base.String
+    | UnboundVar GHC.Base.String GHC.Base.String
+    | Default GHC.Base.String
+    | PartE GHC.Base.String Data.DataType.LispVal
+    | Incomplete [Data.DataType.LispVal]
+f70327bb01160acdaa903077fba7f03a
+  data LispVal
+    = Number Data.Number.Number.Number
+    | List [Data.DataType.LispVal]
+    | Atom GHC.Base.String
+    | String GHC.Base.String
+    | Char GHC.Types.Char
+76ecd4342cf9e000db2f48d3707f62c3
+  type Matched = (GHC.Base.String, Data.DataType.LispVal)
+f01ba960f6286ea1420a9756e4e3995f
+  type Pattern = Data.DataType.LispVal
+bee73cd252abd815157f88d18f0f6ea5
+  type PatternRule =
+    Data.Map.Base.Map GHC.Base.String [Data.DataType.Rule]
+8ffdf17365fa1e675e6c9cde9487e997
+  type Result =
+    Data.DataType.ThrowsError (GHC.Base.Maybe Data.DataType.LispVal)
+52e3012c4bcbd42439aeb773787fe6cf
+  type Rule = (Data.DataType.Pattern, Data.DataType.LispVal)
+d52be948f52552f41c01fef6d162a889
+  type SingleFun = Data.DataType.LispVal -> Data.DataType.Result
+1e8f053207d9a08fff23b089436e8acb
+  type ThrowsError = Data.Either.Either Data.DataType.LispError
+c0ba131642d2b8dfc57590eac4765ae2
+  data Unpacker where
+    Unpacker :: GHC.Classes.Ord a =>
+                (Data.DataType.LispVal -> Data.DataType.ThrowsError a) -> Unpacker
+3dc77e0ec2f9d5e4a01072fe9abf40d2
+  type ValueRule =
+    Data.Map.Base.Map Data.DataType.LispVal Data.DataType.LispVal
+64066d9f659e61723715da72bfd080c3
+  atomNull :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Data.DataType.atomNull1) -}
+3d5e12ddc3337b91950b7846423d095e
+  atomNull1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Null"#) -}
+c77ad358c404eaac1f6126768de3a5d9
+  checkNum :: Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT -> GHC.Types.False
+                   Data.DataType.Number ds1 -> GHC.Types.True }) -}
+c80b9a9f46be58b1cde609f36698a83f
+  double :: GHC.Types.Double -> Data.DataType.LispVal
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,U>m1,
+     Unfolding: InlineRule (1, True, False)
+                (\ x :: GHC.Types.Double ->
+                 Data.DataType.Number (Data.Number.Number.Double x)) -}
+3195d3e69d3ba50b39ff6739feb81029
+  extractValue :: Data.DataType.ThrowsError a -> a
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ @ a16 ds :: Data.Either.Either Data.DataType.LispError a16 ->
+                 case ds of wild {
+                   Data.Either.Left ipv -> Data.DataType.extractValue1 @ a16
+                   Data.Either.Right val -> val }) -}
+0c731e6c8ff084cf3dfb5508ecb2a68a
+  extractValue1 :: a
+  {- Strictness: b -}
+f70327bb01160acdaa903077fba7f03a
+  fullForm :: Data.DataType.LispVal -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U> -}
+471108dcb2ccac1764b7277cb7a55e2e
+  hasValue ::
+    Data.DataType.LispVal
+    -> Data.DataType.ThrowsError (GHC.Base.Maybe Data.DataType.LispVal)
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,U>m2,
+     Unfolding: InlineRule (1, True, False)
+                (\ x :: Data.DataType.LispVal ->
+                 Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   (GHC.Base.Just @ Data.DataType.LispVal x)) -}
+940d0805ed2ee09455a072f7788da09a
+  insertPattern ::
+    Data.DataType.PatternRule
+    -> Data.DataType.Pattern
+    -> Data.DataType.LispVal
+    -> Data.DataType.PatternRule
+  {- Arity: 3, Strictness: <S,1*U><S,1*U><L,U>,
+     Unfolding: (\ rules :: Data.DataType.PatternRule
+                   lhs :: Data.DataType.Pattern
+                   rhs :: Data.DataType.LispVal ->
+                 case lhs of wild {
+                   DEFAULT -> Data.DataType.insertPattern2
+                   Data.DataType.List ds
+                   -> case ds of wild1 {
+                        [] -> Data.DataType.insertPattern2
+                        : ds1 ds2
+                        -> case ds1 of wild2 {
+                             DEFAULT -> Data.DataType.insertPattern2
+                             Data.DataType.Atom name
+                             -> Data.DataType.$sinsertWith_$sgo4
+                                  @ [Data.DataType.Rule]
+                                  Data.DataType.insertPattern1
+                                  name
+                                  (GHC.Types.:
+                                     @ Data.DataType.Rule
+                                     (wild, rhs)
+                                     (GHC.Types.[] @ Data.DataType.Rule))
+                                  rules } } }) -}
+dfe761ac5112a9d42e94f7f70d3387ac
+  insertPattern1 ::
+    GHC.Base.String
+    -> [Data.DataType.Rule]
+    -> [Data.DataType.Rule]
+    -> [(Data.DataType.Pattern, Data.DataType.LispVal)]
+  {- Arity: 3, HasNoCafRefs,
+     Unfolding: (\ ds :: GHC.Base.String[OneShot]
+                   x' :: [Data.DataType.Rule][OneShot]
+                   y' :: [Data.DataType.Rule][OneShot] ->
+                 GHC.Base.++
+                   @ (Data.DataType.Pattern, Data.DataType.LispVal)
+                   x'
+                   y') -}
+6ea9b3d02d65d8e94968fb9e3daf83d9
+  insertPattern2 :: Data.DataType.PatternRule
+  {- Strictness: b -}
+42fc477f179387faa415b677565f78b5
+  insertRule ::
+    Data.DataType.ValueRule
+    -> Data.DataType.LispVal
+    -> Data.DataType.LispVal
+    -> Data.DataType.ValueRule
+  {- Arity: 3, Strictness: <S,1*U><S,1*U><S,1*U>,
+     Unfolding: InlineRule (3, True, True)
+                (\ rules :: Data.DataType.ValueRule
+                   lhs :: Data.DataType.LispVal
+                   rhs :: Data.DataType.LispVal ->
+                 Data.DataType.$sinsert_$sgo4
+                   @ Data.DataType.LispVal
+                   lhs
+                   rhs
+                   rules) -}
+6626800fee4ca5fd9d3f73f2ed5e8592
+  integer :: GHC.Real.Integral a => a -> Data.DataType.LispVal
+  {- Arity: 2, HasNoCafRefs,
+     Strictness: <L,1*U(A,A,A,A,A,A,A,A,1*C1(U))><L,U>m1,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a16 $dIntegral :: GHC.Real.Integral a16 eta :: a16 ->
+                 Data.DataType.Number
+                   (Data.Number.Number.Integer
+                      (GHC.Real.toInteger @ a16 $dIntegral eta))) -}
+e1091b1ee1e73cea1aab94f6eb59cbdf
+  isNull :: Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT -> GHC.Types.False
+                   Data.DataType.Atom ds1
+                   -> GHC.Base.eqString ds1 Data.DataType.atomNull1 }) -}
+7a7cdd5a0d489b59bff3d70bab2e72cd
+  isPattern :: Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 1, Strictness: <S,1*U> -}
+b6a59ea4c07801d4fdcbf9dd768a09ed
+  liftThrows ::
+    Data.DataType.ThrowsError a -> Data.DataType.IOThrowsError a
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Data.DataType.liftThrows1
+                  `cast`
+                (forall a16.
+                 <Data.Either.Either Data.DataType.LispError a16>_R
+                 ->_R Trans
+                          (Sym (GHC.Types.NTCo:IO[0]
+                                    <Data.Either.Either Data.DataType.LispError a16>_R))
+                          (Sym (Control.Monad.Trans.Except.NTCo:ExceptT[0]
+                                    <Data.DataType.LispError>_N <GHC.Types.IO>_R <a16>_N))) -}
+68581c16aadee2276f71eaa88b756755
+  liftThrows1 ::
+    Data.Either.Either Data.DataType.LispError a
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          Data.Either.Either Data.DataType.LispError a #)
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a16
+                   ds :: Data.Either.Either Data.DataType.LispError a16
+                   eta :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case ds of wild {
+                   Data.Either.Left err
+                   -> (# eta, Data.Either.Left @ Data.DataType.LispError @ a16 err #)
+                   Data.Either.Right val
+                   -> (# eta,
+                         Data.Either.Right @ Data.DataType.LispError @ a16 val #) }) -}
+45d5ec066180308102cb4681bd29f193
+  list :: [Data.DataType.LispVal] -> Data.DataType.LispVal
+  {- Arity: 1, Strictness: <L,U>m2,
+     Unfolding: InlineRule (1, True, False)
+                (\ ls :: [Data.DataType.LispVal] ->
+                 Data.DataType.List
+                   (GHC.Types.: @ Data.DataType.LispVal Data.DataType.list1 ls)) -}
+433ceb1ebef214539ddf829338c22188
+  list1 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Data.DataType.list2) -}
+1b459bc07ad3a35325d07006257f8605
+  list2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "List"#) -}
+ea276fb3006201bbf43d0926ed88dcab
+  noChange :: Data.DataType.Result
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ (GHC.Base.Maybe Data.DataType.LispVal)
+                   (GHC.Base.Nothing @ Data.DataType.LispVal)) -}
+a7982e4b32b237457be01abb4be08984
+  nullEnv :: GHC.Types.IO Data.DataType.Env
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Data.DataType.nullEnv1
+                  `cast`
+                (Sym (GHC.Types.NTCo:IO[0]
+                          <GHC.IORef.IORef Data.DataType.Context>_R)) -}
+44f81932217279f45ed577a6623e17cc
+  nullEnv1 ::
+    GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          GHC.IORef.IORef Data.DataType.Context #)
+  {- Arity: 1, HasNoCafRefs, Strictness: <L,U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ s :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case GHC.Prim.newMutVar#
+                        @ Data.DataType.Context
+                        @ GHC.Prim.RealWorld
+                        (Data.DataType.Context
+                           (Data.Map.Base.Tip @ Data.DataType.LispVal @ Data.DataType.LispVal)
+                           (Data.Map.Base.Tip @ GHC.Base.String @ [Data.DataType.Rule]))
+                        s of ds { (#,#) ipv ipv1 ->
+                 (# ipv,
+                    (GHC.STRef.STRef @ GHC.Prim.RealWorld @ Data.DataType.Context ipv1)
+                      `cast`
+                    (Sym (GHC.IORef.NTCo:IORef[0]) <Data.DataType.Context>_N) #) }) -}
+f5cb16779552ecad86d0d38c4fc6a876
+  pattern :: Data.DataType.Context -> Data.DataType.PatternRule
+  RecSel Data.DataType.Context
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(LS),1*U(A,1*U)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.Context ->
+                 case ds of wild { Data.DataType.Context ds1 ds2 -> ds2 }) -}
+fdb8c62c44eaecbb728dba58ed9dea0d
+  plusError ::
+    Data.DataType.ThrowsError a
+    -> Data.DataType.ThrowsError a -> Data.DataType.ThrowsError a
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ @ a16
+                   ds :: Data.Either.Either Data.DataType.LispError a16
+                   l :: Data.DataType.ThrowsError a16 ->
+                 case ds of wild {
+                   Data.Either.Left ds1 -> l Data.Either.Right ipv -> wild }) -}
+3c83c806eb97e37569e0a41386c5cee3
+  readRule ::
+    Data.DataType.Env
+    -> Data.DataType.IOThrowsError Data.DataType.Context
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U(U)><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Data.DataType.readRule1
+                  `cast`
+                (<Data.DataType.Env>_R
+                 ->_R Trans
+                          (Sym (GHC.Types.NTCo:IO[0]
+                                    <Data.Either.Either
+                                       Data.DataType.LispError Data.DataType.Context>_R))
+                          (Sym (Control.Monad.Trans.Except.NTCo:ExceptT[0]
+                                    <Data.DataType.LispError>_N
+                                    <GHC.Types.IO>_R
+                                    <Data.DataType.Context>_N))) -}
+935f7bbb6340d37da38122e2ded28971
+  readRule1 ::
+    Data.DataType.Env
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          Data.Either.Either Data.DataType.LispError Data.DataType.Context #)
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U(U)><L,U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ x :: Data.DataType.Env
+                   s :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case x `cast`
+                      (GHC.IORef.NTCo:IORef[0] <Data.DataType.Context>_N) of wild { GHC.STRef.STRef var# ->
+                 case GHC.Prim.readMutVar#
+                        @ GHC.Prim.RealWorld
+                        @ Data.DataType.Context
+                        var#
+                        s of ds1 { (#,#) ipv ipv1 ->
+                 (# ipv,
+                    Data.Either.Right
+                      @ Data.DataType.LispError
+                      @ Data.DataType.Context
+                      ipv1 #) } }) -}
+b63b2d5e8182578b3f046608f0044058
+  setVar ::
+    Data.DataType.Env
+    -> Data.DataType.Pattern
+    -> Data.DataType.LispVal
+    -> Data.DataType.IOThrowsError Data.DataType.LispVal
+  {- Arity: 4, Strictness: <S,1*U(U)><L,U><L,U><L,U>,
+     Unfolding: InlineRule (0, True, True)
+                Data.DataType.setVar1
+                  `cast`
+                (<Data.DataType.Env>_R
+                 ->_R <Data.DataType.Pattern>_R
+                 ->_R <Data.DataType.LispVal>_R
+                 ->_R Trans
+                          (Sym (GHC.Types.NTCo:IO[0]
+                                    <Data.Either.Either
+                                       Data.DataType.LispError Data.DataType.LispVal>_R))
+                          (Sym (Control.Monad.Trans.Except.NTCo:ExceptT[0]
+                                    <Data.DataType.LispError>_N
+                                    <GHC.Types.IO>_R
+                                    <Data.DataType.LispVal>_N))) -}
+7e16aba7e15b7bf2ee40d26381e8c561
+  setVar' ::
+    Data.DataType.Context
+    -> Data.DataType.Pattern
+    -> Data.DataType.LispVal
+    -> Data.DataType.Context
+  {- Arity: 3, Strictness: <L,U(1*U,1*U)><S,U><L,U>m,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (3, True, False)
+                (\ w :: Data.DataType.Context
+                   w1 :: Data.DataType.Pattern
+                   w2 :: Data.DataType.LispVal ->
+                 case Data.DataType.isPattern w1 of wild {
+                   GHC.Types.False
+                   -> Data.DataType.Context
+                        (case w of wild1 { Data.DataType.Context ds ds1 ->
+                         Data.DataType.$sinsert_$sgo4 @ Data.DataType.LispVal w1 w2 ds })
+                        (case w of wild1 { Data.DataType.Context ds ds1 -> ds1 })
+                   GHC.Types.True
+                   -> Data.DataType.Context
+                        (case w of wild1 { Data.DataType.Context ds ds1 -> ds })
+                        (case w of wild1 { Data.DataType.Context ds ds1 ->
+                         Data.DataType.insertPattern ds1 w1 w2 }) }) -}
+9b4f1f3892235fdf024eacc4020bc7dd
+  setVar1 ::
+    Data.DataType.Env
+    -> Data.DataType.Pattern
+    -> Data.DataType.LispVal
+    -> GHC.Prim.State# GHC.Prim.RealWorld
+    -> (# GHC.Prim.State# GHC.Prim.RealWorld,
+          Data.Either.Either Data.DataType.LispError Data.DataType.LispVal #)
+  {- Arity: 4, Strictness: <S,1*U(U)><L,U><L,U><L,U>,
+     Unfolding: InlineRule (4, True, False)
+                (\ envRef :: Data.DataType.Env
+                   lhs :: Data.DataType.Pattern
+                   rhs :: Data.DataType.LispVal
+                   s :: GHC.Prim.State# GHC.Prim.RealWorld[OneShot] ->
+                 case envRef
+                        `cast`
+                      (GHC.IORef.NTCo:IORef[0] <Data.DataType.Context>_N) of wild { GHC.STRef.STRef var# ->
+                 case GHC.Prim.readMutVar#
+                        @ GHC.Prim.RealWorld
+                        @ Data.DataType.Context
+                        var#
+                        s of ds1 { (#,#) ipv ipv1 ->
+                 case GHC.Prim.writeMutVar#
+                        @ GHC.Prim.RealWorld
+                        @ Data.DataType.Context
+                        var#
+                        (Data.DataType.setVar' ipv1 lhs rhs)
+                        ipv of s2# { DEFAULT ->
+                 (# s2#,
+                    Data.Either.Right
+                      @ Data.DataType.LispError
+                      @ Data.DataType.LispVal
+                      Data.DataType.atomNull #) } } }) -}
+60bf87a3371659dc605c6a635eb59342
+  sumError ::
+    [Data.DataType.ThrowsError a] -> Data.DataType.ThrowsError a
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ @ a16 eta :: [Data.DataType.ThrowsError a16] ->
+                 Data.DataType.sumError1 @ a16 eta) -}
+4bde674f895cbfdf2b19d4faa8a58b5f
+  sumError1 ::
+    [Data.DataType.ThrowsError a] -> Data.DataType.ThrowsError a
+  {- Arity: 1, Strictness: <S,1*U> -}
+b6b8e5f3d00a4e7705ff1e78b24def4d
+  toBool :: GHC.Types.Bool -> Data.DataType.LispVal
+  {- Arity: 1, Strictness: <S,1*U>m3,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: GHC.Types.Bool ->
+                 case ds of wild {
+                   GHC.Types.False -> Data.DataType.toBool3
+                   GHC.Types.True -> Data.DataType.toBool1 }) -}
+c4e9b1fe62d9863e2200ce6c366d6172
+  toBool1 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Data.DataType.toBool2) -}
+e1ec101cad8ca424edcdf09bcbbb0092
+  toBool2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "True"#) -}
+842b890c0f5ce051ee089db3c316af63
+  toBool3 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Data.DataType.toBool4) -}
+df65aa3c91e65f17b139f90aefa73219
+  toBool4 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "False"#) -}
+c56c849f248de41b25efe60ec337835d
+  trapError ::
+    (GHC.Show.Show a, Control.Monad.Error.Class.MonadError a m) =>
+    m GHC.Base.String -> m GHC.Base.String
+  {- Arity: 3, HasNoCafRefs,
+     Strictness: <L,1*U(A,1*U,A)><S(LLC(C(S))),U(1*U,A,1*C1(C1(U)))><L,U>,
+     Unfolding: (\ @ (m :: * -> *)
+                   @ a16
+                   $dShow :: GHC.Show.Show a16
+                   $dMonadError :: Control.Monad.Error.Class.MonadError a16 m
+                   eta :: m GHC.Base.String ->
+                 Control.Monad.Error.Class.catchError
+                   @ a16
+                   @ m
+                   $dMonadError
+                   @ GHC.Base.String
+                   eta
+                   (let {
+                      a17 :: GHC.Base.Monad m
+                      = Control.Monad.Error.Class.$p1MonadError @ a16 @ m $dMonadError
+                    } in
+                    let {
+                      f :: GHC.Base.String -> m GHC.Base.String
+                      = GHC.Base.return @ m a17 @ GHC.Base.String
+                    } in
+                    let {
+                      g :: a16 -> GHC.Base.String = GHC.Show.show @ a16 $dShow
+                    } in
+                    \ x :: a16 -> f (g x))) -}
+3cce2fc7ebadb5c4e8b4c55ff17be367
+  trueQ :: Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT -> GHC.Types.False
+                   Data.DataType.Atom ds1
+                   -> GHC.Base.eqString ds1 Data.DataType.toBool2 }) -}
+1a6d1c5a14175dc0975f0bef34895537
+  unBool :: Data.DataType.LispVal -> GHC.Types.Bool
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT -> Data.DataType.unBool1
+                   Data.DataType.Atom ds1
+                   -> case GHC.Base.eqString ds1 Data.DataType.toBool4 of wild1 {
+                        GHC.Types.False
+                        -> case GHC.Base.eqString ds1 Data.DataType.toBool2 of wild2 {
+                             GHC.Types.False -> Data.DataType.unBool1
+                             GHC.Types.True -> GHC.Types.True }
+                        GHC.Types.True -> GHC.Types.False } }) -}
+e0041fce5e8ada732b49344d7a891b83
+  unBool1 :: GHC.Types.Bool
+  {- Strictness: b -}
+d795134ae045c41cd3d4d579a8dac97f
+  unpackBool' ::
+    Data.DataType.LispVal -> Data.DataType.ThrowsError GHC.Types.Bool
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Either.Left
+                        @ Data.DataType.LispError
+                        @ GHC.Types.Bool
+                        (Data.DataType.TypeMismatch Data.DataType.unpackBool'3 wild)
+                   Data.DataType.Atom ds1
+                   -> case GHC.Base.eqString ds1 Data.DataType.toBool4 of wild1 {
+                        GHC.Types.False
+                        -> case GHC.Base.eqString ds1 Data.DataType.toBool2 of wild2 {
+                             GHC.Types.False
+                             -> Data.Either.Left
+                                  @ Data.DataType.LispError
+                                  @ GHC.Types.Bool
+                                  (Data.DataType.TypeMismatch Data.DataType.unpackBool'3 wild)
+                             GHC.Types.True -> Data.DataType.unpackBool'2 }
+                        GHC.Types.True -> Data.DataType.unpackBool'1 } }) -}
+bc6ed612b70eeda9289b6c2fa9afe30e
+  unpackBool'1 ::
+    Data.Either.Either Data.DataType.LispError GHC.Types.Bool
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ GHC.Types.Bool
+                   GHC.Types.False) -}
+2241eac6990a0e98696f6a86962429fd
+  unpackBool'2 ::
+    Data.Either.Either Data.DataType.LispError GHC.Types.Bool
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (Data.Either.Right
+                   @ Data.DataType.LispError
+                   @ GHC.Types.Bool
+                   GHC.Types.True) -}
+66096a3b42a36ba9cc3494c57dc07053
+  unpackBool'3 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "string"#) -}
+f20f1e91a207dd544165ff7aa2885351
+  unpackChar' ::
+    Data.DataType.LispVal -> Data.DataType.ThrowsError GHC.Types.Char
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Either.Left
+                        @ Data.DataType.LispError
+                        @ GHC.Types.Char
+                        (Data.DataType.TypeMismatch Data.DataType.unpackBool'3 wild)
+                   Data.DataType.Char s
+                   -> Data.Either.Right
+                        @ Data.DataType.LispError
+                        @ GHC.Types.Char
+                        s }) -}
+9f1dcc8d78a2b7afb1f67d6178320373
+  unpackNum :: Data.DataType.LispVal -> Data.Number.Number.Number
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ x :: Data.DataType.LispVal ->
+                 case x of wild {
+                   DEFAULT -> Data.DataType.extractValue1 @ Data.Number.Number.Number
+                   Data.DataType.Number n -> n }) -}
+0254d838324cd174672648609f089aa4
+  unpackNum' ::
+    Data.DataType.LispVal
+    -> Data.DataType.ThrowsError Data.Number.Number.Number
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Either.Left
+                        @ Data.DataType.LispError
+                        @ Data.Number.Number.Number
+                        (Data.DataType.TypeMismatch Data.DataType.unpackNum'1 wild)
+                   Data.DataType.Number n
+                   -> Data.Either.Right
+                        @ Data.DataType.LispError
+                        @ Data.Number.Number.Number
+                        n }) -}
+56809731619a926ad20c09c8d2bc3b61
+  unpackNum'1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "number"#) -}
+a2697418890392fba87c5dfcd351d66f
+  unpackString' ::
+    Data.DataType.LispVal -> Data.DataType.ThrowsError GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.LispVal ->
+                 case ds of wild {
+                   DEFAULT
+                   -> Data.Either.Left
+                        @ Data.DataType.LispError
+                        @ GHC.Base.String
+                        (Data.DataType.TypeMismatch Data.DataType.unpackBool'3 wild)
+                   Data.DataType.String s
+                   -> Data.Either.Right
+                        @ Data.DataType.LispError
+                        @ GHC.Base.String
+                        s }) -}
+75ff37d4144527e2d609b343ab2f8c12
+  unpackers :: [Data.DataType.Unpacker]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Data.DataType.Unpacker
+                   Data.DataType.unpackers7
+                   Data.DataType.unpackers1) -}
+cea205fb89b4a5715ff7a44bbe183747
+  unpackers1 :: [Data.DataType.Unpacker]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Data.DataType.Unpacker
+                   Data.DataType.unpackers6
+                   Data.DataType.unpackers2) -}
+ffd70b237e5cb23d855632c7cd879cc6
+  unpackers2 :: [Data.DataType.Unpacker]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Data.DataType.Unpacker
+                   Data.DataType.unpackers5
+                   Data.DataType.unpackers3) -}
+0181c2999c7f72bb61a33f00c86ce7d9
+  unpackers3 :: [Data.DataType.Unpacker]
+  {- Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Data.DataType.Unpacker
+                   Data.DataType.unpackers4
+                   (GHC.Types.[] @ Data.DataType.Unpacker)) -}
+2477110fbe94548b429adbc2c0f32844
+  unpackers4 :: Data.DataType.Unpacker
+  {- Unfolding: (Data.DataType.Unpacker
+                   @ GHC.Types.Bool
+                   GHC.Classes.$fOrdBool
+                   Data.DataType.unpackBool') -}
+54e4e2c5e2002fb35be41384a91be224
+  unpackers5 :: Data.DataType.Unpacker
+  {- Unfolding: (Data.DataType.Unpacker
+                   @ GHC.Types.Char
+                   GHC.Classes.$fOrdChar
+                   Data.DataType.unpackChar') -}
+6e6539dc6e77e60dc3dad0cd0e6187f6
+  unpackers6 :: Data.DataType.Unpacker
+  {- Unfolding: (Data.DataType.Unpacker
+                   @ GHC.Base.String
+                   GHC.Classes.$fOrd[]_$s$fOrd[]1
+                   Data.DataType.unpackString') -}
+3c020162585318967c1b6b4d2a324560
+  unpackers7 :: Data.DataType.Unpacker
+  {- Unfolding: (Data.DataType.Unpacker
+                   @ Data.Number.Number.Number
+                   Data.Number.Number.$fOrdNumber
+                   Data.DataType.unpackNum') -}
+fc167161bd7bc613543b445007f2c69a
+  value :: Data.DataType.Context -> Data.DataType.ValueRule
+  RecSel Data.DataType.Context
+  {- Arity: 1, HasNoCafRefs, Strictness: <S(SL),1*U(1*U,A)>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: Data.DataType.Context ->
+                 case ds of wild { Data.DataType.Context ds1 ds2 -> ds1 }) -}
+f9a48b8f26e4c0ee949c73488619d646
+  wrapSequence :: [Data.DataType.LispVal] -> Data.DataType.LispVal
+  {- Arity: 1, Strictness: <L,U>m2,
+     Unfolding: InlineRule (1, True, False)
+                (\ xs :: [Data.DataType.LispVal] ->
+                 Data.DataType.List
+                   (GHC.Types.:
+                      @ Data.DataType.LispVal
+                      Data.DataType.wrapSequence1
+                      xs)) -}
+2b898c4b588b1a73f0661d981d9ae818
+  wrapSequence1 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Data.DataType.wrapSequence2) -}
+b08fc1fa39a22dca67a88d26ee112739
+  wrapSequence2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Sequence"#) -}
+instance GHC.Classes.Eq [Data.DataType.LispVal]
+  = Data.DataType.$fEqLispVal
+instance GHC.Classes.Ord [Data.DataType.LispVal]
+  = Data.DataType.$fOrdLispVal
+instance GHC.Show.Show [Data.DataType.LispError]
+  = Data.DataType.$fShowLispError
+instance GHC.Show.Show [Data.DataType.LispVal]
+  = Data.DataType.$fShowLispVal
+"SPEC/Data.DataType $dmshowsPrec @ LispError" [ALWAYS] forall $dShow :: GHC.Show.Show
+                                                                          Data.DataType.LispError
+  GHC.Show.$dmshowsPrec @ Data.DataType.LispError $dShow
+  = Data.DataType.$fShowLispError_$s$dmshowsPrec
+"SPEC/Data.DataType $dmshowsPrec @ LispVal" [ALWAYS] forall $dShow :: GHC.Show.Show
+                                                                        Data.DataType.LispVal
+  GHC.Show.$dmshowsPrec @ Data.DataType.LispVal $dShow
+  = Data.DataType.$fShowLispVal_$s$dmshowsPrec
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

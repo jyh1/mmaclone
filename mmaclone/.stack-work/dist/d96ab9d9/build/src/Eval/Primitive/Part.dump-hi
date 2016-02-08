@@ -1,0 +1,181 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:35.8048075 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Eval.Primitive.Part 7102
+  interface hash: 43ac2ae6c0c58a453463c1c921c22edd
+  ABI hash: acc319d0c7ccc2178121f47543de4f18
+  export-list hash: 95a909342e68f1ad008d1d6f122b6731
+  orphan hash: 693e9af84d3dfcc71e640e005bdc5e2e
+  flag hash: 77b6106c54fdc8333c6f0415b12192fd
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Eval.Primitive.Part.part
+module dependencies: Data.DataType Data.Number.Hier
+                     Data.Number.Number
+package dependencies: array-0.5.1.0@array_E0sTtauuKsGDLZoT7lTbgZ
+                      base-4.8.1.0* binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd
+                      bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH
+                      containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN
+                      deepseq-1.4.1.1@deeps_LbCWUlehDDeLxurARKDH5o ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU
+                      parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0
+                      text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh
+                      transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+         binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH:Data.ByteString.Builder
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Show
+         transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Error
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Functor.Identity
+                         base-4.8.1.0:Data.Monoid base-4.8.1.0:Data.Type.Equality
+                         base-4.8.1.0:Data.Void base-4.8.1.0:GHC.Exts
+                         base-4.8.1.0:GHC.Generics
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntMap.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntSet.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Sequence
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Set.Base
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+import  -/  base-4.8.1.0:Control.Monad dfea142d91349c4861427789d50d5b80
+import  -/  base-4.8.1.0:Data.Either bc9482e78cc431fce439b593377aa2e6
+import  -/  base-4.8.1.0:Data.Foldable 2e5acb797cfda6b3b7fabd7052abe290
+import  -/  base-4.8.1.0:Data.Traversable 89769555cf5e62f4edd3d085405c2caa
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.List f31ed8784b3e05f1397195751f7d74ea
+import  -/  base-4.8.1.0:GHC.Num 9f42750c866f5832ca565146bd660c60
+import  -/  base-4.8.1.0:GHC.Real 4c3b525ecbd4d62bb287aec36d4c2f0d
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  Data.DataType c371d6fa81ae9f0301da5ca425bb3968
+  exports: 085545853aa06ac5ecb7dc9bef058506
+  Atom 07ea59aa4e810b3562eaa798e4b5c76b
+  LispError cba277bd3aa0c5f997a0d809dac4bad3
+  LispVal f70327bb01160acdaa903077fba7f03a
+  List 1dd2cf24c8e01106ae239f6b22b15c51
+  Number e387ab7157ef16d9857ca76a6e55f510
+  PartE 797b41bcc9b1e7c06ac692781a07f0cd
+  Result 8ffdf17365fa1e675e6c9cde9487e997
+  hasValue 471108dcb2ccac1764b7277cb7a55e2e
+  list 45d5ec066180308102cb4681bd29f193
+import  -/  Data.Number.Number 2ac8bfb8a00bd9e3712221b1e929b631
+  exports: c2c926f6c2c1eef8393e1f6cda1b117c
+  Integer ff3d0cdf85cbf1ba5bc0ca7ede0fd44b
+import  -/  mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU:Control.Monad.Error.Class ba990105c31f50ec068e65779adef46a
+import  -/  mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU:Control.Monad.Except 794a4a733dd47f7fbb820afcb8ea0779
+ced2ff3f898bbd641d97ebfe5c41ffbc
+  data PartError = Pkspec | Partw | Partd
+    Promotable
+0e49ff2c62a46712b43873d4d7d9ceb2
+  data PartRes
+    = Sres Data.DataType.LispVal | Lres [Data.DataType.LispVal]
+fa0aa0cb9507276349d31bb867939fef
+  data PartSpeci = S GHC.Types.Int | L [GHC.Types.Int]
+2e09bce74d5098b726a0807a5ee3e6d6
+  type ThrowPart = Data.Either.Either Eval.Primitive.Part.PartError
+2d0097d13b44775a97f4fc018e51790d
+  part :: [Data.DataType.LispVal] -> Data.DataType.Result
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ l :: [Data.DataType.LispVal] ->
+                 case l of wild {
+                   []
+                   -> case Eval.Primitive.Part.part6 ret_ty Data.DataType.Result of {}
+                   : l1 ls
+                   -> let {
+                        $j :: Eval.Primitive.Part.PartError
+                              -> Data.Either.Either
+                                   Data.DataType.LispError (GHC.Base.Maybe Data.DataType.LispVal)
+                          {- Arity: 1, Strictness: <L,1*U> -}
+                        = \ err :: Eval.Primitive.Part.PartError[OneShot] ->
+                          Data.Either.Left
+                            @ Data.DataType.LispError
+                            @ (GHC.Base.Maybe Data.DataType.LispVal)
+                            (case err of wild1 {
+                               Eval.Primitive.Part.Pkspec
+                               -> Data.DataType.PartE
+                                    Eval.Primitive.Part.part5
+                                    (Data.DataType.List
+                                       (GHC.Types.:
+                                          @ Data.DataType.LispVal
+                                          Data.DataType.list1
+                                          (GHC.Types.:
+                                             @ Data.DataType.LispVal
+                                             Eval.Primitive.Part.part3
+                                             wild)))
+                               Eval.Primitive.Part.Partw
+                               -> Data.DataType.PartE
+                                    Eval.Primitive.Part.part2
+                                    (Data.DataType.List
+                                       (GHC.Types.:
+                                          @ Data.DataType.LispVal
+                                          Data.DataType.list1
+                                          (GHC.Types.:
+                                             @ Data.DataType.LispVal
+                                             Eval.Primitive.Part.part3
+                                             wild)))
+                               Eval.Primitive.Part.Partd
+                               -> Data.DataType.PartE
+                                    Eval.Primitive.Part.part1
+                                    (Data.DataType.List
+                                       (GHC.Types.:
+                                          @ Data.DataType.LispVal
+                                          Data.DataType.list1
+                                          (GHC.Types.:
+                                             @ Data.DataType.LispVal
+                                             Eval.Primitive.Part.part3
+                                             wild))) })
+                      } in
+                      case Eval.Primitive.Part.part_go ls of wild1 {
+                        Data.Either.Left l2 -> $j l2
+                        Data.Either.Right r
+                        -> case Eval.Primitive.Part.partWithSpeci l1 r of wild2 {
+                             Data.Either.Left err -> $j err
+                             Data.Either.Right val -> Data.DataType.hasValue val } } }) -}
+810b0e5ab644be950c1ab1169146d92d
+  part1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "part specification is longer than depth of object"#) -}
+338d327a49c454d5b4cc11e2da0774de
+  part2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "part specification does not exist"#) -}
+3718c09aa76a557292c0fff88ad200ef
+  part3 :: Data.DataType.LispVal
+  {- Strictness: m3,
+     Unfolding: (Data.DataType.Atom Eval.Primitive.Part.part4) -}
+90b2a57282801479accf6ea7073371c1
+  part4 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Part"#) -}
+5e8c0efa1fb48fa110684df0f66ad609
+  part5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString#
+                   "invalid part specification"#) -}
+53c6b6aeba082f689eecfe6fe6b253e1
+  part6 :: Eval.Primitive.Part.ThrowPart Data.DataType.LispVal
+  {- Strictness: b -}
+c8d47638c7c8ff84fd45319662c75ec6
+  partWithSpeci ::
+    Data.DataType.LispVal
+    -> [Eval.Primitive.Part.PartSpeci]
+    -> Eval.Primitive.Part.ThrowPart Data.DataType.LispVal
+  {- Arity: 2, Strictness: <L,U><S,1*U> -}
+c814061a0ae42cf1a8677b19e585e1c3
+  part_go ::
+    [Data.DataType.LispVal]
+    -> Data.Either.Either
+         Eval.Primitive.Part.PartError [Eval.Primitive.Part.PartSpeci]
+  {- Arity: 1, Strictness: <S,1*U> -}
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

@@ -1,0 +1,144 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:35.543622 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Eval.Patt.Pattern 7102
+  interface hash: 7acd5f04b097b3057cbbbd237a427acd
+  ABI hash: db10baf4603aa2503f1530414f11a8d2
+  export-list hash: b1cd7e7d071dde4977806f36ebb5044b
+  orphan hash: 8509169b5aa0407ee86196d4f3f4ddce
+  flag hash: 495ff22d28e0f155005454312876cf34
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Eval.Patt.Pattern.fromBool
+  Eval.Patt.Pattern.getMatch
+  Eval.Patt.Pattern.internalReplace
+  Eval.Patt.Pattern.replace
+module dependencies: Data.DataType Data.Number.Hier
+                     Data.Number.Number
+package dependencies: array-0.5.1.0@array_E0sTtauuKsGDLZoT7lTbgZ
+                      base-4.8.1.0* binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd
+                      bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH
+                      containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN
+                      deepseq-1.4.1.1@deeps_LbCWUlehDDeLxurARKDH5o ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU
+                      parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0
+                      text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh
+                      transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+         binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH:Data.ByteString.Builder
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Show
+         transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Error
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Functor.Identity
+                         base-4.8.1.0:Data.Monoid base-4.8.1.0:Data.Type.Equality
+                         base-4.8.1.0:Data.Void base-4.8.1.0:GHC.Exts
+                         base-4.8.1.0:GHC.Generics
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntMap.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntSet.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Sequence
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Set.Base
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+import  -/  base-4.8.1.0:Data.Foldable 2e5acb797cfda6b3b7fabd7052abe290
+import  -/  base-4.8.1.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
+import  -/  base-4.8.1.0:Data.Traversable 89769555cf5e62f4edd3d085405c2caa
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.List f31ed8784b3e05f1397195751f7d74ea
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  Data.DataType c371d6fa81ae9f0301da5ca425bb3968
+  exports: 085545853aa06ac5ecb7dc9bef058506
+  Atom 07ea59aa4e810b3562eaa798e4b5c76b
+  Char 84382c40cbc5332600a9f97ea0ae0bd3
+  LispVal f70327bb01160acdaa903077fba7f03a
+  List 1dd2cf24c8e01106ae239f6b22b15c51
+  Matched 76ecd4342cf9e000db2f48d3707f62c3
+  Number e387ab7157ef16d9857ca76a6e55f510
+  Pattern f01ba960f6286ea1420a9756e4e3995f
+  Rule 52e3012c4bcbd42439aeb773787fe6cf
+  String 749b1441ef79d451fbbaa004153c455f
+42f4682349b585b8882dfc8acbc04a19
+  $sconcat :: [[a3]] -> [a3]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Inline: INLINE (sat-args=1),
+     Unfolding: InlineRule (1, False, False)
+                (\ @ a3 xs :: [[a3]] ->
+                 GHC.Base.build
+                   @ a3
+                   (\ @ b c :: a3 -> b -> b[OneShot] n :: b[OneShot] ->
+                    GHC.Base.foldr
+                      @ [a3]
+                      @ b
+                      (\ x :: [a3] y :: b[OneShot] -> GHC.Base.foldr @ a3 @ b c y x)
+                      n
+                      xs)) -}
+b5d4097e3ca4fcdb0a568b0f788ad63d
+  $wreplace ::
+    Data.DataType.LispVal
+    -> Data.DataType.Pattern
+    -> Data.DataType.LispVal
+    -> GHC.Base.Maybe Data.DataType.LispVal
+  {- Arity: 3, Strictness: <L,U><S,1*U><L,1*U>, Inline: [0],
+     Unfolding: (\ w :: Data.DataType.LispVal
+                   ww :: Data.DataType.Pattern
+                   ww1 :: Data.DataType.LispVal ->
+                 case Eval.Patt.Pattern.getMatch ww w of wild {
+                   GHC.Base.Nothing -> GHC.Base.Nothing @ Data.DataType.LispVal
+                   GHC.Base.Just x
+                   -> GHC.Base.Just
+                        @ Data.DataType.LispVal
+                        (Eval.Patt.Pattern.internalReplace ww1 x) }) -}
+cec96c8dcb66ba8b535d544503eb5c06
+  fromBool ::
+    GHC.Types.Bool -> GHC.Base.Maybe [Data.DataType.Matched]
+  {- Arity: 1, HasNoCafRefs, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ ds :: GHC.Types.Bool ->
+                 case ds of wild {
+                   GHC.Types.False -> GHC.Base.Nothing @ [Data.DataType.Matched]
+                   GHC.Types.True -> Eval.Patt.Pattern.fromBool1 }) -}
+7b3e9b6336d95ca3bd5ca1068fe90dd4
+  fromBool1 :: GHC.Base.Maybe [Data.DataType.Matched]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Base.Just
+                   @ [Data.DataType.Matched]
+                   (GHC.Types.[] @ Data.DataType.Matched)) -}
+2f3d35acfb3c830a3c4bfaf1343c980c
+  getMatch ::
+    Data.DataType.Pattern
+    -> Data.DataType.LispVal -> GHC.Base.Maybe [Data.DataType.Matched]
+  {- Arity: 2, Strictness: <S,1*U><L,U> -}
+fa9452174ae0c3948ee665ea4308d449
+  internalReplace ::
+    Data.DataType.LispVal
+    -> [Data.DataType.Matched] -> Data.DataType.LispVal
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,U> -}
+26abaffa038b89f63055bda1e9aae652
+  replace ::
+    Data.DataType.LispVal
+    -> Data.DataType.Rule -> GHC.Base.Maybe Data.DataType.LispVal
+  {- Arity: 2, Strictness: <L,U><S(SL),1*U(1*U,1*U)>,
+     Inline: INLINE[0],
+     Unfolding: InlineRule (2, True, False)
+                (\ w :: Data.DataType.LispVal w1 :: Data.DataType.Rule ->
+                 case w1 of ww { (,) ww1 ww2 ->
+                 Eval.Patt.Pattern.$wreplace w ww1 ww2 }) -}
+"SPEC/Eval.Patt.Pattern concat @ [] _" [ALWAYS] forall @ a3
+                                                       $dFoldable :: Data.Foldable.Foldable []
+  Data.Foldable.concat @ [] @ a3 $dFoldable
+  = Eval.Patt.Pattern.$sconcat @ a3
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+

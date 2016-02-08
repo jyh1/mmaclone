@@ -1,0 +1,402 @@
+
+==================== FINAL INTERFACE ====================
+2016-02-08 09:21:35.4015211 UTC
+
+interface mmacl_7qCmVzAeZ7l4QbMWDs7fVL:Data.Attribute 7102
+  interface hash: 84982f352e2e919481f342a467acbfb9
+  ABI hash: a60e4f349973dc40740fd80e3e598989
+  export-list hash: f665add004417ff2167db7d77064f783
+  orphan hash: 4a1023dcb7470fb0dba55f31e26d605a
+  flag hash: 527060beb171641a5c92776aabd9d011
+  sig of: Nothing
+  used TH splices: False
+  where
+exports:
+  Data.Attribute.attributes
+  Data.Attribute.getAttributes
+  Data.Attribute.lookUpAttribute
+  Data.Attribute.plusAttr
+  Data.Attribute.Attribute{Data.Attribute.Flatten Data.Attribute.HoldAll Data.Attribute.HoldFirst Data.Attribute.HoldRest Data.Attribute.Orderless Data.Attribute.SequenceHold}
+  Data.Attribute.Attributes
+module dependencies: Data.DataType Data.Number.Hier
+                     Data.Number.Number
+package dependencies: array-0.5.1.0@array_E0sTtauuKsGDLZoT7lTbgZ
+                      base-4.8.1.0* binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd
+                      bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH
+                      containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN*
+                      deepseq-1.4.1.1@deeps_LbCWUlehDDeLxurARKDH5o ghc-prim-0.4.0.0
+                      integer-gmp-1.0.0.0 mtl-2.2.1@mtl_KMpng31YRYc5JfMWFZ3FCU
+                      parsec-3.1.9@parse_8fSmqig53hOL2SEu1k9Tv0
+                      text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh
+                      transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X
+orphans: base-4.8.1.0:GHC.Base base-4.8.1.0:GHC.Float
+         binary-0.7.5.0@binar_IvYoLp9H6Xy3zEH13MmZwd:Data.Binary.Generic
+         bytestring-0.10.6.0@bytes_6elQVSg5cWdFrvRnfxTUrH:Data.ByteString.Builder
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Show
+         transformers-0.4.2.0@trans_3eG64VdP2vzGjP6wJiCp5X:Control.Monad.Trans.Error
+family instance modules: base-4.8.1.0:Control.Applicative
+                         base-4.8.1.0:Data.Either base-4.8.1.0:Data.Functor.Identity
+                         base-4.8.1.0:Data.Monoid base-4.8.1.0:Data.Type.Equality
+                         base-4.8.1.0:Data.Void base-4.8.1.0:GHC.Exts
+                         base-4.8.1.0:GHC.Generics
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntMap.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.IntSet.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Sequence
+                         containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Set.Base
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text
+                         text-1.2.1.3@text_1l1AN4I48k37RaQ6fm6CEh:Data.Text.Lazy
+import  -/  base-4.8.1.0:Data.Maybe 1cb58de2b04ee3c0c0a7dc9201184aff
+import  -/  base-4.8.1.0:GHC.Base a4939789b2cfd60b36ed163e56a623cd
+import  -/  base-4.8.1.0:GHC.Show b8c65ca3124f92a166c9f05120382442
+import  -/  base-4.8.1.0:Prelude 518f762991bc287d78f21a73c974da1f
+import  -/  containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Base 5c2ff57702bb6d3bb1e1daa9506827de
+import  -/  containers-0.5.6.2@conta_LKCPrTJwOTOLk4OU37YmeN:Data.Map.Strict da4f8d9da9474d9e5066f35b15fbc85c
+import  -/  ghc-prim-0.4.0.0:GHC.Classes e1f4ff80f7b5262008a595d29986fb18
+import  -/  Data.DataType c371d6fa81ae9f0301da5ca425bb3968
+  exports: 085545853aa06ac5ecb7dc9bef058506
+  Atom 07ea59aa4e810b3562eaa798e4b5c76b
+  LispVal f70327bb01160acdaa903077fba7f03a
+e1e0ec7ce737b165611b030c11305276
+  $fEqAttribute :: GHC.Classes.Eq Data.Attribute.Attribute
+  DFunId[0]
+  {- HasNoCafRefs, Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Attribute.Attribute
+                  Data.Attribute.$fEqAttribute_$c==
+                  Data.Attribute.$fEqAttribute_$c/= -}
+e1e0ec7ce737b165611b030c11305276
+  $fEqAttribute_$c/= ::
+    Data.Attribute.Attribute
+    -> Data.Attribute.Attribute -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ a :: Data.Attribute.Attribute
+                   b :: Data.Attribute.Attribute ->
+                 case a of wild {
+                   Data.Attribute.HoldAll
+                   -> case b of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Attribute.HoldAll -> GHC.Types.False }
+                   Data.Attribute.HoldFirst
+                   -> case b of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Attribute.HoldFirst -> GHC.Types.False }
+                   Data.Attribute.HoldRest
+                   -> case b of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Attribute.HoldRest -> GHC.Types.False }
+                   Data.Attribute.Orderless
+                   -> case b of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Attribute.Orderless -> GHC.Types.False }
+                   Data.Attribute.Flatten
+                   -> case b of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Attribute.Flatten -> GHC.Types.False }
+                   Data.Attribute.SequenceHold
+                   -> case b of wild1 {
+                        DEFAULT -> GHC.Types.True
+                        Data.Attribute.SequenceHold -> GHC.Types.False } }) -}
+e1e0ec7ce737b165611b030c11305276
+  $fEqAttribute_$c== ::
+    Data.Attribute.Attribute
+    -> Data.Attribute.Attribute -> GHC.Types.Bool
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: (\ ds :: Data.Attribute.Attribute
+                   ds1 :: Data.Attribute.Attribute ->
+                 case ds of wild {
+                   Data.Attribute.HoldAll
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Attribute.HoldAll -> GHC.Types.True }
+                   Data.Attribute.HoldFirst
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Attribute.HoldFirst -> GHC.Types.True }
+                   Data.Attribute.HoldRest
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Attribute.HoldRest -> GHC.Types.True }
+                   Data.Attribute.Orderless
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Attribute.Orderless -> GHC.Types.True }
+                   Data.Attribute.Flatten
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Attribute.Flatten -> GHC.Types.True }
+                   Data.Attribute.SequenceHold
+                   -> case ds1 of wild1 {
+                        DEFAULT -> GHC.Types.False
+                        Data.Attribute.SequenceHold -> GHC.Types.True } }) -}
+e1e0ec7ce737b165611b030c11305276
+  $fShowAttribute :: GHC.Show.Show Data.Attribute.Attribute
+  DFunId[0]
+  {- Strictness: m, Inline: [ALWAYS] CONLIKE,
+     Unfolding: DFun:.
+                  @ Data.Attribute.Attribute
+                  Data.Attribute.$fShowAttribute_$cshowsPrec
+                  Data.Attribute.$fShowAttribute_$cshow
+                  Data.Attribute.$fShowAttribute_$cshowList -}
+cc6512bcc558c72dc5833831e7136bd8
+  $fShowAttribute1 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "SequenceHold"#) -}
+ef85bc2fbd50b5c33d16dba213eabc20
+  $fShowAttribute2 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Flatten"#) -}
+4b230a7414235d3c1a751464dcb9320e
+  $fShowAttribute3 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Orderless"#) -}
+3abfab97c507344b5729bc77c926a4ae
+  $fShowAttribute4 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "HoldRest"#) -}
+118db699fd7b2d8cc4c1a6cae115850c
+  $fShowAttribute5 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "HoldFirst"#) -}
+dc94d223316fa5786773465b5886d6cc
+  $fShowAttribute6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "HoldAll"#) -}
+e1e0ec7ce737b165611b030c11305276
+  $fShowAttribute_$cshow ::
+    Data.Attribute.Attribute -> GHC.Base.String
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: InlineRule (1, True, False)
+                (\ x :: Data.Attribute.Attribute ->
+                 Data.Attribute.$fShowAttribute_$cshowsPrec
+                   GHC.Show.shows18
+                   x
+                   (GHC.Types.[] @ GHC.Types.Char)) -}
+e1e0ec7ce737b165611b030c11305276
+  $fShowAttribute_$cshowList ::
+    [Data.Attribute.Attribute] -> GHC.Show.ShowS
+  {- Arity: 2,
+     Unfolding: (GHC.Show.showList__
+                   @ Data.Attribute.Attribute
+                   Data.Attribute.$w$cshowsPrec) -}
+e1e0ec7ce737b165611b030c11305276
+  $fShowAttribute_$cshowsPrec ::
+    GHC.Types.Int -> Data.Attribute.Attribute -> GHC.Show.ShowS
+  {- Arity: 3, Strictness: <L,A><S,1*U><L,1*U>, Inline: INLINE[0],
+     Unfolding: InlineRule (3, True, True)
+                (\ w :: GHC.Types.Int
+                   w1 :: Data.Attribute.Attribute
+                   w2 :: GHC.Base.String ->
+                 Data.Attribute.$w$cshowsPrec w1 w2) -}
+330bd20a7b97386ba094f7252263a615
+  $sfromList ::
+    [(GHC.Base.String, a)] -> Data.Map.Base.Map GHC.Base.String a
+  {- Arity: 1, Strictness: <S,1*U>,
+     Unfolding: (\ @ a ds :: [(GHC.Base.String, a)] ->
+                 case ds of wild {
+                   [] -> Data.Map.Base.Tip @ GHC.Base.String @ a
+                   : ds1 ds2
+                   -> case ds1 of wild1 { (,) kx x ->
+                      case ds2 of wild2 {
+                        []
+                        -> case x of x1 { DEFAULT ->
+                           case kx of dt { DEFAULT ->
+                           Data.Map.Base.Bin
+                             @ GHC.Base.String
+                             @ a
+                             1
+                             dt
+                             x1
+                             (Data.Map.Base.Tip @ GHC.Base.String @ a)
+                             (Data.Map.Base.Tip @ GHC.Base.String @ a) } }
+                        : ipv ipv1
+                        -> case ipv of wild3 { (,) ky ds3 ->
+                           case GHC.Classes.$fOrd[]_$s$ccompare1 kx ky of wild4 {
+                             DEFAULT
+                             -> case x of x0 { DEFAULT ->
+                                case kx of dt { DEFAULT ->
+                                Data.Attribute.$sfromList1
+                                  @ a
+                                  (Data.Map.Base.Bin
+                                     @ GHC.Base.String
+                                     @ a
+                                     1
+                                     dt
+                                     x0
+                                     (Data.Map.Base.Tip @ GHC.Base.String @ a)
+                                     (Data.Map.Base.Tip @ GHC.Base.String @ a))
+                                  wild2 } }
+                             GHC.Types.LT
+                             -> case x of x0 { DEFAULT ->
+                                case kx of dt { DEFAULT ->
+                                Data.Attribute.$wpoly_go4
+                                  @ a
+                                  1
+                                  (Data.Map.Base.Bin
+                                     @ GHC.Base.String
+                                     @ a
+                                     1
+                                     dt
+                                     x0
+                                     (Data.Map.Base.Tip @ GHC.Base.String @ a)
+                                     (Data.Map.Base.Tip @ GHC.Base.String @ a))
+                                  wild2 } } } } } } }) -}
+4f8dcbc8725fb115154bd5ba529eb712
+  $sfromList1 ::
+    Data.Map.Base.Map GHC.Base.String a1
+    -> [(GHC.Base.String, a1)] -> Data.Map.Base.Map GHC.Base.String a1
+  {- Arity: 2, Strictness: <S,1*U><S,1*U> -}
+872532701c086b9f21765a379d53d787
+  $sinsert_$sgo4 ::
+    GHC.Base.String
+    -> a1
+    -> Data.Map.Base.Map GHC.Base.String a1
+    -> Data.Map.Base.Map GHC.Base.String a1
+  {- Arity: 3, Strictness: <S,1*U><S,1*U><S,1*U> -}
+c3f7d198902b93dbeebe260c66880242
+  $slookup1 ::
+    GHC.Base.String
+    -> Data.Map.Base.Map GHC.Base.String a -> GHC.Base.Maybe a
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U> -}
+e1e0ec7ce737b165611b030c11305276
+  $w$cshowsPrec ::
+    Data.Attribute.Attribute -> GHC.Base.String -> GHC.Base.String
+  {- Arity: 2, Strictness: <S,1*U><L,1*U>, Inline: [0],
+     Unfolding: (\ w :: Data.Attribute.Attribute
+                   w1 :: GHC.Base.String ->
+                 case w of wild {
+                   Data.Attribute.HoldAll
+                   -> GHC.Base.++ @ GHC.Types.Char Data.Attribute.$fShowAttribute6 w1
+                   Data.Attribute.HoldFirst
+                   -> GHC.Base.++ @ GHC.Types.Char Data.Attribute.$fShowAttribute5 w1
+                   Data.Attribute.HoldRest
+                   -> GHC.Base.++ @ GHC.Types.Char Data.Attribute.$fShowAttribute4 w1
+                   Data.Attribute.Orderless
+                   -> GHC.Base.++ @ GHC.Types.Char Data.Attribute.$fShowAttribute3 w1
+                   Data.Attribute.Flatten
+                   -> GHC.Base.++ @ GHC.Types.Char Data.Attribute.$fShowAttribute2 w1
+                   Data.Attribute.SequenceHold
+                   -> GHC.Base.++
+                        @ GHC.Types.Char
+                        Data.Attribute.$fShowAttribute1
+                        w1 }) -}
+68cc16c0b350710486e7fa6c5897893d
+  $wpoly_go4 ::
+    GHC.Prim.Int#
+    -> Data.Map.Base.Map GHC.Base.String a
+    -> [(GHC.Base.String, a)]
+    -> Data.Map.Base.Map GHC.Base.String a
+  {- Arity: 3, Strictness: <L,U><S,1*U><S,1*U>, Inline: [0] -}
+e1e0ec7ce737b165611b030c11305276
+  data Attribute
+    = HoldAll
+    | HoldFirst
+    | HoldRest
+    | Orderless
+    | Flatten
+    | SequenceHold
+    Promotable
+a528ef03c10a299c1a5acf1c56a74592
+  type Attributes =
+    Data.Map.Base.Map GHC.Base.String [Data.Attribute.Attribute]
+92968549b14c3726ef1811b61b2d84b7
+  attributes :: Data.Attribute.Attributes
+  {- Unfolding: (Data.Attribute.$sfromList
+                   @ [Data.Attribute.Attribute]
+                   Data.Attribute.attributes1) -}
+a295809b6fb5bbec2e90479aac4505fa
+  attributes1 :: [(GHC.Base.String, [Data.Attribute.Attribute])]
+  {- Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String, [Data.Attribute.Attribute])
+                   Data.Attribute.attributes9
+                   Data.Attribute.attributes2) -}
+edf27b6e141ad6688228b8fe4f6bba6c
+  attributes10 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Plus"#) -}
+a4ff819f19995ddd45772a0c2956bef2
+  attributes2 :: [(GHC.Base.String, [Data.Attribute.Attribute])]
+  {- Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String, [Data.Attribute.Attribute])
+                   Data.Attribute.attributes7
+                   Data.Attribute.attributes3) -}
+b7003780334816cbd3b1ea3cb68b3dd5
+  attributes3 :: [(GHC.Base.String, [Data.Attribute.Attribute])]
+  {- Unfolding: (GHC.Types.:
+                   @ (GHC.Base.String, [Data.Attribute.Attribute])
+                   Data.Attribute.attributes4
+                   (GHC.Types.[] @ (GHC.Base.String, [Data.Attribute.Attribute]))) -}
+dcdc9964a3631427fa55d6aac217efcf
+  attributes4 :: ([GHC.Types.Char], [Data.Attribute.Attribute])
+  {- Unfolding: ((Data.Attribute.attributes6,
+                  Data.Attribute.attributes5)) -}
+82022817ee2842ae95e9b3f2ee394e2f
+  attributes5 :: [Data.Attribute.Attribute]
+  {- HasNoCafRefs,
+     Unfolding: (GHC.Types.:
+                   @ Data.Attribute.Attribute
+                   Data.Attribute.HoldAll
+                   (GHC.Types.[] @ Data.Attribute.Attribute)) -}
+ff85649a8fb66cde6af5ba62c2388d19
+  attributes6 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Hold"#) -}
+728229bbf1bc49beb5d443fda7b0f4e9
+  attributes7 :: ([GHC.Types.Char], [Data.Attribute.Attribute])
+  {- Unfolding: ((Data.Attribute.attributes8,
+                  Data.Attribute.plusAttr)) -}
+903b095c143277c1c7766d4a14fd6564
+  attributes8 :: [GHC.Types.Char]
+  {- Unfolding: (GHC.CString.unpackCString# "Times"#) -}
+fde979a27620915679c422748cd94f42
+  attributes9 :: ([GHC.Types.Char], [Data.Attribute.Attribute])
+  {- Unfolding: ((Data.Attribute.attributes10,
+                  Data.Attribute.plusAttr)) -}
+a8630d4ccf3d2a43840c98733a79ee16
+  getAttributes ::
+    Data.DataType.LispVal
+    -> Data.Attribute.Attributes -> [Data.Attribute.Attribute]
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><L,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ ds :: Data.DataType.LispVal att :: Data.Attribute.Attributes ->
+                 case ds of wild {
+                   DEFAULT -> GHC.Types.[] @ Data.Attribute.Attribute
+                   Data.DataType.Atom name
+                   -> Data.Attribute.lookUpAttribute name att }) -}
+9828dc23e1b744d9aec2419376d536bb
+  lookUpAttribute ::
+    GHC.Base.String
+    -> Data.Attribute.Attributes -> [Data.Attribute.Attribute]
+  {- Arity: 2, HasNoCafRefs, Strictness: <S,1*U><S,1*U>,
+     Unfolding: InlineRule (2, True, False)
+                (\ name :: GHC.Base.String att :: Data.Attribute.Attributes ->
+                 case Data.Attribute.$slookup1
+                        @ [Data.Attribute.Attribute]
+                        name
+                        att of wild {
+                   GHC.Base.Nothing -> GHC.Types.[] @ Data.Attribute.Attribute
+                   GHC.Base.Just v -> v }) -}
+41fa84c4958afa5fdbadf868f90383de
+  plusAttr :: [Data.Attribute.Attribute]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Data.Attribute.Attribute
+                   Data.Attribute.Orderless
+                   Data.Attribute.plusAttr1) -}
+b6bd273534b07e035c3e60bf2cf1d378
+  plusAttr1 :: [Data.Attribute.Attribute]
+  {- HasNoCafRefs, Strictness: m2,
+     Unfolding: (GHC.Types.:
+                   @ Data.Attribute.Attribute
+                   Data.Attribute.Flatten
+                   (GHC.Types.[] @ Data.Attribute.Attribute)) -}
+instance GHC.Classes.Eq [Data.Attribute.Attribute]
+  = Data.Attribute.$fEqAttribute
+instance GHC.Show.Show [Data.Attribute.Attribute]
+  = Data.Attribute.$fShowAttribute
+"SPEC/Data.Attribute fromList @ String _" [ALWAYS] forall @ a
+                                                          $dOrd :: GHC.Classes.Ord GHC.Base.String
+  Data.Map.Strict.fromList @ [GHC.Types.Char] @ a $dOrd
+  = Data.Attribute.$sfromList @ a
+vectorised variables:
+vectorised tycons:
+vectorised reused tycons:
+parallel variables:
+parallel tycons:
+trusted: safe
+require own pkg trusted: False
+
