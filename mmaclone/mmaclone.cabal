@@ -18,6 +18,14 @@ library
   exposed-modules:     Parser.Trans
                       , Eval.Eval
                       , Data.DataType
+                      , Data.Number.Number
+                      , Data.Number.Hier
+                      , Data.Attribute
+                      , Eval.Environment
+                      , Eval.Patt.Pattern
+                      , Eval.Primitive.Part
+                      , Eval.Primitive.Primitives
+                      , Parser.NewParse
   build-depends:       base >= 4.7 && < 5
                       , mtl
                       , containers
@@ -28,10 +36,10 @@ library
 executable mmaclone-exe
   hs-source-dirs:      app
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1
   build-depends:       base
-                     , mmaclone
                      , mtl
+                     , mmaclone
   default-language:    Haskell2010
 
 test-suite mmaclone-test
@@ -40,9 +48,13 @@ test-suite mmaclone-test
   main-is:             Spec.hs
   build-depends:       base
                      , mmaclone
+                     , hspec
+                     , QuickCheck
+                     , mtl
+                     , parsec
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/mmaclone
+  location: https://github.com/jyh1/mmaclone
