@@ -32,6 +32,10 @@ false = toBool False
 
 rational = Number . Rational
 
+pe = Atom "P"
+one = integer 1
+two = integer 2
+three = integer 3
 
 spec :: Spec
 spec  = do
@@ -118,6 +122,7 @@ spec  = do
           test1 "True&&True" true
         it "case #f #f" $ do
           test1 "False && False" false
+          test1 "a&&b" (List [Atom "And",Atom "a",Atom "b"])
       context "||" $ do
         it "case #t #f" $ do
           test1 "True||False" true

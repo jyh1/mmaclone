@@ -34,8 +34,10 @@ isNull _ = False
 
 atomNull = Atom "Null"
 
-trueQ (Atom "True") = True
-trueQ _ = False
+isBool (Atom "True") = True
+isBool (Atom "False") = True
+isBool _ = False
+
 toBool True = Atom "True"
 toBool False = Atom "False"
 unBool (Atom "True") = True
@@ -130,7 +132,6 @@ plusError a _ = a
 sumError :: [ThrowsError a] -> ThrowsError a
 sumError = foldr plusError (Left (Default "mzero"))
 
-type Result = ThrowsError (Maybe LispVal)
 
 trapError action = catchError action (return . show)
 
@@ -139,14 +140,7 @@ extractValue (Right val) = val
 
 -- --------------------------------------------------
 
-hasValue :: LispVal -> ThrowsError (Maybe LispVal)
-hasValue = return . Just
-
-noChange :: Result
-noChange = return Nothing
 -- --------------------------------
-type SingleFun = LispVal -> Result
-type BinaryFun = LispVal -> LispVal -> Result
 -- ---------------------------------
 type Pattern = LispVal
 type Matched = (String, LispVal)

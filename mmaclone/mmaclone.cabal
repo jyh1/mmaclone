@@ -16,6 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Parser.Trans
+                      , Parser.NewParse
                       , Eval.Eval
                       , Data.DataType
                       , Data.Number.Number
@@ -23,9 +24,15 @@ library
                       , Data.Attribute
                       , Eval.Environment
                       , Eval.Patt.Pattern
-                      , Eval.Primitive.Part
+                      , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
-                      , Parser.NewParse
+                      , Eval.Primitive.Primi.Primi
+                      , Eval.Primitive.Primi.Arithmatic.Arithmatic
+                      , Eval.Primitive.Primi.Compare.Compare
+                      , Eval.Primitive.Primi.List.List
+                      , Eval.Primitive.Primi.List.Elem
+                      , Eval.Primitive.Primi.List.Part
+                      , Eval.Primitive.Primi.Logic.Logic
   build-depends:       base >= 4.7 && < 5
                       , mtl
                       , containers
@@ -36,7 +43,7 @@ library
 executable mmaclone-exe
   hs-source-dirs:      app
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1 -O2
   build-depends:       base
                      , mtl
                      , mmaclone

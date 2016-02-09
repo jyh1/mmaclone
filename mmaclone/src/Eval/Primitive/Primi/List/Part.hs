@@ -1,9 +1,12 @@
-module Eval.Primitive.Part(part) where
+module Eval.Primitive.Primi.List.Part(partl) where
 import Data.DataType
 import Data.Number.Number
+import Eval.Primitive.PrimiType
 
 import Control.Monad
 import Control.Monad.Except
+
+partl = many1op part
 
 part :: [LispVal] -> Result
 part l = case partWithPartError l of

@@ -172,7 +172,6 @@ trivial (SlotSeq n) = addHead1 "SlotSequence" (integer n)
 trivial (Str s) = String s
 trivial (Chr c) = Char c
 trivial (Out n) = addHead1 "Out" (integer n)
-trivial None = Atom "Null"
 -- trivial (Lis lis) = (Atom "List") : lis
 
 negateE :: LispVal -> LispVal
