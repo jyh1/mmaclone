@@ -21,7 +21,9 @@ attributes :: Attributes
 attributes = M.fromList[
               ("Plus", plusAttr),
               ("Times", plusAttr),
-              ("Hold", [HoldAll])
+              ("Hold", [HoldAll]),
+              ("Set", [HoldFirst,SequenceHold]),
+              ("SetDelayed", [HoldAll,SequenceHold])
               ]
 
 lookUpAttribute :: String -> Attributes -> [Attribute]

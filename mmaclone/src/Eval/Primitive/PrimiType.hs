@@ -5,6 +5,7 @@ module Eval.Primitive.PrimiType where
 import Data.DataType
 import Data.Number.Number
 
+import qualified Data.Map.Strict as M
 import Control.Monad
 import Control.Monad.Except
 
@@ -16,6 +17,9 @@ type IOPrimi = Env -> [LispVal] -> IOResult
 
 type SingleFun = LispVal -> Result
 type BinaryFun = LispVal -> LispVal -> Result
+type IOBinary = Env -> LispVal -> LispVal -> IOResult
+
+type Primitives = M.Map String IOPrimi
 
 hasValue :: (Monad m) => LispVal -> m (Maybe LispVal)
 hasValue = return . Just
@@ -23,6 +27,8 @@ hasValue = return . Just
 noChange :: (Monad m) => m (Maybe LispVal)
 noChange = return Nothing
 
+toIOPrimi :: Primi -> IOPrimi
+toIOPrimi f _ ls = liftThrows $ f ls
 
 binop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
 binop op [a, b] = op a b

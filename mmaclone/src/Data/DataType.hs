@@ -160,19 +160,19 @@ liftThrows :: ThrowsError a -> IOThrowsError a
 liftThrows (Left err) = throwError err
 liftThrows (Right val) = return val
 
-setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
-setVar envRef lhs rhs = liftIO $ do
-  match <- readIORef envRef
-  let newCont = setVar' match lhs rhs
-  writeIORef envRef newCont
-  return atomNull
-
-setVar' :: Context -> Pattern -> LispVal -> Context
-setVar' cont lhs rhs
-  | isPattern lhs = Context values (insertPattern patterns lhs rhs)
-  | otherwise = Context (insertRule values lhs rhs) patterns
-    where patterns = pattern cont
-          values = value cont
+-- setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
+-- setVar envRef lhs rhs = liftIO $ do
+--   match <- readIORef envRef
+--   let newCont = setVar' match lhs rhs
+--   writeIORef envRef newCont
+--   return atomNull
+--
+-- setVar' :: Context -> Pattern -> LispVal -> Context
+-- setVar' cont lhs rhs
+--   | isPattern lhs = Context values (insertPattern patterns lhs rhs)
+--   | otherwise = Context (insertRule values lhs rhs) patterns
+--     where patterns = pattern cont
+--           values = value cont
 
 insertPattern :: PatternRule -> Pattern -> LispVal-> PatternRule
 insertPattern rules lhs@(List (Atom name : _)) rhs =

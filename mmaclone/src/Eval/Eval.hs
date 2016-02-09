@@ -15,6 +15,7 @@ import Control.Monad
 import Data.Ratio
 import Data.Maybe(fromMaybe)
 import Data.List(sort)
+import qualified Data.Map.Strict as M
 evalWithRecord :: Env -> Int -> LispVal -> IOThrowsError LispVal
 evalWithRecord env nn val = do
   let n = integer $ fromIntegral nn
@@ -28,13 +29,13 @@ eval env val = do
   if x1 == val then return x1 else eval env x1
 
 eval' :: Env -> LispVal -> IOThrowsError LispVal
-eval' env (List [Atom "SetDelayed", lhs, rhs]) =
-  setVar env lhs rhs
-
-eval' env (List [Atom "Set", lhs, rhs]) = do
-  evaled <- eval env rhs
-  setVar env lhs evaled
-  return evaled
+-- eval' env (List [Atom "SetDelayed", lhs, rhs]) =
+--   setVar env lhs rhs
+--
+-- eval' env (List [Atom "Set", lhs, rhs]) = do
+--   evaled <- eval env rhs
+--   setVar env lhs evaled
+--   return evaled
 
 
 eval' env (List (v:vs)) = do
@@ -47,9 +48,9 @@ eval' env (List (v:vs)) = do
       getFName _ = Nothing
   let fun = do
         name <- getFName headE
-        lookup name primitives
+        M.lookup name primitives
   case fun of
-    Just f -> liftThrows $ liftM (fromMaybe old) (f args)
+    Just f -> liftM (fromMaybe old) (f env args)
     Nothing -> evalWithEnv env old
 
 eval' env val@(Atom _) = evalWithEnv env val
