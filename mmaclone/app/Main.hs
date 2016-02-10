@@ -5,6 +5,7 @@ import Text.Printf
 import System.IO
 
 import Data.DataType
+import Data.Environment.Environment
 import Eval.Eval
 import Parser.Trans
 -- import Pretty

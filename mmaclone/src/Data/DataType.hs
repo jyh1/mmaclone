@@ -105,6 +105,7 @@ data LispError = NumArgs Integer [LispVal]
                 | Default String
                 | PartE String LispVal
                 | Incomplete [LispVal]
+                | SetError LispVal
 
 
 instance Show LispError where
@@ -122,6 +123,7 @@ instance Show LispError where
   show (Incomplete s) = show s ++ "is incomplete.More input is needed"
   show (PartE tag v) = show v ++" "++ tag
   show (Default s) = s
+  show (SetError v) = "Cannot assign to object " ++ show v
 
 type ThrowsError = Either LispError
 
@@ -141,18 +143,6 @@ extractValue (Right val) = val
 -- --------------------------------------------------
 
 -- --------------------------------
--- ---------------------------------
-type Pattern = LispVal
-type Matched = (String, LispVal)
-type Rule = (Pattern, LispVal)
-type ValueRule = M.Map LispVal LispVal
-type PatternRule = M.Map String [Rule]
-data Context = Context {value :: ValueRule, pattern :: PatternRule}
--- IORef
-type Env = IORef Context
-
-nullEnv :: IO Env
-nullEnv = newIORef (Context M.empty M.empty)
 
 type IOThrowsError = ExceptT LispError IO
 
@@ -160,36 +150,6 @@ liftThrows :: ThrowsError a -> IOThrowsError a
 liftThrows (Left err) = throwError err
 liftThrows (Right val) = return val
 
--- setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
--- setVar envRef lhs rhs = liftIO $ do
---   match <- readIORef envRef
---   let newCont = setVar' match lhs rhs
---   writeIORef envRef newCont
---   return atomNull
---
--- setVar' :: Context -> Pattern -> LispVal -> Context
--- setVar' cont lhs rhs
---   | isPattern lhs = Context values (insertPattern patterns lhs rhs)
---   | otherwise = Context (insertRule values lhs rhs) patterns
---     where patterns = pattern cont
---           values = value cont
-
-insertPattern :: PatternRule -> Pattern -> LispVal-> PatternRule
-insertPattern rules lhs@(List (Atom name : _)) rhs =
-  M.insertWith (++) name [(lhs,rhs)] rules
-
-insertRule :: ValueRule -> LispVal -> LispVal -> ValueRule
-insertRule rules lhs rhs =
-  M.insert lhs rhs rules
-
-isPattern :: LispVal -> Bool
-isPattern (List (Atom "Pattern" : _)) = True
-isPattern (List (Atom "Blank":_)) = True
-isPattern (List xs) = any isPattern xs
-isPattern _ = False
-
-readRule :: Env -> IOThrowsError Context
-readRule = liftIO . readIORef
-
+-- ---------------------------------
 wrapSequence :: [LispVal] -> LispVal
 wrapSequence xs = List (Atom "Sequence": xs)

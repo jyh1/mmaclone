@@ -4,6 +4,7 @@ module Eval.Primitive.PrimiType where
 
 import Data.DataType
 import Data.Number.Number
+import Data.Environment.Environment
 
 import qualified Data.Map.Strict as M
 import Control.Monad

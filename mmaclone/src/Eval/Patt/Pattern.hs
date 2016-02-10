@@ -1,7 +1,14 @@
 module Eval.Patt.Pattern where
 
 import Data.DataType
+
+
 import Data.Maybe
+import Data.Function(on)
+
+type Pattern = LispVal
+type Matched = (String, LispVal)
+type Rule = (Pattern, LispVal)
 
 getMatch :: Pattern -> LispVal -> Maybe [Matched]
 getMatch (List [Atom "Blank"]) _ = Just []
@@ -34,3 +41,32 @@ replace :: LispVal -> Rule -> Maybe LispVal
 replace val (patt, target) = do
   matched <- getMatch patt val
   return $ internalReplace target matched
+
+blankQ :: Pattern -> Bool
+blankQ (List (Atom "Blank" : _)) = True
+blankQ _ = False
+
+blankEq :: Pattern -> Pattern -> Bool
+blankEq a b
+  | blankQ a && blankQ b = True
+  | otherwise = False
+
+blankEqui = blankEq `on` unpackPatt
+
+unpackPatt :: Pattern -> Pattern
+unpackPatt (List [Atom "Pattern",_,patt]) = patt
+unpackPatt other = other
+
+patternEqui :: Pattern -> Pattern -> Bool
+patternEqui (List as) (List bs) =
+  let el = length as == length bs
+      pl = and $ zipWith patternEqui as bs in
+    el && pl
+patternEqui a b = a == b || blankEqui a b
+
+
+isPattern :: LispVal -> Bool
+isPattern (List (Atom "Pattern" : _)) = True
+isPattern (List (Atom "Blank":_)) = True
+isPattern (List xs) = any isPattern xs
+isPattern _ = False

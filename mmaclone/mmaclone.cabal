@@ -21,6 +21,7 @@ library
                       , Data.DataType
                       , Data.Number.Number
                       , Data.Number.Hier
+                      , Data.Environment.Environment
                       , Data.Attribute
                       , Eval.Environment
                       , Eval.Patt.Pattern
@@ -33,7 +34,6 @@ library
                       , Eval.Primitive.Primi.List.Elem
                       , Eval.Primitive.Primi.List.Part
                       , Eval.Primitive.Primi.Logic.Logic
-
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set
   build-depends:       base >= 4.7 && < 5
@@ -41,6 +41,7 @@ library
                       , containers
                       , transformers
                       , parsec
+                      , lens
   default-language:    Haskell2010
 
 executable mmaclone-exe

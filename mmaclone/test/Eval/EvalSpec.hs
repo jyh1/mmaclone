@@ -1,5 +1,6 @@
 module Eval.EvalSpec where
 
+import Data.Environment.Environment
 import Eval.Eval
 import Data.DataType
 import Parser.Trans

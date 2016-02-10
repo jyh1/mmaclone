@@ -6,6 +6,7 @@ module Eval.Eval
     ) where
 
 import Data.DataType
+import Data.Environment.Environment
 import Data.Number.Number
 import Eval.Primitive.Primitives
 import Eval.Environment
@@ -29,15 +30,6 @@ eval env val = do
   if x1 == val then return x1 else eval env x1
 
 eval' :: Env -> LispVal -> IOThrowsError LispVal
--- eval' env (List [Atom "SetDelayed", lhs, rhs]) =
---   setVar env lhs rhs
---
--- eval' env (List [Atom "Set", lhs, rhs]) = do
---   evaled <- eval env rhs
---   setVar env lhs evaled
---   return evaled
-
-
 eval' env (List (v:vs)) = do
   let evalE = eval env
   headE <- evalE v
