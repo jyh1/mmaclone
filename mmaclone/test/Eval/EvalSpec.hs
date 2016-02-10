@@ -144,3 +144,7 @@ spec  = do
         ["fib[n_]:=fib[n]=fib[n-1]+fib[n-2]",
           "fib[1]=1;fib[2]=1;", "fib[40]"]
         (integer 102334155)
+
+    it "pattern matching" $ do
+      test
+        ["a[0]=1","a[0.0]=1","a[0]","a[0.0]"] (integer 1)

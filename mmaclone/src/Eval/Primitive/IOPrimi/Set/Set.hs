@@ -16,7 +16,7 @@ setl :: IOPrimi
 setl env = binop (set env)
 
 setDelayedl :: IOPrimi
-setDelayedl env ls = binop (set env) ls >> return (Just atomNull)
+setDelayedl env ls = setl env ls >> return (Just atomNull)
 
 setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
 setVar envRef lhs rhs = liftIO $ do

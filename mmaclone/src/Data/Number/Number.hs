@@ -7,7 +7,7 @@ import Data.Number.Hier
 data Number = Double Double
             | Rational Rational
             | Integer Integer
-  deriving(Eq)
+  deriving(Eq,Ord)
 
 instance Show Number where
   show (Integer i) = show i
@@ -17,8 +17,8 @@ instance Show Number where
 -- instance Eq Number where
   -- (==) = (==) `on` toDouble
 
-instance Ord Number where
-  (<=) = (<=) `on` toDouble
+-- instance Ord Number where
+--   (<=) = (<=) `on` toDouble
 
 instance Hier Number where
   rank (Integer _) = 1
@@ -93,6 +93,10 @@ numberEqual (Integer a) (Integer b) = a == b
 numberEqual (Double a) (Double b) = a == b
 numberEqual (Rational a) (Rational b) = a == b
 numberEqual a b = ((==) `on` toDouble) a b
+
+
+numberComp :: Number -> Number -> Ordering
+numberComp = compare `on` toDouble
 
 isZero :: Number -> Bool
 isZero = (== zero)
