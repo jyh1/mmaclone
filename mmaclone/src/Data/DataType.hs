@@ -9,6 +9,7 @@ import Control.Monad.Trans.Except
 import           Text.ParserCombinators.Parsec(ParseError)
 import Data.List
 import Data.Number.Number
+import Text.Printf
 
 -- LispVal
 
@@ -97,6 +98,7 @@ double = Number . Double
 
 data LispError = NumArgs Integer [LispVal]
                 | NumArgs1
+                | NumArgsN Int Int Int
                 | TypeMismatch String LispVal
                 | Parser ParseError
                 | BadSpecialForm String LispVal
@@ -116,6 +118,7 @@ instance Show LispError where
                                       " args: found values " ++ unwordsList found
     where unwordsList = unwords . map show
   show NumArgs1 = "One or more arguments are expected"
+  show (NumArgsN l r found) = printf "Called with %d arguments,between %d and %d arguments are exprected" found l r
   show (TypeMismatch expected found) = "Invalid type: expected " ++ expected
                                         ++ ", found" ++ show found
   show (Parser parseErr) = "Parse error at " ++ show parseErr

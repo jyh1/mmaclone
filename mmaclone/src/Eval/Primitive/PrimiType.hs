@@ -41,4 +41,9 @@ sinop _ vals  = throwError $ NumArgs 1 vals
 many1op _ [] = throwError NumArgs1
 many1op f val = f val
 
+manynop l r f ls =
+  let len = length ls in
+    if l <= len && len <= r then f ls
+      else throwError $ NumArgsN l r len
+
 liftEval f a b = return $ Just (f a b)

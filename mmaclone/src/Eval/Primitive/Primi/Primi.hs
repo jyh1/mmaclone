@@ -19,8 +19,11 @@ primi = [
               -- list mainpulation
               ("car", carl),
               ("cdr", cdrl),
+              ("cons", consl),
               ("Length", lengthl),
               ("Part", partl),
+              -- list construction
+              ("Range", rangel),
 
               -- comparation
               ("Less", lessl),

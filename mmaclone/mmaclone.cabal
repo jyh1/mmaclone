@@ -15,7 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Parser.Trans
+  exposed-modules:     Test
+                      , Parser.Trans
                       , Parser.NewParse
                       , Eval.Eval
                       , Data.DataType
@@ -33,7 +34,9 @@ library
                       , Eval.Primitive.Primi.List.List
                       , Eval.Primitive.Primi.List.Elem
                       , Eval.Primitive.Primi.List.Part
+                      , Eval.Primitive.Primi.List.Cons
                       , Eval.Primitive.Primi.Logic.Logic
+
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set
   build-depends:       base >= 4.7 && < 5
@@ -42,6 +45,8 @@ library
                       , transformers
                       , parsec
                       , lens
+                      , hspec
+                      , QuickCheck
   default-language:    Haskell2010
 
 executable mmaclone-exe

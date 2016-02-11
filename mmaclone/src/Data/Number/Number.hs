@@ -12,7 +12,7 @@ data Number = Double Double
 instance Show Number where
   show (Integer i) = show i
   show (Double d) = show d
-  show (Rational r) = show r
+  show (Rational r) = show (numerator r) ++ "/" ++ show (denominator r)
 
 -- instance Eq Number where
   -- (==) = (==) `on` toDouble
@@ -35,6 +35,9 @@ toDouble :: Number -> Double
 toDouble (Integer n) = fromIntegral n
 toDouble (Rational r) = fromRational r
 toDouble (Double x) = x
+
+toNumberDouble :: Number -> Number
+toNumberDouble = Double . toDouble
 
 plus :: Number -> Number -> Number
 plus = peerOpUp plus'
@@ -104,8 +107,23 @@ isZero = (== zero)
 isOne :: Number -> Bool
 isOne = (== Integer 1)
 
+isDouble :: Number -> Bool
+isDouble (Double _) = True
+isDouble _ = False
+
+inexactQ :: Number -> Bool
+inexactQ = isDouble
+
+numberTrunc :: (Integral a) => Number -> a
+numberTrunc (Integer n) = fromIntegral n
+numberTrunc (Rational d) = truncate d
+numberTrunc (Double d) = truncate d
+
 zero :: Number
 zero = Integer 0
+
+one :: Number
+one = Integer 1
 
 negateN, inverseN :: Number -> Number
 negateN (Integer a) = Integer (-a)

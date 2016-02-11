@@ -2,10 +2,11 @@ module Eval.EvalSpec where
 
 import Data.Environment.Environment
 import Eval.Eval
-import Data.DataType
+import Data.DataType hiding (list)
 import Parser.Trans
+import Test
 import Data.Ratio
-import Data.Number.Number
+import Data.Number.Number hiding (one)
 import System.IO.Unsafe
 import Control.Monad.Except
 
@@ -19,24 +20,18 @@ test a b =
   let parsed = extractValue $ mapM readExpr a in
     testEval parsed `shouldBe` b
 
+
 testEval :: [LispVal] -> LispVal
 testEval exprs = unsafePerformIO $ do
   env <- nullEnv
   evaled <- runExceptT $ mapM (eval env) exprs
   return (last (extractValue evaled))
 
-true = toBool True
-false = toBool False
 
 -- double :: Double -> LispVal
 -- double = Number . Double
 
-rational = Number . Rational
 
-pe = Atom "P"
-one = integer 1
-two = integer 2
-three = integer 3
 
 spec :: Spec
 spec  = do
@@ -83,6 +78,7 @@ spec  = do
         it "length of an atom value" $ do
           test1 "Length@(1-2)" $ integer 0
 
+    context "Eval.Primitive.Primi.List.Part" $ do
       context "part" $ do
         it "part of a list,index from 0" $ do
           test1 "{1,2,3,4}[[4]]" $ integer 4
@@ -91,13 +87,25 @@ spec  = do
           test1 "{{1,2},{3,4,5}}[[2,1]]" $ integer 3
           test1 "(1+2x+3)[[1]]" $ integer 4
 
-      context "car" $ do
-        it "return first element" $ do
-          test1 "car[{1,2,3}]" (Atom "List")
-      context "cdr" $ do
-        it "return the rest elements" $ do
-          test1 "cdr[{1,2}]" (List [integer 1, integer 2])
---
+      context "Eval.Primitive.Primi.List.Cons" $ do
+        context "Range" $ do
+          it "different argumens" $ do
+            test1 "Range[1,2,1]" $ list [one,two]
+            test1 "Range[3]" $ list [one,two,three]
+            test1 "Range[1,1.1,0.1]" $ list [double 1, double 1.1]
+            test1 "Range[1,1+1/2,1/2]" $ list [integer 1,rational (3%2)]
+
+      context "Eval.Primitive.Primi.List.Elem" $ do
+        context "car" $ do
+          it "return first element" $ do
+            test1 "car[{1,2,3}]" (Atom "List")
+        context "cdr" $ do
+          it "return the rest elements" $ do
+            test1 "cdr[{1,2}]" (List [integer 1, integer 2])
+        context "cons" $ do
+          it "cons" $ do
+            test1 "cons[1,{1,2}]" (List [one,Atom "List",one,two])
+  --
     -- context "comparing function" $ do
     --   context "compare number" $ do
     --     it "less" $ do
