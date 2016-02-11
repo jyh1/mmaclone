@@ -31,19 +31,19 @@ noChange = return Nothing
 toIOPrimi :: Primi -> IOPrimi
 toIOPrimi f _ ls = liftThrows $ f ls
 
-binop _ singleVal@[_] = throwError $ NumArgs 2 singleVal
-binop op [a, b] = op a b
-binop _ vals = throwError $ NumArgs 2 vals
+binop name _ singleVal@[_] = throwError $ NumArgs name 2 singleVal
+binop _ op [a, b] = op a b
+binop name _ vals = throwError $ NumArgs name 2 vals
 
-sinop op [x] = op x
-sinop _ vals  = throwError $ NumArgs 1 vals
+sinop _ op [x] = op x
+sinop name _ vals  = throwError $ NumArgs name 1 vals
 
-many1op _ [] = throwError NumArgs1
-many1op f val = f val
+many1op name _ [] = throwError $ NumArgs1 name
+many1op _ f val = f val
 
-manynop l r f ls =
+manynop name l r f ls =
   let len = length ls in
     if l <= len && len <= r then f ls
-      else throwError $ NumArgsN l r len
+      else throwError $ NumArgsN name l r len
 
 liftEval f a b = return $ Just (f a b)

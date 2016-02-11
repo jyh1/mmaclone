@@ -1,6 +1,7 @@
 module Test where
 import Data.Number.Number hiding(plus,times,one)
 import Data.DataType hiding (list)
+import Parser.Trans
 
 addHead a b = List (Atom a : b)
 
@@ -72,3 +73,5 @@ rational = Number . Rational
 
 true = toBool True
 false = toBool False
+
+readVal = extractValue . readExpr

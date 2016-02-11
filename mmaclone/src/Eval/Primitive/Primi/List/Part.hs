@@ -6,7 +6,7 @@ import Eval.Primitive.PrimiType
 import Control.Monad
 import Control.Monad.Except
 
-partl = many1op part
+partl = many1op "Part" part
 
 part :: [LispVal] -> Result
 part l = case partWithPartError l of

@@ -14,6 +14,7 @@ import Test.Hspec
 -- import Test.QuickCheck
 -- import Control.Exception(evaluate)
 
+
 test1 = test . return
 
 test a b =
@@ -105,6 +106,17 @@ spec  = do
         context "cons" $ do
           it "cons" $ do
             test1 "cons[1,{1,2}]" (List [one,Atom "List",one,two])
+
+    context "Eval.Primitive.Primi.List.Map" $ do
+      context "map" $ do
+        it "level 1" $ do
+          test1 "P/@{1,2,3}" (readVal "{P[1],P[2],P[3]}")
+          test1 "Map[f,{1,2,3}]" (readVal "{f[1],f[2],f[3]}")
+        it "other level" $ do
+          test1 "Map[f,{1,2,{3}},2]" (readVal "{f[1],f[2],f[{f[3]}]}")
+          test1 "Map[f,{1,2,{3}},{2}]" (readVal "{1,2,{f[3]}}")
+          test1 "Map[f,{1,{{2},3}},{2,3}]" (readVal "{1,{f[{f[2]}],f[3]}}")
+
   --
     -- context "comparing function" $ do
     --   context "compare number" $ do

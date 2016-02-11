@@ -35,6 +35,8 @@ library
                       , Eval.Primitive.Primi.List.Elem
                       , Eval.Primitive.Primi.List.Part
                       , Eval.Primitive.Primi.List.Cons
+                      , Eval.Primitive.Primi.List.Map
+                      , Eval.Primitive.Primi.List.Level
                       , Eval.Primitive.Primi.Logic.Logic
 
                       , Eval.Primitive.IOPrimi.IOPrimi
@@ -52,7 +54,7 @@ library
 executable mmaclone-exe
   hs-source-dirs:      app
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1 -O2
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1
   build-depends:       base
                      , mtl
                      , mmaclone

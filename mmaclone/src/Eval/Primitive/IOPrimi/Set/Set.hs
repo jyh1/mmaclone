@@ -16,7 +16,7 @@ set :: IOBinary
 set env lhs rhs = liftM Just $ setVar env lhs rhs
 
 setl :: IOPrimi
-setl env = binop (set env)
+setl env = binop "Set" (set env)
 
 setDelayedl :: IOPrimi
 setDelayedl env ls = setl env ls >> return (Just atomNull)

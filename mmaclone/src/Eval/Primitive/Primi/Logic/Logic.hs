@@ -3,9 +3,9 @@ import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
 
-andl = binop andl'
-orl = binop orl'
-notl = sinop notl'
+andl = binop "And" andl'
+orl = binop "Or" orl'
+notl = sinop "Not" notl'
 
 logic :: (Bool -> Bool -> Bool) -> BinaryFun
 logic f a b

@@ -96,9 +96,9 @@ double = Number . Double
 
 -- LispError
 
-data LispError = NumArgs Integer [LispVal]
-                | NumArgs1
-                | NumArgsN Int Int Int
+data LispError = NumArgs String Integer [LispVal]
+                | NumArgs1 String
+                | NumArgsN String Int Int Int
                 | TypeMismatch String LispVal
                 | Parser ParseError
                 | BadSpecialForm String LispVal
@@ -108,17 +108,18 @@ data LispError = NumArgs Integer [LispVal]
                 | PartE String LispVal
                 | Incomplete [LispVal]
                 | SetError LispVal
+                | Level LispVal
 
 
 instance Show LispError where
   show (UnboundVar message varname) = message ++ ": " ++ varname
   show (BadSpecialForm message form) = message ++ ": " ++ show form
   show (NotFunction message func) = message ++ ": " ++ show func
-  show (NumArgs expected found) = "Expected " ++ show expected ++
+  show (NumArgs name expected found) = name ++ "is expected " ++ show expected ++
                                       " args: found values " ++ unwordsList found
     where unwordsList = unwords . map show
-  show NumArgs1 = "One or more arguments are expected"
-  show (NumArgsN l r found) = printf "Called with %d arguments,between %d and %d arguments are exprected" found l r
+  show (NumArgs1 name) = name ++ "::One or more arguments are expected"
+  show (NumArgsN name l r found) = printf "%s is called with %d arguments,between %d and %d arguments are exprected" name found l r
   show (TypeMismatch expected found) = "Invalid type: expected " ++ expected
                                         ++ ", found" ++ show found
   show (Parser parseErr) = "Parse error at " ++ show parseErr
@@ -127,6 +128,7 @@ instance Show LispError where
   show (PartE tag v) = show v ++" "++ tag
   show (Default s) = s
   show (SetError v) = "Cannot assign to object " ++ show v
+  show (Level v) = show v ++ " is not a valid level specification"
 
 type ThrowsError = Either LispError
 
@@ -156,3 +158,6 @@ liftThrows (Right val) = return val
 -- ---------------------------------
 wrapSequence :: [LispVal] -> LispVal
 wrapSequence xs = List (Atom "Sequence": xs)
+
+applyTo :: LispVal -> LispVal -> LispVal
+applyTo h args = List [h,args]

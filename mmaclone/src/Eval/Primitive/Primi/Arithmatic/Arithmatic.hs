@@ -13,7 +13,7 @@ numericPolop :: (Number -> [LispVal] -> Result) ->
   ([LispVal] -> Result) ->
   (Number -> Number -> Number) -> [LispVal]
   -> Result
-numericPolop _ _ _ _ [] = throwError $ NumArgs 0 []
+numericPolop _ _ _ _ [] = throwError $ NumArgs "Plus" 0 []
 numericPolop _ _ _ _ [a] = return $ Just a
 numericPolop merges groupers tagHead op params = do
   let (nums,others) = partition checkNum params
@@ -70,7 +70,7 @@ divide a b = liftEval divide' a b
     divide' a b = List [Atom "Times", a, List [Atom "Power", b, Number $ Integer (-1)]]
 
 -- modl = numericBinop ((Just.). modN)
-powerl = binop $ numericBinop powerN
+powerl = binop "Power" $ numericBinop powerN
 -- ----------------------------------------
 
 plusl = numericPolop mergePlus groupPlus (returnWithHead "Plus") plus

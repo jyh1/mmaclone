@@ -22,6 +22,7 @@ primi = [
               ("cons", consl),
               ("Length", lengthl),
               ("Part", partl),
+              ("Map", mapl),
               -- list construction
               ("Range", rangel),
 

@@ -8,7 +8,7 @@ import Control.Monad
 import Control.Monad.Except
 
 rangel :: Primi
-rangel = manynop 1 3 rangel'
+rangel = manynop "Range" 1 3 rangel'
 
 rangel' :: Primi
 rangel' ls = do

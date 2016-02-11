@@ -7,11 +7,11 @@ import Eval.Primitive.PrimiType
 import Control.Monad
 import Control.Monad.Except
 
-equall = binop equal
-lessl = binop less
-lessEquall = binop lessEqual
-greaterl = binop greater
-greaterEquall = binop greaterEqual
+equall = binop "Equal" equal
+lessl = binop "Less" less
+lessEquall = binop "LessEqual" lessEqual
+greaterl = binop "Greater" greater
+greaterEquall = binop "GreaterEqual" greaterEqual
 
 
 -- unpackCompare :: LispVal -> LispVal ->

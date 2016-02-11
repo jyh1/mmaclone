@@ -1,15 +1,15 @@
 module Eval.Primitive.Primi.List.Elem(carl,cdrl,lengthl,consl) where
-import Data.DataType 
+import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
 
 import Control.Monad.Except
 import Data.List
 
-lengthl = sinop len
-carl = sinop car
-cdrl = sinop cdr
-consl = binop cons
+lengthl = sinop "Length" len
+carl = sinop "car" car
+cdrl = sinop "cdr" cdr
+consl = binop "cons" cons
 
 len :: SingleFun
 len x = return $ Just $ len' x
