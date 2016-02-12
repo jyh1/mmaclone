@@ -1,4 +1,4 @@
-module Eval.Primitive.Primi.List.Map(mapl) where
+module Eval.Primitive.Primi.List.Map(mapl,applyl) where
 import Eval.Primitive.Primi.List.Level
 import Data.DataType
 import Data.Number.Number
@@ -9,33 +9,43 @@ import Control.Monad
 import Control.Monad.Except
 
 mapl = manynop "Map" 2 3 mapl'
+applyl = manynop "Apply" 2 3 applyl'
 
-data Args = Args LispVal LispVal Int Int
+-- type Args = LispVal -> LispVal
 
-mapl' args = do
-  args' <- unpackArgs args
-  hasValue $ mapTo args'
+mapl' = unpackArgs applyHead 1
+applyl' = unpackArgs changeHead 0
+
+-- mapped n f args = do
+--   args' <- unpackArgs n args
+--   hasValue $ f args'
 
 
-mapTo :: Args -> LispVal
-mapTo (Args fun app low upper) =
-  levelMapFromTo (applyTo fun) low upper app
+
+-- applyArg :: (LispVal -> LispVal -> LispVal) -> Args -> LispVal
+-- applyArg f (Args fun app low upper) =
+--   levelMapFromTo (f fun) low upper app
+
+-- mapTo = applyArg applyHead
+-- applyTo = applyArg changeHead
+
 
 
 unpack :: LispVal -> LispVal -> ThrowsError Int
 unpack _ (Number (Integer n)) = return (fromIntegral n)
 unpack val _ = throwError $ Level val
 
-unpackArgs :: [LispVal] -> ThrowsError Args
-unpackArgs [f,app] = return $ Args f app 1 1
-unpackArgs [f,app,val@(List [Atom "List",n])] = do
+unpackArgs :: (LispVal -> LispVal -> LispVal) -> Int ->
+  [LispVal] -> Result
+unpackArgs fun defa [f,app] = hasValue $ levelMap (fun f)  defa app
+unpackArgs fun _ [f,app,val@(List [Atom "List",n])] = do
   n' <- unpack val n
-  return $ Args f app n' n'
-unpackArgs [f, app, val@(List [Atom "List", i,j])] = do
+  hasValue $ levelMap (fun f) n' app
+unpackArgs fun _ [f, app, val@(List [Atom "List", i,j])] = do
   let unpack' = unpack val
   i' <- unpack' i
   j' <- unpack' j
-  return $ Args f app i' j'
-unpackArgs [f, app ,n] = do
+  hasValue $ levelMapFromTo (fun f) i' j' app
+unpackArgs fun _ [f, app ,n] = do
   n' <- unpack n n
-  return $ Args f app 1 n'
+  hasValue $ levelMapUpTo (fun f) n' app

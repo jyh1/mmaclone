@@ -1,5 +1,5 @@
 module Eval.Primitive.Primi.List.Level
-  (levelMap,levelFromTo,levelAt,levelMapFromTo) where
+  (levelMap,levelFromTo,levelUpTo,levelAt,levelMapFromTo,levelMapUpTo) where
 import Data.DataType
 import Data.Number.Number
 
@@ -28,6 +28,10 @@ levelFromTo _ _ _ other = return other
 
 levelAt f n = levelFromTo f n n
 
+levelUpTo f = levelFromTo f 1
+
 levelMap f n = runIdentity . levelAt (Identity . f) n
 
 levelMapFromTo f i j = runIdentity . levelFromTo (Identity . f) i j
+
+levelMapUpTo f n = runIdentity . levelUpTo (Identity . f) n

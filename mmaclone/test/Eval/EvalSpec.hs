@@ -117,6 +117,17 @@ spec  = do
           test1 "Map[f,{1,2,{3}},{2}]" (readVal "{1,2,{f[3]}}")
           test1 "Map[f,{1,{{2},3}},{2,3}]" (readVal "{1,{f[{f[2]}],f[3]}}")
 
+      context "apply" $ do
+        it "level 0" $ do
+          test1 "f@@{1,2,3}" (readVal "f[1,2,3]")
+          test1 "Apply[f,{1,2,3},{0}]" (readVal "f[1,2,3]")
+        it "other level" $ do
+          test1 "Apply[f,{1,{2,{3}}},2]" (readVal "{1,f[2,f[3]]}")
+          test1 "f@@@{1,{2},3}" (readVal "{1,f[2],3}")
+          test1 "Apply[f,{1,{2,{3}}},{2}]" (readVal "{1,{2,f[3]}}")
+          test1 "Apply[f,{1,{2,{3}}},{0,1}]" (readVal "f[1,f[2,{3}]]")
+
+
   --
     -- context "comparing function" $ do
     --   context "compare number" $ do
@@ -169,3 +180,6 @@ spec  = do
     it "pattern matching" $ do
       test
         ["a[0]=1","a[0.0]=1","a[0]","a[0.0]"] (integer 1)
+
+
+main = hspec spec

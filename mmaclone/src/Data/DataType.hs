@@ -159,5 +159,8 @@ liftThrows (Right val) = return val
 wrapSequence :: [LispVal] -> LispVal
 wrapSequence xs = List (Atom "Sequence": xs)
 
-applyTo :: LispVal -> LispVal -> LispVal
-applyTo h args = List [h,args]
+applyHead,changeHead :: LispVal -> LispVal -> LispVal
+applyHead h args = List [h,args]
+
+changeHead h (List (l:ls)) = List (h:ls)
+changeHead _ val = val
