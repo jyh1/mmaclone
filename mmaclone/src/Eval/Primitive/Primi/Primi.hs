@@ -5,6 +5,8 @@ import Eval.Primitive.Primi.List.List
 import Eval.Primitive.Primi.Compare.Compare
 import Eval.Primitive.Primi.Logic.Logic
 import Eval.Primitive.Primi.Arithmatic.Arithmatic
+import Eval.Primitive.Primi.Control.Branch
+
 
 import Eval.Primitive.PrimiType
 import Control.Monad
@@ -40,5 +42,7 @@ primi = [
               -- ("quoteient", numericBinop quot),
               ("And", andl),
               ("Or", orl),
-              ("Not", notl)
+              ("Not", notl),
+              -- branch
+              ("If",ifl)
             ]

@@ -23,7 +23,8 @@ attributes = M.fromList[
               ("Times", plusAttr),
               ("Hold", [HoldAll]),
               ("Set", [HoldFirst,SequenceHold]),
-              ("SetDelayed", [HoldAll,SequenceHold])
+              ("SetDelayed", [HoldAll,SequenceHold]),
+              ("If", [HoldRest])
               ]
 
 lookUpAttribute :: String -> Attributes -> [Attribute]

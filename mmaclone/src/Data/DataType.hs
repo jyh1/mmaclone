@@ -39,6 +39,9 @@ isBool (Atom "True") = True
 isBool (Atom "False") = True
 isBool _ = False
 
+trueQ (Atom "True") = True
+trueQ _ = False
+
 toBool True = Atom "True"
 toBool False = Atom "False"
 unBool (Atom "True") = True
@@ -96,7 +99,7 @@ double = Number . Double
 
 -- LispError
 
-data LispError = NumArgs String Integer [LispVal]
+data LispError = NumArgs String Int [LispVal]
                 | NumArgs1 String
                 | NumArgsN String Int Int Int
                 | TypeMismatch String LispVal

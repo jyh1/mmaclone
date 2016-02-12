@@ -37,6 +37,7 @@ library
                       , Eval.Primitive.Primi.List.Cons
                       , Eval.Primitive.Primi.List.Map
                       , Eval.Primitive.Primi.List.Level
+                      , Eval.Primitive.Primi.Control.Branch
                       , Eval.Primitive.Primi.Logic.Logic
 
                       , Eval.Primitive.IOPrimi.IOPrimi

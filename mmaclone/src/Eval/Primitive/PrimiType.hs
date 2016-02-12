@@ -46,4 +46,10 @@ manynop name l r f ls =
     if l <= len && len <= r then f ls
       else throwError $ NumArgsN name l r len
 
+withnop n name f ls =
+  let len = length ls in
+    if n == len then f ls
+      else throwError $ NumArgs name n ls
+
+
 liftEval f a b = return $ Just (f a b)

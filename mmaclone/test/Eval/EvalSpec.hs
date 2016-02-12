@@ -148,7 +148,7 @@ spec  = do
     --       test1 "(< \"bc\" \"ab\")" false
 
 
-    context "logic function" $ do
+    context "Eval.Logic.Logic" $ do
       context "&&" $ do
         it "case #t #t" $ do
           test1 "True&&True" true
@@ -164,6 +164,12 @@ spec  = do
         it "case #t" $ do
           test1 "!True" false
 
+  context "Eval.Control.Branch" $ do
+    context "If" $ do
+      it "If expression" $ do
+        test1 "If[True,1,2]" (readVal "1")
+        test1 "If[False,1,2]" (readVal "2")
+        test1 "If[1,2,3,4]" (readVal "4")
   context "eval with context" $ do
     it "single value" $ do
       test ["a=3", "a"] $ integer 3
