@@ -59,8 +59,8 @@ alter = addHead "Alternatives"
 equal = Atom "Equal"
 less = Atom "Less"
 lessEq = Atom "LessEqual"
-great = Atom "Great"
-greatEq = Atom "GreatEqual"
+great = Atom "Greater"
+greatEq = Atom "GreaterEqual"
 unEq = Atom "Unequal"
 
 one = integer 1
@@ -70,8 +70,5 @@ three = integer 3
 pe = Atom "P"
 
 rational = Number . Rational
-
-true = toBool True
-false = toBool False
 
 readVal = extractValue . readExpr

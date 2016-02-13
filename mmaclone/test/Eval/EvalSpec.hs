@@ -6,7 +6,7 @@ import Data.DataType hiding (list)
 import Parser.Trans
 import Test
 import Data.Ratio
-import Data.Number.Number hiding (one)
+import Data.Number.Number hiding(plus,times,one,less,lessEqual,greater,greaterEqual,equal)
 import System.IO.Unsafe
 import Control.Monad.Except
 
@@ -129,24 +129,16 @@ spec  = do
 
 
   --
-    -- context "comparing function" $ do
-    --   context "compare number" $ do
-    --     it "less" $ do
-    --       test1 "(< 3 2)" false
-    --     it "less" $ do
-    --       test1 "(< 2.0 3)" true
-    --     it "equal" $ do
-    --       test1 "(== 2 2.0)" false
-    --     it "equal" $ do
-    --       test1 "(== 2 4.0)" false
-    --
-    --
-    --   context "compare string" $ do
-    --     it "less" $ do
-    --       test1 "(< \"ab\" \"bc\")" true
-    --     it "less" $ do
-    --       test1 "(< \"bc\" \"ab\")" false
-
+    context "Eval.Primitive.Primi.Compare" $ do
+      context "compare number" $ do
+        it "compare" $ do
+          test1 "Less[1,2.1,3,4]" true
+          test1 "Less[1/2,3,2]" false
+        it "inequality" $ do
+          test1 "1==1==a" (readVal "1==a")
+          test1 "1>2<3<a<2<3" false
+          test1 "a<b<2<3<4>=2<=2.0>=1.0" (readVal "a<b<2")
+          test1 "a<b<2>3.1" false
 
     context "Eval.Logic.Logic" $ do
       context "&&" $ do

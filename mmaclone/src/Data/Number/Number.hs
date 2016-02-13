@@ -101,6 +101,21 @@ numberEqual a b = ((==) `on` toDouble) a b
 numberComp :: Number -> Number -> Ordering
 numberComp = compare `on` toDouble
 
+compareOnNumber :: (Double -> Double -> Bool) -> Number -> Number -> Bool
+compareOnNumber comp =
+  comp `on` toDouble
+
+equal = compareOnNumber (==)
+
+less = compareOnNumber (<)
+
+lessEqual = compareOnNumber (<=)
+greater = compareOnNumber (>)
+greaterEqual = compareOnNumber (>=)
+
+
+--
+
 isZero :: Number -> Bool
 isZero = (== zero)
 

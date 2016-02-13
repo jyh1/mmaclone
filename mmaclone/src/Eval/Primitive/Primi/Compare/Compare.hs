@@ -1,58 +1,82 @@
 module Eval.Primitive.Primi.Compare.Compare
-        (equall,lessl,lessEquall,greaterl,greaterEquall) where
+        (equall,lessl,lessEquall,greaterl,greaterEquall,inequalityl) where
 import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
 
 import Control.Monad
 import Control.Monad.Except
+import Data.Maybe
 
-equall = binop "Equal" equal
-lessl = binop "Less" less
-lessEquall = binop "LessEqual" lessEqual
-greaterl = binop "Greater" greater
-greaterEquall = binop "GreaterEqual" greaterEqual
+equall = comparel equal
+lessl = comparel less
+lessEquall = comparel lessEqual
+greaterl = comparel greater
+greaterEquall = comparel greaterEqual
+
+comparel :: (Number -> Number -> Bool) -> Primi
+comparel comp ls = return $ do
+  unpacked <- unpack ls
+  return (toBool $ compareFunction comp unpacked)
+
+compareFunction :: (Number -> Number -> Bool) -> [Number] -> Bool
+compareFunction _ [] = True
+compareFunction _ [_] = True
+compareFunction comp (x1:x2:xs) =
+  comp x1 x2 && compareFunction comp (x2:xs)
+
+unpack :: [LispVal] -> Maybe [Number]
+unpack = mapM unpacknum
+
+unpacknum (Number a) = Just a
+unpacknum _ = Nothing
+
+-- inequalityl
+compareNumber :: (Number -> Number -> Bool) -> LispVal -> LispVal -> Maybe Bool
+compareNumber f x y = do
+  x' <- unpacknum x
+  y' <- unpacknum y
+  return $ f x' y'
+
+compareTable :: [(String,LispVal -> LispVal -> Maybe Bool)]
+compareTable = [
+                ("Equal",compareNumber equal),
+                ("Greater", compareNumber greater),
+                ("GreaterEqual", compareNumber greaterEqual),
+                ("Less", compareNumber less),
+                ("LessEqual", compareNumber lessEqual)
+                ]
 
 
--- unpackCompare :: LispVal -> LispVal ->
---                   Unpacker -> ThrowsError Ordering
--- unpackCompare a b (Unpacker unpack) = do
---   unpacka <- unpack a
---   unpackb <- unpack b
---   return $  compare unpacka unpackb
---
--- getCompareResult :: LispVal -> LispVal -> ThrowsError Ordering
--- getCompareResult a b =
---   sumError $ map (unpackCompare a b) unpackers
---
-getBoolResult :: [Ordering] -> BinaryFun
-getBoolResult e (Number a) (Number b) =
-  return $ Just (toBool $ numberComp a b `elem` e)
-getBoolResult _ _ _ = return Nothing
+eval :: LispVal -> LispVal -> LispVal -> Maybe Bool
+eval (Atom name) x y = do
+  f <- lookup name compareTable
+  f x y
 
-equal :: BinaryFun
-equal = getBoolResult [EQ]
 
-less :: BinaryFun
-less = getBoolResult [LT]
+inequalityl :: Primi
+inequalityl xs =
+  let l = length xs in
+    if l >= 3 && odd l then do
+      let res = inequalityl' xs
+      hasValue $ case res of
+        Atom _ -> res
+        List xs -> List (Atom "Inequality" : xs)
+    else
+      throwError (Default "Inequality's number of arguments expected to be an odd number>=3")
 
-lessEqual,greater,greaterEqual :: BinaryFun
-lessEqual = getBoolResult [LT,EQ]
-greater = getBoolResult [GT]
-greaterEqual = getBoolResult [GT,EQ]
 
--- internalBoolOp :: (Bool ->Bool -> Bool) -> Result -> Result -> Result
--- internalBoolOp f =
---   liftM2 f''
---     where
---       f'' = liftM2 f'
---       f' a1 a2 = toBool (f (unBool a1) (unBool a2))
---
--- internalAnd = internalBoolOp (&&)
--- internalOr = internalBoolOp (||)
---
--- internalNot :: Result -> Result
--- internalNot=
---   liftM f''
---     where f'' = liftM f'
---           f' a = toBool $ not (unBool a)
+inequalityl' :: [LispVal] -> LispVal
+inequalityl' val@[a,comp,b] =
+  maybe (List val) toBool (eval comp a b)
+inequalityl' (a:comp:b:rest) =
+  let res = eval comp a b
+      restRes = inequalityl' (b:rest)
+      check True = restRes
+      check False = false
+      checkRest (Atom "True") = List [a,comp,b]
+      checkRest (Atom _) = false
+      checkRest (List xs) = List (a:comp:xs)
+      ifNothing = checkRest restRes
+  in
+    maybe ifNothing check res

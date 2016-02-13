@@ -23,11 +23,11 @@ loop env n = do
 
 repl :: Env -> Int -> IOThrowsError LispVal
 repl env n = do
-  lift $ printf "In[%d]:=" n >> hFlush stdout
+  lift $ printf "In[%d]:= " n >> hFlush stdout
   expr <- ExceptT (liftM readExpr getLine)
   evalWithRecord env n expr
 
 report :: Int -> ThrowsError LispVal -> IO ()
 report _ (Left err) = print err
 report _ (Right (Atom "Null")) = return ()
-report n (Right val) = printf "Out[%d]=" n >> print val
+report n (Right val) = printf "Out[%d]= " n >> print val

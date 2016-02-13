@@ -32,9 +32,10 @@ primi = [
               -- comparation
               ("Less", lessl),
               ("LessEqual" , lessEquall),
-              ("Great", greaterl),
-              ("GreatEqual", greaterEquall),
+              ("Greater", greaterl),
+              ("GreaterEqual", greaterEquall),
               ("Equal", equall),
+              ("Inequality",inequalityl),
               -- ("symbol?", testHead symbolQ),
               -- ("string?", testHead stringQ),
               -- ("number?", testHead numberQ),

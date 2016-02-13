@@ -20,6 +20,3 @@ notl' :: SingleFun
 notl' (Atom "True") = hasValue false
 notl' (Atom "False") = hasValue true
 notl' _ = noChange
-
-true = Atom "True"
-false = Atom "False"

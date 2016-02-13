@@ -2,7 +2,7 @@ module Parser.TransSpec where
 
 import Parser.Trans
 import Parser.NewParse
-import Data.Number.Number hiding(plus,times,one)
+import Data.Number.Number hiding(plus,times,one,less,lessEqual,greater,greaterEqual,equal)
 import Data.DataType hiding (list)
 import Test
 

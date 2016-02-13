@@ -57,8 +57,8 @@ expr2LispVal (Not e) =
 expr2LispVal (Equal e1 e2) = equalTrans "Equal" e1 e2
 expr2LispVal (Less e1 e2) = equalTrans "Less" e1 e2
 expr2LispVal (LessEq e1 e2) = equalTrans "LessEqual" e1 e2
-expr2LispVal (Great e1 e2) = equalTrans "Great" e1 e2
-expr2LispVal (GreatEq e1 e2) = equalTrans "GreatEqual" e1 e2
+expr2LispVal (Great e1 e2) = equalTrans "Greater" e1 e2
+expr2LispVal (GreatEq e1 e2) = equalTrans "GreaterEqual" e1 e2
 expr2LispVal (UnEq e1 e2) = equalTrans "Unequal" e1 e2
 
 expr2LispVal (Compound e) = do

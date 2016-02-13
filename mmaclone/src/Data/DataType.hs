@@ -1,5 +1,6 @@
 {-#LANGUAGE ExistentialQuantification #-}
 {-#LANGUAGE FlexibleInstances #-}
+{-#LANGUAGE FlexibleContexts #-}
 module Data.DataType where
 
 import Control.Monad.Except
@@ -39,6 +40,9 @@ isBool (Atom "True") = True
 isBool (Atom "False") = True
 isBool _ = False
 
+true = toBool True
+false = toBool False
+
 trueQ (Atom "True") = True
 trueQ _ = False
 
@@ -62,7 +66,7 @@ data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
 
 -- data EqUnpacker = forall a. Eq a => EqUnpacker (LispVal -> ThrowsError a)
 
-unpackNum' :: LispVal -> ThrowsError Number
+-- unpackNum' :: LispVal -> ThrowsError Number
 unpackNum' (Number n) = return n
 unpackNum' x = throwError $ TypeMismatch "number" x
 
@@ -118,8 +122,8 @@ instance Show LispError where
   show (UnboundVar message varname) = message ++ ": " ++ varname
   show (BadSpecialForm message form) = message ++ ": " ++ show form
   show (NotFunction message func) = message ++ ": " ++ show func
-  show (NumArgs name expected found) = name ++ "is expected " ++ show expected ++
-                                      " args: found values " ++ unwordsList found
+  show (NumArgs name expected found) = name ++ " is expected " ++ show expected ++
+                                      " arguments: found values " ++ unwordsList found
     where unwordsList = unwords . map show
   show (NumArgs1 name) = name ++ "::One or more arguments are expected"
   show (NumArgsN name l r found) = printf "%s is called with %d arguments,between %d and %d arguments are exprected" name found l r
