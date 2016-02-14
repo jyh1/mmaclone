@@ -2,7 +2,7 @@
 
 module Parser.Trans(transform,negateE,inverseE,readExpr) where
 
-import Data.DataType
+import Data.DataType hiding (addHead)
 import Data.Number.Number
 import Parser.NewParse
 import Control.Monad.Except

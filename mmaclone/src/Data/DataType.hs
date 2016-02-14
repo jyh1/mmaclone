@@ -166,8 +166,18 @@ liftThrows (Right val) = return val
 wrapSequence :: [LispVal] -> LispVal
 wrapSequence xs = List (Atom "Sequence": xs)
 
-applyHead,changeHead :: LispVal -> LispVal -> LispVal
+applyHead,changeHead,addHead :: LispVal -> LispVal -> LispVal
 applyHead h args = List [h,args]
 
 changeHead h (List (l:ls)) = List (h:ls)
 changeHead _ val = val
+
+addHead h (List ls) = List (h:ls)
+addHead _ _ = error "DataType.addHead :: Non list"
+
+deleteSameHead :: [LispVal] -> LispVal -> [LispVal]
+deleteSameHead [] _ = []
+deleteSameHead (val@(List x):xs) h
+  | head x == h = tail x ++ deleteSameHead xs h
+  | otherwise = val : deleteSameHead xs h
+deleteSameHead (x:xs) h = x : deleteSameHead xs h

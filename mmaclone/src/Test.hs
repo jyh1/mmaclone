@@ -1,7 +1,14 @@
 module Test where
 import Data.Number.Number hiding(plus,times,one)
-import Data.DataType hiding (list)
+import Data.DataType hiding (list,addHead)
 import Parser.Trans
+import Eval.Eval
+
+import Data.Environment.Environment
+import Control.Monad.Except
+
+
+import System.IO.Unsafe
 
 addHead a b = List (Atom a : b)
 
@@ -72,3 +79,10 @@ pe = Atom "P"
 rational = Number . Rational
 
 readVal = extractValue . readExpr
+
+testEvalOnce :: String -> LispVal
+testEvalOnce expr = unsafePerformIO $ do
+  let val = readVal expr
+  env <- nullEnv
+  evaled <- runExceptT $ eval' env val
+  return (extractValue evaled)

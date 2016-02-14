@@ -113,6 +113,7 @@ lessEqual = compareOnNumber (<=)
 greater = compareOnNumber (>)
 greaterEqual = compareOnNumber (>=)
 
+unequal = compareOnNumber (/=)
 
 --
 

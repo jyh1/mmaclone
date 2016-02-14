@@ -41,8 +41,8 @@ primi = [
               -- ("number?", testHead numberQ),
               -- ("quote", quoted)
               -- ("quoteient", numericBinop quot),
-              ("And", andl),
-              ("Or", orl),
+              -- ("And", andl),
+              -- ("Or", orl),
               ("Not", notl),
               -- branch
               ("If",ifl)

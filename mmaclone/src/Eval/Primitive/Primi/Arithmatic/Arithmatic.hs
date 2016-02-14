@@ -14,7 +14,7 @@ numericPolop :: (Number -> [LispVal] -> Result) ->
   (Number -> Number -> Number) -> [LispVal]
   -> Result
 numericPolop _ _ _ _ [] = throwError $ NumArgs "Plus" 0 []
-numericPolop _ _ _ _ [a] = return $ Just a
+-- numericPolop _ _ _ _ [a] = return $ Just a
 numericPolop merges groupers tagHead op params = do
   let (nums,others) = partition checkNum params
       unpacked = map unpackNum nums

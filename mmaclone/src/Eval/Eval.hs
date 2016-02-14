@@ -2,7 +2,8 @@
 module Eval.Eval
     (
     eval,
-    evalWithRecord
+    evalWithRecord,
+    eval'
     ) where
 
 import Data.DataType
@@ -35,17 +36,17 @@ eval' :: Env -> LispVal -> IOThrowsError LispVal
 eval' env (List (v:vs)) = do
   let evalE = eval env
   headE <- evalE v
-  args <- attributeEvaluate evalE headE vs
-  -- args <- mapM (eval env) vs'
+  args <- attributeEvaluateArgs evalE headE vs
   let old = List (headE : args)
       getFName (Atom f) = Just f
       getFName _ = Nothing
   let fun = do
         name <- getFName headE
         M.lookup name primitives
-  case fun of
+  evaled <- case fun of
     Just f -> liftM (fromMaybe old) (f env args)
     Nothing -> evalWithEnv env old
+  attTransform evaled
 
 eval' env val@(Atom _) = evalWithEnv env val
 
@@ -56,9 +57,9 @@ eval' _ n@(Number (Rational r))
 eval' _ x = return x
 
 -- attribute relating functions
-attributeEvaluate :: (LispVal -> IOThrowsError LispVal) ->
+attributeEvaluateArgs :: (LispVal -> IOThrowsError LispVal) ->
   LispVal -> [LispVal] -> IOThrowsError [LispVal]
-attributeEvaluate evalE h rests = do
+attributeEvaluateArgs evalE h rests = do
   let att = getAttributes h attributes
   evaled <- attEvalHold evalE att rests
   return $ allAttr att h evaled
@@ -75,32 +76,35 @@ attEvalHold evalE atts vals
       return (first : tail vals)
   | otherwise = mapM evalE vals
 
-attEvalOrderless :: [Attribute] -> [LispVal] -> [LispVal]
-attEvalOrderless att vals
-  | Orderless `elem` att = sort vals
-  | otherwise = vals
+attTransform :: LispVal -> IOThrowsError LispVal
+attTransform val = return (attributeTransform attributes val)
 
-attEvalFlatten :: [Attribute] -> LispVal -> [LispVal] -> [LispVal]
-attEvalFlatten att h vals
-  | Flatten `elem` att = deleteSameHead vals h
-  | otherwise = vals
-
-attEvalSeqHold :: [Attribute] -> [LispVal] -> [LispVal]
-attEvalSeqHold att vals
-  | SequenceHold `elem` att = vals
-  | otherwise = deleteSameHead vals (Atom "Sequence")
-
-allAttr :: [Attribute] -> LispVal-> [LispVal] -> [LispVal]
-allAttr att h = attEvalOrderless att .attEvalFlatten att h .
-                  attEvalSeqHold att
+-- attEvalOrderless :: [Attribute] -> [LispVal] -> [LispVal]
+-- attEvalOrderless att vals
+--   | Orderless `elem` att = sort vals
+--   | otherwise = vals
+--
+-- attEvalFlatten :: [Attribute] -> LispVal -> [LispVal] -> [LispVal]
+-- attEvalFlatten att h vals
+  -- | Flatten `elem` att = deleteSameHead vals h
+--   | otherwise = vals
+--
+-- attEvalSeqHold :: [Attribute] -> [LispVal] -> [LispVal]
+-- attEvalSeqHold att vals
+--   | SequenceHold `elem` att = vals
+--   | otherwise = deleteSameHead vals (Atom "Sequence")
+--
+-- allAttr :: [Attribute] -> LispVal-> [LispVal] -> [LispVal]
+-- allAttr att h = attEvalOrderless att .attEvalFlatten att h .
+--                   attEvalSeqHold att
 -- ----------------------------
 
-deleteSameHead :: [LispVal] -> LispVal -> [LispVal]
-deleteSameHead [] _ = []
-deleteSameHead (val@(List x):xs) h
-  | head x == h = tail x ++ deleteSameHead xs h
-  | otherwise = val : deleteSameHead xs h
-deleteSameHead (x:xs) h = x : deleteSameHead xs h
+-- deleteSameHead :: [LispVal] -> LispVal -> [LispVal]
+-- deleteSameHead [] _ = []
+-- deleteSameHead (val@(List x):xs) h
+--   | head x == h = tail x ++ deleteSameHead xs h
+--   | otherwise = val : deleteSameHead xs h
+-- deleteSameHead (x:xs) h = x : deleteSameHead xs h
 
 
 -- require eval function
@@ -108,37 +112,40 @@ primitives = M.fromList $ primitives' ++ requireEval
 
 requireEval :: [(String,IOPrimi)]
 requireEval = [
-                -- ("Inequality",inequall)
+                ("And",andl),
+                ("Or",orl)
               ]
 
--- inequality
--- inequall env xs =
---   let l = length xs in
---     if l >= 3 && odd l then do
---       res <- inequall' env xs
---       hasValue $ case res of
---         Atom _ -> res
---         List xs -> List (Atom "Inequality" : xs)
---     else
---       throwError (Default "Ineuqlity's number of arguments expected to be an odd number>=3")
---
--- inequall' :: Env -> [LispVal] -> IOThrowsError LispVal
--- inequall' env val@[a,comp,b] = do
---   res <- eval'  env $ List [comp,a,b]
---   return $ if isBool res then res else List val
--- inequall' env (a:comp:b:rest) = do
---   res <- eval' env $ List [comp,a,b]
---   if isBool res then
---     case res of
---       Atom "True" -> inequall' env (b:rest)
---       Atom "False" -> return res
---   else do
---     restRes <- inequall' env (b:rest)
---     return $ case restRes of
---       Atom "False" -> restRes
---       Atom "True" -> List [a,comp,b]
---       List xs -> List (a:comp:xs)
--- ---------------------------------------------------
--- logic :: (LispVal -> Bool) -> [LispVal] ->
+-- logic ---------------------------------------------------
+logic :: (LispVal -> IOThrowsError LispVal) ->
+  LispVal ->
+  [LispVal] -> IOThrowsError LispVal
+logic _ triv [] = return triv
+logic eval trivi (x:xs) =
+  let rest = logic eval trivi xs
+      check = (trivi ==) in
+  do
+    x' <- eval x
+    if isBool x' then
+      if check x' then
+        rest
+      else
+        return x'
+    else do
+      restRes <- rest
+      return $ case restRes of
+        List res -> List (x':res)
+        _ -> if check restRes then
+           List [x'] else restRes
 
+-- logicLift :: LispVal -> LispVal -> Maybe LispVal
+logicLift _ val@(Atom _) = Just val
+logicLift name val = Just (addHead (Atom name) val)
+
+andl,orl :: IOPrimi
+andl env ls =
+  liftM (logicLift "And") $ logic (eval env) true ls
+
+orl env ls =
+  liftM (logicLift "Or") $ logic (eval env) false ls
 -- ---------------------------------------------------

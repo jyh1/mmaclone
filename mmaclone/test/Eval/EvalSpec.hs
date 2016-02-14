@@ -21,6 +21,7 @@ test a b =
   let parsed = extractValue $ mapM readExpr a in
     testEval parsed `shouldBe` b
 
+test2 a b = test1 a (readVal b)
 
 testEval :: [LispVal] -> LispVal
 testEval exprs = unsafePerformIO $ do
@@ -139,19 +140,22 @@ spec  = do
           test1 "1>2<3<a<2<3" false
           test1 "a<b<2<3<4>=2<=2.0>=1.0" (readVal "a<b<2")
           test1 "a<b<2>3.1" false
+          test1 "1!=2!=3" true
+          test1 "1!=1==3" false
 
     context "Eval.Logic.Logic" $ do
       context "&&" $ do
-        it "case #t #t" $ do
+        it "True" $ do
           test1 "True&&True" true
-        it "case #f #f" $ do
+        it "False" $ do
           test1 "False && False" false
-          test1 "a&&b" (List [Atom "And",Atom "a",Atom "b"])
+          test2 "a&&b&&True&&1!=1.0" "False"
+          test2 "a&&1==1&&2==2" "a"
       context "||" $ do
         it "case #t #f" $ do
-          test1 "True||False" true
-        -- it "case #f #f" $ do
-          test1 "False || False" false
+          test1 "True||False||a" true
+          test2 "b||False || False||a" "b||a"
+          test2 "a||1==2||2==1.0||2!=2.0" "a"
       context "!" $ do
         it "case #t" $ do
           test1 "!True" false
@@ -168,7 +172,7 @@ spec  = do
       test ["a=3", "b[2]=4","a+b[2]"] (integer 7)
     it "factorial" $ do
       test ["fact[n_]:=n fact[n-1]",
-            "fact[0]=1","fact[10]"] (integer 3628800)
+            "fact[0]=1","1==2&&fact[1000000]","fact[10]"] (integer 3628800)
     it "fibonacci" $ do
       test
         ["fib[n_]:=fib[n]=fib[n-1]+fib[n-2]",

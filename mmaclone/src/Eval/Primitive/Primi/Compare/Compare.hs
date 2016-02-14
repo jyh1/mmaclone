@@ -44,7 +44,8 @@ compareTable = [
                 ("Greater", compareNumber greater),
                 ("GreaterEqual", compareNumber greaterEqual),
                 ("Less", compareNumber less),
-                ("LessEqual", compareNumber lessEqual)
+                ("LessEqual", compareNumber lessEqual),
+                ("Unequal", compareNumber unequal)
                 ]
 
 
