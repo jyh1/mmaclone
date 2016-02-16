@@ -42,6 +42,8 @@ library
 
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set
+
+                      , Show.Pretty
   build-depends:       base >= 4.7 && < 5
                       , mtl
                       , containers

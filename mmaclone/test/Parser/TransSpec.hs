@@ -130,7 +130,7 @@ spec  = do
     context "compound expression" $ do
       it "compound" $ do
         test "1;2;3" (comp [one,two,three])
-        test "1;2;P;" (comp [one,two,pe,atomNull])
+        -- test "1;2;P;" (comp [one,two,pe,atomNull])
 
     context "Inequality" $ do
       it "test equal" $ do

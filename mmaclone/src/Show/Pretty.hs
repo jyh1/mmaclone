@@ -4,22 +4,26 @@ import Data.Number.Number
 import Data.List
 
 precedence :: [(String, Int)]
-precedence = [("^", 1),
-              ("*",2),
-              ("/", 2),
-              ("+", 3),
-              ("-", 3),
-              ("set", 4),
-              ("setDelayed", 5)
+precedence = [
+              -- ("List",0)
+              ("Power", 1),
+              ("Times",2),
+              -- ("Divide", 2),
+              ("Plus", 3),
+              -- ("-", 3),
+              ("Set", 4),
+              ("SetDelayed", 5)
               ]
 
 leastPre :: Int
 leastPre = 6
 
 infixForm :: String -> String
-infixForm "set" = "="
-infixForm "setDelayed" = ":="
-infixForm "*" = " "
+infixForm "Set" = "="
+infixForm "SetDelayed" = ":="
+infixForm "Times" = " "
+infixForm "Plus" = "+"
+infixForm "Power" = "^"
 infixForm x = x
 
 getPrecedence :: String -> Maybe Int
@@ -29,12 +33,12 @@ prettyPrint :: LispVal -> String
 prettyPrint = prettyPrint' leastPre
 
 prettyPrint' :: Int -> LispVal -> String
-prettyPrint' _ (List (Atom "list" : xs)) =
+prettyPrint' _ (List (Atom "List" : xs)) =
   let args = map prettyPrint xs in
     curlyBrack $ intercalate "," args
 
-prettyPrint' now (List (Atom "*" : Number (Integer (-1)): xs)) =
-  '-': prettyPrint' now (List (Atom "*" : xs))
+prettyPrint' now (List (Atom "Times" : Number (Integer (-1)): xs)) =
+  '-': prettyPrint' now (List (Atom "Times" : xs))
 
 
 prettyPrint' now (List (Atom name : xs)) =

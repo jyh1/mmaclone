@@ -30,7 +30,7 @@ data Expr
    | Great Expr Expr
    | GreatEq Expr Expr
    | UnEq Expr Expr
-   | Compound [Expr]-- Expr; Expr
+   | Compound Expr Expr-- Expr; Expr
    | Apply Expr Expr
    | Fact Expr
    | Fact2 Expr
@@ -164,6 +164,7 @@ opTable = [
             binary ":=" SetDelayed AssocRight,
             postfix "=." Unset]
 
+          , [binary ";" Compound AssocLeft]
           , [appl,binary "@" uniapply AssocRight]
           ]
 
@@ -342,26 +343,26 @@ term = specialForms
 
 type Stage1 = Either ParseError Expr
 
-data SemiExpr = Semi Expr | Nosemi Expr
+-- data SemiExpr = Semi Expr | Nosemi Expr
+--
+-- fromSemi :: SemiExpr -> Expr
+-- fromSemi (Semi e) = e
+-- fromSemi (Nosemi e) = e
 
-fromSemi :: SemiExpr -> Expr
-fromSemi (Semi e) = e
-fromSemi (Nosemi e) = e
+-- semiExpr :: Parser SemiExpr
+-- semiExpr = do
+--   ex <- expr
+--   hasSemi <- (semi *> return Semi) <|> return Nosemi
+--   return $ hasSemi ex
 
-semiExpr :: Parser SemiExpr
-semiExpr = do
-  ex <- expr
-  hasSemi <- (semi *> return Semi) <|> return Nosemi
-  return $ hasSemi ex
+-- compoundExpr :: Parser Expr
+-- compoundExpr = do
+--   semiexs <- many1 semiExpr
+--   let exs = map fromSemi semiexs
+--   return $ case semiexs of
+--     [Nosemi e] -> e
+--     _ -> case last semiexs of
+--       (Semi _) -> Compound (exs ++ [None])
+--       (Nosemi _) -> Compound exs
 
-compoundExpr :: Parser Expr
-compoundExpr = do
-  semiexs <- many1 semiExpr
-  let exs = map fromSemi semiexs
-  return $ case semiexs of
-    [Nosemi e] -> e
-    _ -> case last semiexs of
-      (Semi _) -> Compound (exs ++ [None])
-      (Nosemi _) -> Compound exs
-
-parseExpr = parse (whiteSpace *> compoundExpr <* eof) "pass 1"
+parseExpr = parse (whiteSpace *> expr <* eof) "pass 1"

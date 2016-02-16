@@ -22,6 +22,10 @@ type IOBinary = Env -> LispVal -> LispVal -> IOResult
 
 type Primitives = M.Map String IOPrimi
 
+type EvalResult = IOThrowsError LispVal
+
+type Eval = LispVal -> EvalResult
+
 hasValue :: (Monad m) => LispVal -> m (Maybe LispVal)
 hasValue = return . Just
 

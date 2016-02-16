@@ -176,8 +176,18 @@ spec  = do
     it "fibonacci" $ do
       test
         ["fib[n_]:=fib[n]=fib[n-1]+fib[n-2]",
-          "fib[1]=1;fib[2]=1;", "fib[40]"]
+          "fib[1]=1;fib[2]=1", "fib[40]"]
         (integer 102334155)
+
+    context "Nest,NestList" $ do
+      context "Nest" $ do
+        it "nest a fucntion" $ do
+          test ["f[x_]=x^2","Nest[f,2,3]"] (integer 256)
+          test2 "Nest[f,x,4]" "f[f[f[f[x]]]]"
+      context "NestList" $ do
+        it "Nestlist" $ do
+          test2 "NestList[f,x,3]" "{x,f[x],f[f[x]],f[f[f[x]]]}"
+          test2 "NestList[f,x,10][[{2,4},1]]" "{x,f[f[x]]}"
 
     it "pattern matching" $ do
       test

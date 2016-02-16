@@ -113,11 +113,13 @@ primitives = M.fromList $ primitives' ++ requireEval
 requireEval :: [(String,IOPrimi)]
 requireEval = [
                 ("And",andl),
-                ("Or",orl)
+                ("Or",orl),
+                ("Nest",nestl),
+                ("NestList",nestListl)
               ]
 
 -- logic ---------------------------------------------------
-logic :: (LispVal -> IOThrowsError LispVal) ->
+logic :: Eval ->
   LispVal ->
   [LispVal] -> IOThrowsError LispVal
 logic _ triv [] = return triv
@@ -148,4 +150,41 @@ andl env ls =
 
 orl env ls =
   liftM (logicLift "Or") $ logic (eval env) false ls
+-- ---------------------------------------------------
+
+-- Nest-----------------------------------------------
+nestl ,nestListl:: IOPrimi
+nestl env = withnop 3 "Nest" (nestl' env)
+nestListl env = withnop 3 "NestList" (nestListl' env)
+
+
+nest,nestList :: Eval -> LispVal -> LispVal -> Int -> EvalResult
+nest _ _ arg 0 = return arg
+nest eval f arg n = do
+  evaled <- eval (applyHead f arg)
+  nest eval f evaled (n-1)
+
+nestList' _ _ arg 0 = return [arg]
+nestList' eval f arg n = do
+  evaled <- eval (applyHead f arg)
+  rest <- nestList' eval f evaled (n-1)
+  return $ arg : rest
+nestList eval f arg n = liftM list (nestList' eval f arg n)
+
+
+nestErr = Default "Nest :: non-negative machine-sized number expected"
+unpackNest3rd :: LispVal -> IOThrowsError Int
+unpackNest3rd (Number (Integer n))
+  | n >= 0 = return (fromIntegral n)
+  | otherwise = throwError nestErr
+unpackNest3rd _ = throwError nestErr
+
+nestUnpack nest env [f,arg,n] = do
+  n' <- unpackNest3rd n
+  liftM Just $ nest (eval env) f arg n'
+
+nestl' = nestUnpack nest
+
+nestListl' = nestUnpack nestList
+
 -- ---------------------------------------------------

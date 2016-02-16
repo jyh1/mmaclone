@@ -61,9 +61,10 @@ expr2LispVal (Great e1 e2) = equalTrans "Greater" e1 e2
 expr2LispVal (GreatEq e1 e2) = equalTrans "GreaterEqual" e1 e2
 expr2LispVal (UnEq e1 e2) = equalTrans "Unequal" e1 e2
 
-expr2LispVal (Compound e) = do
-  es <- mapM expr2LispVal e
-  return (List $ Atom "CompoundExpression" : es)
+expr2LispVal (Compound val@(Compound _ _) e) =
+  flatten val e
+expr2LispVal (Compound e1 e2) =
+  twoArgs (addHead2 "CompoundExpression") e1 e2
 
 expr2LispVal (Apply h (Args args)) =
   listArgs apply h args
