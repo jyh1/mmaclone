@@ -9,7 +9,6 @@ import Data.Environment.Environment
 import Eval.Eval
 import Parser.Trans
 import Show.Pretty
--- import Pretty
 
 main :: IO()
 main = do
@@ -31,4 +30,4 @@ repl env n = do
 report :: Int -> ThrowsError LispVal -> IO ()
 report _ (Left err) = print err
 report _ (Right (Atom "Null")) = return ()
-report n (Right val) = printf "Out[%d]= " n >> putStrLn (prettyPrint val)
+report n (Right val) = printf "Out[%d]= " n >> printLispVal val

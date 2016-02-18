@@ -36,14 +36,12 @@ primi = [
               ("GreaterEqual", greaterEquall),
               ("Equal", equall),
               ("Inequality",inequalityl),
-              -- ("symbol?", testHead symbolQ),
-              -- ("string?", testHead stringQ),
-              -- ("number?", testHead numberQ),
-              -- ("quote", quoted)
-              -- ("quoteient", numericBinop quot),
-              -- ("And", andl),
-              -- ("Or", orl),
               ("Not", notl),
               -- branch
-              ("If",ifl)
+              ("If",ifl),
+
+              ("CompoundExpression",compoundExpressionl)
             ]
+
+compoundExpressionl :: Primi
+compoundExpressionl = hasValue . last

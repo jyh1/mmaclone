@@ -1,16 +1,13 @@
-module Show.Pretty(prettyPrint) where
+module Show.Pretty(prettyPrint,showLispVal,printLispVal) where
 import Data.DataType
 import Data.Number.Number
 import Data.List
 
 precedence :: [(String, Int)]
 precedence = [
-              -- ("List",0)
               ("Power", 1),
               ("Times",2),
-              -- ("Divide", 2),
               ("Plus", 3),
-              -- ("-", 3),
               ("Set", 4),
               ("SetDelayed", 5)
               ]
@@ -80,3 +77,8 @@ addInfixRule _ _ _ [x] = x
 addInfixRule check rule syb (x1:res@(x2:_))
   | check x2 = x1 ++ rule (addInfixRule check rule syb res)
   | otherwise = x1 ++ syb ++ addInfixRule check rule syb res
+
+showLispVal (List [Atom "FullForm",val]) = fullForm val
+showLispVal val = prettyPrint val
+
+printLispVal = putStrLn . showLispVal

@@ -23,11 +23,6 @@ data LispVal =
   deriving(Eq, Ord)
 
 instance Show LispVal where
-  -- show (Atom s) = s
-  -- show (List s) = '(' : (unwords $ map show s) ++ ")"
-  -- show (Number i) = show i
-  -- show (String s) = show s
-  -- show (Char c) = show c
   show = fullForm
 
 isNull :: LispVal -> Bool

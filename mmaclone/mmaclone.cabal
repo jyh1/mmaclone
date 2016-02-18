@@ -42,6 +42,7 @@ library
 
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set
+                      , Eval.Primitive.IOPrimi.IO.Print
 
                       , Show.Pretty
   build-depends:       base >= 4.7 && < 5
@@ -57,7 +58,7 @@ library
 executable mmaclone-exe
   hs-source-dirs:      app
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1 -O2
   build-depends:       base
                      , mtl
                      , mmaclone
