@@ -1,6 +1,6 @@
 {-#LANGUAGE FlexibleContexts #-}
 
-module Eval.Lambda(evalLambda,functionl) where
+module Eval.Primitive.Primi.Function.Lambda(evalLambda,functionl) where
 
 import Data.DataType
 import Eval.Patt.Pattern
@@ -69,5 +69,10 @@ functionl = manynop "Function" 1 3 checkFunction
 
 checkFunction [_] = noChange
 checkFunction (Atom _ :_) = noChange
-checkFunction (List (Atom "List":_) :_) = noChange
+checkFunction (List (Atom "List":ps) :_) = do
+  mapM_ checkAtom ps
+  noChange
 checkFunction _ = throwError flpr
+
+checkAtom (Atom _) = return ()
+checkAtom _ = throwError flpr

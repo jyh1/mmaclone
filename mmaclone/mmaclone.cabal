@@ -19,13 +19,13 @@ library
                       , Parser.Trans
                       , Parser.NewParse
                       , Eval.Eval
+                      , Eval.EvalHead
                       , Data.DataType
                       , Data.Number.Number
                       , Data.Number.Hier
                       , Data.Environment.Environment
                       , Data.Attribute
                       , Eval.Environment
-                      , Eval.Lambda
                       , Eval.Patt.Pattern
                       , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
@@ -40,6 +40,7 @@ library
                       , Eval.Primitive.Primi.List.Level
                       , Eval.Primitive.Primi.Control.Branch
                       , Eval.Primitive.Primi.Logic.Logic
+                      , Eval.Primitive.Primi.Function.Lambda
 
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set

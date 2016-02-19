@@ -12,7 +12,7 @@ import Data.Number.Number
 import Eval.Primitive.Primitives
 import Eval.Primitive.PrimiType
 import Eval.Environment
-import Eval.Lambda
+import Eval.EvalHead
 import Data.Attribute
 
 import Control.Monad
