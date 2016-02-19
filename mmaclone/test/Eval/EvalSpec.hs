@@ -179,6 +179,11 @@ spec  = do
         test2 "{#1,Plus[##2]}& @@@(Range/@Range[2,3])" "{{1,2},{1,5}}"
         test2 "(#[[1]]+#[[2]])& /@{{1,2},{3,4,5},{6,7}}" "{3,7,13}"
         test2 "((#+##)& @@#)& /@{{1,2},{2,2,2},{3,4}}" "{4,8,10}"
+    context "explicit Function" $ do
+      it "Function" $ do
+        test2 "Function[{x,y},x y][2,3]" "6"
+        test2 "Function[x,2 x][5]" "10"
+        test2 "(Function@@{{x},x==2})[2]" "True"
 
   context "eval with context" $ do
     it "single value" $ do
