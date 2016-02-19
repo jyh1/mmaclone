@@ -25,6 +25,7 @@ library
                       , Data.Environment.Environment
                       , Data.Attribute
                       , Eval.Environment
+                      , Eval.Lambda
                       , Eval.Patt.Pattern
                       , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
@@ -58,7 +59,7 @@ library
 executable mmaclone-exe
   hs-source-dirs:      app
   main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1 -O2
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N1
   build-depends:       base
                      , mtl
                      , mmaclone

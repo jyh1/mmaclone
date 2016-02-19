@@ -6,7 +6,7 @@ import Eval.Primitive.Primi.Compare.Compare
 import Eval.Primitive.Primi.Logic.Logic
 import Eval.Primitive.Primi.Arithmatic.Arithmatic
 import Eval.Primitive.Primi.Control.Branch
-
+import Eval.Lambda
 
 import Eval.Primitive.PrimiType
 import Control.Monad
@@ -40,7 +40,8 @@ primi = [
               -- branch
               ("If",ifl),
 
-              ("CompoundExpression",compoundExpressionl)
+              ("CompoundExpression",compoundExpressionl),
+              ("Function", functionl)
             ]
 
 compoundExpressionl :: Primi

@@ -111,6 +111,7 @@ data LispError = NumArgs String Int [LispVal]
                 | Incomplete [LispVal]
                 | SetError LispVal
                 | Level LispVal
+                | SlotError LispVal
 
 
 instance Show LispError where
@@ -131,6 +132,7 @@ instance Show LispError where
   show (Default s) = s
   show (SetError v) = "Cannot assign to object " ++ show v
   show (Level v) = show v ++ " is not a valid level specification"
+  show (SlotError s) = printf "%s cannot be fully filled" (show s)
 
 type ThrowsError = Either LispError
 
@@ -148,6 +150,7 @@ extractValue :: ThrowsError a -> a
 extractValue (Right val) = val
 
 -- --------------------------------------------------
+type LispFun = LispVal -> IOThrowsError LispVal
 
 -- --------------------------------
 
@@ -176,3 +179,14 @@ deleteSameHead (val@(List x):xs) h
   | head x == h = tail x ++ deleteSameHead xs h
   | otherwise = val : deleteSameHead xs h
 deleteSameHead (x:xs) h = x : deleteSameHead xs h
+
+unpackInt _ (Number (Integer n)) = return $ fromIntegral n
+unpackInt err _ = throwError err
+
+unpackIntWithThre thre err n = do
+  n' <- unpackInt err n
+  if n' < thre then throwError err else return n'
+
+unpackAtom (Atom name) = name
+unpackAtom _ = error "Data.DataType unpackAtom"
+-- ----------------------------------------------

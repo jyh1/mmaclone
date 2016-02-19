@@ -79,7 +79,7 @@ lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.identLetter = alphaNum
                       , Token.reservedNames = []
                       , Token.reservedOpNames = opNames
-                      , Token.opLetter = oneOf "@/=.>!;"
+                      , Token.opLetter = oneOf "@/=.>!;&"
                       }
 
 lexer = Token.makeTokenParser lexerConfig
@@ -121,6 +121,7 @@ opTable = [
             -- [function],
             [binary "?" PatternTest AssocRight],
             [appl,applPart],
+            [postfix "&" Function],
             [binary "@" uniapply AssocRight],
             [ binary "/@" Map AssocRight,
               binary "//@" MapAll AssocRight,
@@ -131,6 +132,7 @@ opTable = [
 
             [postfix "!" Fact,
             postfix "!!" Fact2],
+
             [binary "^" Pow AssocRight],
             [binary "." Dot AssocLeft],
             [ binary "*" Mul AssocLeft
@@ -158,7 +160,8 @@ opTable = [
             binary ":>" RuleDelayed AssocRight]
           , [binary "/." Replace AssocLeft,
             binary "//." ReplaceRepeated AssocLeft]
-          , [function]
+          -- , [function]
+          -- , [postfix "&" Function]
           , [binary "//" (flip uniapply) AssocLeft]
           , [binary "=" Set AssocRight,
             binary ":=" SetDelayed AssocRight,
@@ -181,7 +184,7 @@ appl = Infix space AssocLeft
 
 
 function = Postfix $
-  char '&' *> notFollowedBy (char '&') *> return Function
+  symbol "&" *> notFollowedBy (char '&') *> return Function
 
 applPart = Infix space AssocLeft
     where space = whiteSpace

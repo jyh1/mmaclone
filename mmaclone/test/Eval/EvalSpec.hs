@@ -173,6 +173,13 @@ spec  = do
         test1 "a;b;c;1" one
         test2 "a;b;c" "c"
 
+  context "Eval.Lambda" $ do
+    context "slot type" $ do
+      it "slot slotsequence" $ do
+        test2 "{#1,Plus[##2]}& @@@(Range/@Range[2,3])" "{{1,2},{1,5}}"
+        test2 "(#[[1]]+#[[2]])& /@{{1,2},{3,4,5},{6,7}}" "{3,7,13}"
+        test2 "((#+##)& @@#)& /@{{1,2},{2,2,2},{3,4}}" "{4,8,10}"
+
   context "eval with context" $ do
     it "single value" $ do
       test ["a=3", "a"] $ integer 3

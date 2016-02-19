@@ -12,6 +12,7 @@ import Data.Number.Number
 import Eval.Primitive.Primitives
 import Eval.Primitive.PrimiType
 import Eval.Environment
+import Eval.Lambda
 import Data.Attribute
 
 import Control.Monad
@@ -37,15 +38,8 @@ eval' env (List (v:vs)) = do
   let evalE = eval env
   headE <- evalE v
   args <- attributeEvaluateArgs evalE headE vs
-  let old = List (headE : args)
-      getFName (Atom f) = Just f
-      getFName _ = Nothing
-  let fun = do
-        name <- getFName headE
-        M.lookup name primitives
-  evaled <- case fun of
-    Just f -> liftM (fromMaybe old) (f env args)
-    Nothing -> evalWithEnv env old
+  let expr = List (headE : args)
+  evaled <- evalHead headE env expr
   attTransform evaled
 
 eval' env val@(Atom _) = evalWithEnv env val
@@ -55,6 +49,24 @@ eval' _ n@(Number (Rational r))
   | otherwise = return n
 
 eval' _ x = return x
+
+-- eval head --------------------------------------
+evalPrimitiveHead :: LispVal -> Env -> Maybe LispFun
+evalPrimitiveHead (Atom name) env = do
+  fun <- M.lookup name primitives
+  let evalFun val@(List (_:args)) =
+        liftM (fromMaybe val) $ fun env args
+  return evalFun
+
+evalHead :: LispVal -> Env -> LispFun
+evalHead h@(Atom _) env =
+  fromMaybe (evalWithEnv env) (evalPrimitiveHead h env)
+evalHead (List (Atom "Function":rest)) _ =
+  evalLambda
+
+evalHead other _ = return
+-- ------------------------------------------------
+
 
 -- attribute relating functions
 attributeEvaluateArgs :: (LispVal -> IOThrowsError LispVal) ->
@@ -79,32 +91,6 @@ attEvalHold evalE atts vals
 attTransform :: LispVal -> IOThrowsError LispVal
 attTransform val = return (attributeTransform attributes val)
 
--- attEvalOrderless :: [Attribute] -> [LispVal] -> [LispVal]
--- attEvalOrderless att vals
---   | Orderless `elem` att = sort vals
---   | otherwise = vals
---
--- attEvalFlatten :: [Attribute] -> LispVal -> [LispVal] -> [LispVal]
--- attEvalFlatten att h vals
-  -- | Flatten `elem` att = deleteSameHead vals h
---   | otherwise = vals
---
--- attEvalSeqHold :: [Attribute] -> [LispVal] -> [LispVal]
--- attEvalSeqHold att vals
---   | SequenceHold `elem` att = vals
---   | otherwise = deleteSameHead vals (Atom "Sequence")
---
--- allAttr :: [Attribute] -> LispVal-> [LispVal] -> [LispVal]
--- allAttr att h = attEvalOrderless att .attEvalFlatten att h .
---                   attEvalSeqHold att
--- ----------------------------
-
--- deleteSameHead :: [LispVal] -> LispVal -> [LispVal]
--- deleteSameHead [] _ = []
--- deleteSameHead (val@(List x):xs) h
---   | head x == h = tail x ++ deleteSameHead xs h
---   | otherwise = val : deleteSameHead xs h
--- deleteSameHead (x:xs) h = x : deleteSameHead xs h
 
 
 -- require eval function
