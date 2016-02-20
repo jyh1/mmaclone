@@ -67,17 +67,37 @@ inequalityl xs =
       throwError (Default "Inequality's number of arguments expected to be an odd number>=3")
 
 
-inequalityl' :: [LispVal] -> LispVal
-inequalityl' val@[a,comp,b] =
+-- eliminate left
+inequalityRight :: [LispVal] -> LispVal
+inequalityRight val@[a,comp,b] =
   maybe (List val) toBool (eval comp a b)
-inequalityl' (a:comp:b:rest) =
+inequalityRight (a:comp:b:rest) =
   let res = eval comp a b
-      restRes = inequalityl' (b:rest)
-      check True = restRes
+      restRes = inequalityRight (b:rest)
+      check True = case restRes of
+        val@(Atom _) -> val
+        List xs -> List (a:comp:xs)
       check False = false
       checkRest (Atom "True") = List [a,comp,b]
       checkRest (Atom _) = false
       checkRest (List xs) = List (a:comp:xs)
       ifNothing = checkRest restRes
+  in
+    maybe ifNothing check res
+
+-- eliminate right
+inequalityl' :: [LispVal] -> LispVal
+inequalityl' val@[a,comp,b] =
+  maybe (List val) toBool (eval comp a b)
+inequalityl' (a:comp:b:rest) =
+  let res = eval comp a b
+      left = inequalityRight (b:rest)
+      goOn = inequalityl' (b:rest)
+      check True = goOn
+      check False = false
+      checkRest (Atom "True") = List [a,comp,b]
+      checkRest (Atom _) = false
+      checkRest (List xs) = List (a:comp:xs)
+      ifNothing = checkRest left
   in
     maybe ifNothing check res
