@@ -5,6 +5,7 @@ import Data.DataType
 
 import Data.Maybe
 import Data.Function(on)
+import Control.Monad
 
 type Pattern = LispVal
 type Matched = (String, LispVal)
@@ -41,6 +42,21 @@ replace :: LispVal -> Rule -> Maybe LispVal
 replace val (patt, target) = do
   matched <- getMatch patt val
   return $ internalReplace target matched
+
+replaceRuleList :: LispVal -> [Rule] -> Maybe LispVal
+replaceRuleList val rules =
+  msum (map (replace val) rules)
+
+tryReplaceRuleList :: LispVal -> [Rule] -> LispVal
+tryReplaceRuleList val = fromMaybe val . replaceRuleList val
+
+replaceAll :: [Rule] -> LispVal -> LispVal
+replaceAll rules val =
+  let ifFailed =
+        case val of
+          List lis -> List (map (replaceAll rules) lis)
+          _ -> val in
+    fromMaybe ifFailed (replaceRuleList val rules)
 
 blankQ :: Pattern -> Bool
 blankQ (List (Atom "Blank" : _)) = True

@@ -76,7 +76,7 @@ validSet _ = False
 
 replaceDown :: Down -> LispVal -> Maybe LispVal
 replaceDown downV lhs =
-  let patt = downV ^. pattern.to (msum . map (replace lhs))
+  let patt = downV ^. pattern.to (replaceRuleList lhs)-- (msum . map (replace lhs))
       val = downV ^. value.to (M.lookup lhs) in
     mplus val patt
 

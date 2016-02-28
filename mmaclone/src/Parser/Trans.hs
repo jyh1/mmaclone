@@ -103,7 +103,7 @@ expr2LispVal (RuleDelayed e1 e2) =
   twoArgs (addHead2 "RuleDelayed") e1 e2
 
 expr2LispVal (Replace e1 e2) =
-  twoArgs (addHead2 "Replace") e1 e2
+  twoArgs (addHead2 "ReplaceAll") e1 e2
 expr2LispVal (ReplaceRepeated e1 e2) =
   twoArgs (addHead2 "ReplaceRepeated") e1 e2
 

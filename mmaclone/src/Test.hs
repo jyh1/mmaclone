@@ -27,7 +27,7 @@ mapAll = addHead "MapAll"
 apply = addHead "Apply"
 apply1 [l1,l2] = apply [l1,l2,list [one]]
 
-replace = addHead "Replace"
+replace = addHead "ReplaceAll"
 replaceR = addHead "ReplaceRepeated"
 rule = addHead "Rule"
 ruleD = addHead "RuleDelayed"

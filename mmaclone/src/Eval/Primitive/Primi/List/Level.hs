@@ -1,17 +1,15 @@
 module Eval.Primitive.Primi.List.Level
-  (levelMap,levelFromTo,levelUpTo,levelAt,levelMapFromTo,levelMapUpTo) where
+  -- (levelMap,levelFromTo,levelUpTo,levelAt,levelMapFromTo,levelMapUpTo)
+  (unpackLevelSpeci,unpackNormalLevelSpeci)
+    where
 import Data.DataType
 import Data.Number.Number
 
 import Control.Monad.Identity
--- import Eval.Primitive.PrimiType
+import Control.Monad.Except
 
--- levelMap :: (LispVal -> LispVal) -> Int -> LispVal -> LispVal
--- levelMap f 0 x = f x
--- levelMap f n (List (l:ls)) =
---   let newf = levelMap f (n - 1) in
---     List (l : map newf ls)
--- levelmap _ _ other = other
+type LevelSpeci = (LispVal -> LispVal) -> LispVal -> LispVal
+
 levelFromTo :: (Monad m) => (LispVal -> m LispVal) ->
   Int -> Int -> LispVal -> m LispVal
 levelFromTo f 0 0 x = f x
@@ -30,8 +28,36 @@ levelAt f n = levelFromTo f n n
 
 levelUpTo f = levelFromTo f 1
 
-levelMap f n = runIdentity . levelAt (Identity . f) n
+-- levelMap f n = runIdentity . levelAt (Identity . f) n
+--
+-- levelMapFromTo f i j = runIdentity . levelFromTo (Identity . f) i j
+--
+-- levelMapUpTo f n = runIdentity . levelUpTo (Identity . f) n
 
-levelMapFromTo f i j = runIdentity . levelFromTo (Identity . f) i j
+unpack :: LispVal -> LispVal -> ThrowsError Int
+unpack _ (Number (Integer n)) = return (fromIntegral n)
+unpack val _ = throwError $ Level val
 
-levelMapUpTo f n = runIdentity . levelUpTo (Identity . f) n
+
+unpackLevelSpeci :: (Monad m) =>
+  Int -> [LispVal] -> ThrowsError
+    ((LispVal -> m LispVal) -> LispVal -> m LispVal)
+unpackLevelSpeci def [] = return $ \f -> levelAt f def
+unpackLevelSpeci _ [val@(List [Atom "List",n])] = do
+  n' <- unpack val n
+  return $ \f -> levelAt f n'
+unpackLevelSpeci _ [val@(List [Atom "List", i,j])] = do
+  let unpack' = unpack val
+  i' <- unpack' i
+  j' <- unpack' j
+  return $ \f -> levelFromTo f i' j'
+unpackLevelSpeci _ [n] = do
+  n' <- unpack n n
+  return $ \f -> levelUpTo f n'
+-- unpackLevelSpeci _ val = throwError $ Level (List val)
+
+
+unpackNormalLevelSpeci :: Int -> [LispVal] -> ThrowsError LevelSpeci
+unpackNormalLevelSpeci n val = do
+  levelSpeci <- unpackLevelSpeci n val
+  return $ \f x -> runIdentity $ levelSpeci (Identity . f) x

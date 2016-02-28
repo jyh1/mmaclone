@@ -7,6 +7,7 @@ import Eval.Primitive.Primi.Logic.Logic
 import Eval.Primitive.Primi.Arithmatic.Arithmatic
 import Eval.Primitive.Primi.Control.Branch
 import Eval.Primitive.Primi.Function.Lambda
+import Eval.Primitive.Primi.Replace.Replace
 
 import Eval.Primitive.PrimiType
 import Control.Monad
@@ -41,7 +42,10 @@ primi = [
               ("If",ifl),
 
               ("CompoundExpression",compoundExpressionl),
-              ("Function", functionl)
+              ("Function", functionl),
+
+              ("Replace", replacel),
+              ("ReplaceAll",replaceAlll)
             ]
 
 compoundExpressionl :: Primi

@@ -41,6 +41,8 @@ library
                       , Eval.Primitive.Primi.Control.Branch
                       , Eval.Primitive.Primi.Logic.Logic
                       , Eval.Primitive.Primi.Function.Lambda
+                      , Eval.Primitive.Primi.Replace.Replace
+                      , Eval.Primitive.Primi.Replace.Unpack
 
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set

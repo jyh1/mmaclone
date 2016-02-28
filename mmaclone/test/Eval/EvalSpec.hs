@@ -185,6 +185,24 @@ spec  = do
         test2 "Function[x,2 x][5]" "10"
         test2 "(Function@@{{x},x==2})[2]" "True"
 
+  context "Eval.Primitive.Primi.Replace.Replace" $ do
+    context "Replace" $ do
+      it "replace at different level" $ do
+        test2 "Replace[x,x -> 1]" "1"
+        test2 "Replace[{x,y},x -> 1]" "{x,y}"
+        test2 "Replace[{x,y},{_,_} -> 1]" "1"
+        test2 "Replace[{x,y,z},x -> 1,1]" "{1,y,z}"
+        test2 "Replace[{{x},x,{{x}}},x -> 1,2]" "{{1},1,{{x}}}"
+        test2 "Replace[{x,{x}},x -> 1,{2}]" "{x,{1}}"
+        test2 "Replace[{x,x[x]},x -> 1,2]" "{1,x[1]}"
+
+    context "ReplaceAll" $ do
+      it "ReplaceAll" $ do
+        test2 "{x,y,z}/.x -> 1" "{1,y,z}"
+        test2 "{x[x],y}/.x -> 1" "{1[1],y}"
+        test2 "{{x,y}}/.x:>Sequence[2,3]" "{{2,3,y}}"
+        test2 "{{x,y},y}/.{_,_} -> {1,1}" "{1,1}"
+
   context "eval with context" $ do
     it "single value" $ do
       test ["a=3", "a"] $ integer 3
