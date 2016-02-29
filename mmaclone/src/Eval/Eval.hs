@@ -14,6 +14,7 @@ import Eval.Primitive.PrimiType
 import Eval.Environment
 import Eval.EvalHead
 import Data.Attribute
+import Eval.Primitive.Primi.Replace.Replace
 
 import Control.Monad
 import Data.Ratio
@@ -101,7 +102,8 @@ requireEval = [
                 ("And",andl),
                 ("Or",orl),
                 ("Nest",nestl),
-                ("NestList",nestListl)
+                ("NestList",nestListl),
+                ("ReplaceRepeated",replaceRepeatedl)
               ]
 
 -- logic ---------------------------------------------------
@@ -174,3 +176,9 @@ nestl' = nestUnpack nest
 nestListl' = nestUnpack nestList
 
 -- ---------------------------------------------------
+
+-- replaceRepeated -----------------------------------
+replaceRepeatedl :: IOPrimi
+replaceRepeatedl env =
+  withnop 2 "ReplaceRepeated" (replaceRepeatedl' (eval env))
+------------------------------------------------------

@@ -22,6 +22,9 @@ data LispVal =
             | Char Char
   deriving(Eq, Ord)
 
+type IOThrowsError = ExceptT LispError IO
+type LispFun = LispVal -> IOThrowsError LispVal
+
 instance Show LispVal where
   show = fullForm
 
@@ -150,11 +153,6 @@ extractValue :: ThrowsError a -> a
 extractValue (Right val) = val
 
 -- --------------------------------------------------
-type LispFun = LispVal -> IOThrowsError LispVal
-
--- --------------------------------
-
-type IOThrowsError = ExceptT LispError IO
 
 liftThrows :: ThrowsError a -> IOThrowsError a
 liftThrows (Left err) = throwError err

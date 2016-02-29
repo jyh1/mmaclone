@@ -21,7 +21,6 @@ data Context = Context {_own :: OwnValue, _down :: DownValue}
 -- IORef
 type Env = IORef Context
 
-
 makeLenses ''Down
 makeLenses ''Context
 

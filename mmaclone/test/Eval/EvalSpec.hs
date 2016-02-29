@@ -23,6 +23,8 @@ test a b =
 
 test2 a b = test1 a (readVal b)
 
+test3 a b = test a (readVal b)
+
 testEval :: [LispVal] -> LispVal
 testEval exprs = unsafePerformIO $ do
   env <- nullEnv
@@ -203,6 +205,11 @@ spec  = do
         test2 "{{x,y}}/.x:>Sequence[2,3]" "{{2,3,y}}"
         test2 "{{x,y},y}/.{_,_} -> {1,1}" "{1,1}"
 
+    context "ReplaceRepeated" $ do
+      it "ReplaceRepeated" $ do
+        test2 "f[g[x],y]//.{f[x_,y_]:>k[g[x],g[y]],g[g[x_]]:>g[x]}" "k[g[x],g[y]]"
+        test2 "x//.x -> 1" "1"
+
   context "eval with context" $ do
     it "single value" $ do
       test ["a=3", "a"] $ integer 3
@@ -229,6 +236,11 @@ spec  = do
     it "pattern matching" $ do
       test
         ["a[0]=1","a[0.0]=1","a[0]","a[0.0]"] (integer 1)
+
+    it "symbolic manipulation" $ do
+      test3
+        ["rules = {Log[x_ y_] :> Log[x] + Log[y], Log[x_^k_] :> k Log[x]}",
+        "Log[a (b c^d)^e] //. rules"] "Log[a]+(Log[b]+Log[c] d) e"
 
 
 main = hspec spec
