@@ -1,3 +1,5 @@
+rules={Log[x_ y_]:>Log[x]+Log[y],Log[x_^k_]:>k Log[x]}
+Log[a (b c^d)^e] //. rules
 If[#==0,1,# #0[#-1]]& /@NestList[(2 #)&,5,2]
 fib[n_]:=fib[n]=fib[n-1]+fib[n-2];fib[0]=fib[1]=1
 Map[fib,Range/@Range[10],{2}]
