@@ -39,7 +39,7 @@ library
                       , Eval.Primitive.Primi.List.Map
                       , Eval.Primitive.Primi.List.Level
                       , Eval.Primitive.Primi.Control.Branch
-                      , Eval.Primitive.Primi.Logic.Logic
+                      , Eval.Primitive.Primi.Logic.Not
                       , Eval.Primitive.Primi.Function.Lambda
                       , Eval.Primitive.Primi.Replace.Replace
                       , Eval.Primitive.Primi.Replace.Unpack
@@ -47,6 +47,11 @@ library
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set
                       , Eval.Primitive.IOPrimi.IO.Print
+
+                      , Eval.Primitive.EvalPrimi.EvalPrimi
+                      , Eval.Primitive.EvalPrimi.Logic.AndOr
+                      , Eval.Primitive.EvalPrimi.Replace.ReplaceRepeated
+                      , Eval.Primitive.EvalPrimi.Nest.Nest
 
                       , Show.Pretty
   build-depends:       base >= 4.7 && < 5

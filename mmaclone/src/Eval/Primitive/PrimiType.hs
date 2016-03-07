@@ -15,6 +15,7 @@ type IOResult = IOThrowsError (Maybe LispVal)
 
 type Primi = [LispVal] -> Result
 type IOPrimi = Env -> [LispVal] -> IOResult
+type EvalPrimi = Eval -> [LispVal] -> IOResult
 
 type SingleFun = LispVal -> Result
 type BinaryFun = LispVal -> LispVal -> Result

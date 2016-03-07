@@ -10,11 +10,12 @@ import Data.DataType
 import Data.Environment.Environment
 import Data.Number.Number
 import Eval.Primitive.Primitives
+import Eval.Primitive.EvalPrimi.EvalPrimi
 import Eval.Primitive.PrimiType
 import Eval.Environment
 import Eval.EvalHead
 import Data.Attribute
-import Eval.Primitive.Primi.Replace.Replace
+
 
 import Control.Monad
 import Data.Ratio
@@ -22,6 +23,7 @@ import Data.Maybe(fromMaybe)
 import Data.List(sort)
 import Control.Monad.Except
 import qualified Data.Map.Strict as M
+
 evalWithRecord :: Env -> Int -> LispVal -> IOThrowsError LispVal
 evalWithRecord env nn val = do
   let n = integer $ fromIntegral nn
@@ -97,88 +99,10 @@ attTransform val = return (attributeTransform attributes val)
 -- require eval function
 primitives = M.fromList $ primitives' ++ requireEval
 
+evalPrimiToIOPrimi :: EvalPrimi -> IOPrimi
+evalPrimiToIOPrimi evalPrimi env =
+  evalPrimi (eval env)
+-- | primitives that require require eval function
 requireEval :: [(String,IOPrimi)]
-requireEval = [
-                ("And",andl),
-                ("Or",orl),
-                ("Nest",nestl),
-                ("NestList",nestListl),
-                ("ReplaceRepeated",replaceRepeatedl)
-              ]
-
--- logic ---------------------------------------------------
-logic :: Eval ->
-  LispVal ->
-  [LispVal] -> IOThrowsError LispVal
-logic _ triv [] = return triv
-logic eval trivi (x:xs) =
-  let rest = logic eval trivi xs
-      check = (trivi ==) in
-  do
-    x' <- eval x
-    if isBool x' then
-      if check x' then
-        rest
-      else
-        return x'
-    else do
-      restRes <- rest
-      return $ case restRes of
-        List res -> List (x':res)
-        _ -> if check restRes then
-           List [x'] else restRes
-
--- logicLift :: LispVal -> LispVal -> Maybe LispVal
-logicLift _ val@(Atom _) = Just val
-logicLift name val = Just (addHead (Atom name) val)
-
-andl,orl :: IOPrimi
-andl env ls =
-  liftM (logicLift "And") $ logic (eval env) true ls
-
-orl env ls =
-  liftM (logicLift "Or") $ logic (eval env) false ls
--- ---------------------------------------------------
-
--- Nest-----------------------------------------------
-nestl ,nestListl:: IOPrimi
-nestl env = withnop 3 "Nest" (nestl' env)
-nestListl env = withnop 3 "NestList" (nestListl' env)
-
-
-nest,nestList :: Eval -> LispVal -> LispVal -> Int -> EvalResult
-nest _ _ arg 0 = return arg
-nest eval f arg n = do
-  evaled <- eval (applyHead f arg)
-  nest eval f evaled (n-1)
-
-nestList' _ _ arg 0 = return [arg]
-nestList' eval f arg n = do
-  evaled <- eval (applyHead f arg)
-  rest <- nestList' eval f evaled (n-1)
-  return $ arg : rest
-nestList eval f arg n = liftM list (nestList' eval f arg n)
-
-
-nestErr = Default "Nest :: non-negative machine-sized number expected"
-unpackNest3rd :: LispVal -> IOThrowsError Int
-unpackNest3rd (Number (Integer n))
-  | n >= 0 = return (fromIntegral n)
-  | otherwise = throwError nestErr
-unpackNest3rd _ = throwError nestErr
-
-nestUnpack nest env [f,arg,n] = do
-  n' <- unpackNest3rd n
-  liftM Just $ nest (eval env) f arg n'
-
-nestl' = nestUnpack nest
-
-nestListl' = nestUnpack nestList
-
--- ---------------------------------------------------
-
--- replaceRepeated -----------------------------------
-replaceRepeatedl :: IOPrimi
-replaceRepeatedl env =
-  withnop 2 "ReplaceRepeated" (replaceRepeatedl' (eval env))
-------------------------------------------------------
+requireEval = map transform evalPrimi
+  where transform (name, fun) = (name, evalPrimiToIOPrimi fun)
