@@ -2,7 +2,7 @@ module Eval.Primitive.Primi.Logic.Not(notl) where
 import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
--- | Function Not primitive
+-- | Primitive Function Not
 notl = sinop "Not" notl'
 
 notl' :: SingleFun

@@ -7,6 +7,8 @@ import Eval.Primitive.EvalPrimi.Replace.ReplaceRepeated
 import Eval.Primitive.EvalPrimi.Nest.Nest
 
 
+-- | these functions will be provided the eval function thus transformed
+-- to IOPrimi in the Eval.Eval
 evalPrimi :: [(String, EvalPrimi)]
 evalPrimi = [
               ("And", andl)

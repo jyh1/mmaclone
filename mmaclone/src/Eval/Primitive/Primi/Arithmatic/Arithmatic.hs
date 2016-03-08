@@ -1,5 +1,7 @@
 module Eval.Primitive.Primi.Arithmatic.Arithmatic
-        (plusl,timesl,powerl) where
+        (
+        -- * Functions related with arithmatic. Plus, Times, Power etc...
+        plusl,timesl,powerl,dividel,minusl) where
 import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
@@ -8,13 +10,13 @@ import Control.Monad
 import Control.Monad.Except
 import Data.List
 
+
 numericPolop :: (Number -> [LispVal] -> Result) ->
   ([LispVal] -> LispVal) ->
   ([LispVal] -> Result) ->
   (Number -> Number -> Number) -> [LispVal]
   -> Result
 numericPolop _ _ _ _ [] = throwError $ NumArgs "Plus" 0 []
--- numericPolop _ _ _ _ [a] = return $ Just a
 numericPolop merges groupers tagHead op params = do
   let (nums,others) = partition checkNum params
       unpacked = map unpackNum nums
@@ -24,6 +26,7 @@ numericPolop merges groupers tagHead op params = do
     merges ans grouped
   else tagHead grouped
 
+-- | Flatten expressions like Plus[a,Plus[b,c]] to Plus[a,b,c]
 mergePlus,mergeTimes :: Number -> [LispVal] -> Result
 mergePlus num [] = hasValue (Number num)
 mergePlus num xs
@@ -60,18 +63,18 @@ numericBinop f a b
 
 minus, divide:: BinaryFun
 minus (Number a) (Number b) = hasValue (Number $ minusN a b)
-minus a b = liftEval minus' a b
+minus a b = hasValue $ minus' a b
   where
     minus' a b = List [Atom "Plus", a, List [Atom "Times", Number $ Integer (-1), b]]
 
 divide (Number a) (Number b) = hasValue (Number $ divideN a b)
-divide a b = liftEval divide' a b
+divide a b = hasValue $ divide' a b
   where
     divide' a b = List [Atom "Times", a, List [Atom "Power", b, Number $ Integer (-1)]]
 
 -- modl = numericBinop ((Just.). modN)
 powerl = binop "Power" $ numericBinop powerN
--- ----------------------------------------
-
 plusl = numericPolop mergePlus groupPlus (returnWithHead "Plus") plus
 timesl = numericPolop mergeTimes groupTimes (returnWithHead "Times") times
+minusl = binop "Minus" minus
+dividel = binop "Divide" divide

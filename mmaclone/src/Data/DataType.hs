@@ -12,8 +12,8 @@ import Data.List
 import Data.Number.Number
 import Text.Printf
 
--- LispVal
-
+-- * Module containing all foundamental types and functions
+-- ** LispVal
 data LispVal =
               Number Number
             | List [LispVal]

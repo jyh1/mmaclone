@@ -13,13 +13,15 @@ import Eval.Primitive.PrimiType
 import Control.Monad
 import Control.Monad.Except
 
--- |primi contains all the primitive function which
--- could compute the result without doing IO, i.e. has the type primi
+-- |Primi contains all the primitive functions which
+-- have type Primi, i.e. do simple term rewrite.
 primi :: [(String, Primi)]
 primi = [
               ("Plus",plusl),
               ("Times", timesl),
               ("Power", powerl),
+              ("Minus", minusl),
+              ("Divide", dividel),
               -- list mainpulation
               ("car", carl),
               ("cdr", cdrl),

@@ -1,6 +1,6 @@
 module Eval.Primitive.Primi.List.Level
-  -- (levelMap,levelFromTo,levelUpTo,levelAt,levelMapFromTo,levelMapUpTo)
-  (unpackLevelSpeci,unpackNormalLevelSpeci)
+  (-- * Module for level specification related functions
+  levelFromTo, unpackLevelSpeci,unpackNormalLevelSpeci)
     where
 import Data.DataType
 import Data.Number.Number
@@ -10,7 +10,12 @@ import Control.Monad.Except
 
 type LevelSpeci = (LispVal -> LispVal) -> LispVal -> LispVal
 
-levelFromTo :: (Monad m) => (LispVal -> m LispVal) ->
+-- | Take a function and apply it to a lispval in the level range
+-- specified by the pair of ints.
+-- monad context to make general enough to implement Level like function.
+-- Negative specification is not currently implemented
+levelFromTo :: (Monad m) =>
+  (LispVal -> m LispVal) ->
   Int -> Int -> LispVal -> m LispVal
 levelFromTo f 0 0 x = f x
 levelFromTo f 0 j (List (l:ls)) = do
@@ -28,25 +33,22 @@ levelAt f n = levelFromTo f n n
 
 levelUpTo f = levelFromTo f 1
 
--- levelMap f n = runIdentity . levelAt (Identity . f) n
---
--- levelMapFromTo f i j = runIdentity . levelFromTo (Identity . f) i j
---
--- levelMapUpTo f n = runIdentity . levelUpTo (Identity . f) n
 
 unpack :: LispVal -> LispVal -> ThrowsError Int
-unpack _ (Number (Integer n)) = return (fromIntegral n)
-unpack val _ = throwError $ Level val
+unpack val = unpackInt (Level val)
 
-
+-- | This function is used to unpack a level specification and
+-- returns a function that will apply a supplied function to
+-- a LispVal at desired level(s)
 unpackLevelSpeci :: (Monad m) =>
-  Int -> [LispVal] -> ThrowsError
-    ((LispVal -> m LispVal) -> LispVal -> m LispVal)
+  Int -- ^ Default level (will be used when the second argument is empty).
+  -> [LispVal] -- ^ Level specification to be unpacked, could be empty, or taken as n, {n}, {i, j}.
+  -> ThrowsError ((LispVal -> m LispVal) -> LispVal -> m LispVal)
 unpackLevelSpeci def [] = return $ \f -> levelAt f def
 unpackLevelSpeci _ [val@(List [Atom "List",n])] = do
   n' <- unpack val n
   return $ \f -> levelAt f n'
-unpackLevelSpeci _ [val@(List [Atom "List", i,j])] = do
+unpackLevelSpeci _ [val@(List [Atom "List", i, j])] = do
   let unpack' = unpack val
   i' <- unpack' i
   j' <- unpack' j
@@ -54,9 +56,11 @@ unpackLevelSpeci _ [val@(List [Atom "List", i,j])] = do
 unpackLevelSpeci _ [n] = do
   n' <- unpack n n
   return $ \f -> levelUpTo f n'
--- unpackLevelSpeci _ val = throwError $ Level (List val)
+unpackLevelSpeci _ val = throwError $ Level (List val)
 
-
+-- | This function will specified the Monad context in the
+-- unpackLevelSpeci function to be Identity in order to free from
+-- the Monad context. Used when defining Map, Apply ...
 unpackNormalLevelSpeci :: Int -> [LispVal] -> ThrowsError LevelSpeci
 unpackNormalLevelSpeci n val = do
   levelSpeci <- unpackLevelSpeci n val
