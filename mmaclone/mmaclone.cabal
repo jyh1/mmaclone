@@ -5,7 +5,7 @@ description:         Please see README.md
 homepage:            http://github.com/githubuser/mmaclone#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Y. Jin
+author:              Yonghao Jin
 maintainer:          jyh1@mail.ustc.edu.cn
 copyright:           2016 Y. Jin
 category:            None
@@ -47,6 +47,7 @@ library
                       , Eval.Primitive.IOPrimi.IOPrimi
                       , Eval.Primitive.IOPrimi.Set.Set
                       , Eval.Primitive.IOPrimi.IO.Print
+                      , Eval.Primitive.IOPrimi.InOut.InOut
 
                       , Eval.Primitive.EvalPrimi.EvalPrimi
                       , Eval.Primitive.EvalPrimi.Logic.AndOr

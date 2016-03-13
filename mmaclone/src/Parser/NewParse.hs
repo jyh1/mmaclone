@@ -75,7 +75,7 @@ opNames = words ("-> :> && || ! + - * / ; == < <= > >= : @ @@ /@ //@ @@@ \' !! !
 lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.commentEnd = "*)"
                       , Token.commentLine = ""
-                      , Token.identStart = letter -- identifiers must start with a letter
+                      , Token.identStart = letter <|> char '$' -- identifiers must start with a letter
                       , Token.identLetter = alphaNum
                       , Token.reservedNames = []
                       , Token.reservedOpNames = opNames

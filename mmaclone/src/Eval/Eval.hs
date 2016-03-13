@@ -26,10 +26,12 @@ import qualified Data.Map.Strict as M
 
 evalWithRecord :: Env -> Int -> LispVal -> IOThrowsError LispVal
 evalWithRecord env nn val = do
-  let n = integer $ fromIntegral nn
+  let n = integer nn
+      evaluate = eval env
+  evaluate (List [Atom "Set",atomLine, n])
+  evaluate (List [Atom "SetDelayed", List [Atom "In", n], val])
   evaled <- eval env val
-  eval env (List [Atom "SetDelayed", List [Atom "In", n], val])
-  eval env (List [Atom "Set", List [Atom "Out", n], evaled])
+  evaluate (List [Atom "Set", List [Atom "Out", n], evaled])
 
 eval :: Env -> LispVal -> IOThrowsError LispVal
 eval env val = do

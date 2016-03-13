@@ -34,6 +34,8 @@ isNull _ = False
 
 atomNull = Atom "Null"
 
+atomLine = Atom "$Line"
+
 isBool (Atom "True") = True
 isBool (Atom "False") = True
 isBool _ = False
