@@ -16,3 +16,4 @@ cabal.sandbox.config
 .stack-work/
 issue.txt
 *.db
+releasenote.md

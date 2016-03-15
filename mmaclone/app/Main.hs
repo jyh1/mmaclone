@@ -10,9 +10,13 @@ import Eval.Eval
 import Parser.Trans
 import Show.Pretty
 
+info :: String
+info = "A simple Mathmatica clone (v0.1.0)\nCopyright Author Yonghao Jin here (c) 2016.\nContact me with jyh1@mail.ustc.edu.cn\n"
+
 main :: IO()
 main = do
   env <- nullEnv
+  putStrLn info
   loop env 1
 
 loop :: Env  -> Int -> IO ()

@@ -29,3 +29,4 @@ I decide to write myself a simple Mathematica interpreter to learn more about Ha
 6. Neagtive level specification
 7. Curried function e.g. `f[a][b]` (currently it will throw an error if one is trying to attach value to
   the curried form through `Set` or `SetDelayed`)
+8. Use iPython as frontend.
