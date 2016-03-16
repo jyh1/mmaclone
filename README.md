@@ -8,7 +8,7 @@ I decide to write myself a simple Mathematica interpreter to learn more about Ha
 ![mmaclone](https://raw.githubusercontent.com/jyh1/mmaclone/master/demo.GIF)
 
 
-## Running:
+## Running (Using [Stack](https://github.com/commercialhaskell/stack)):
 ```
   git clone https://github.com/jyh1/mmaclone.git
   cd mmaclone/mmaclone
@@ -17,6 +17,9 @@ I decide to write myself a simple Mathematica interpreter to learn more about Ha
   stack exec mmaclone-exe
 ```
 
+## For more information please refer to the project [wiki](https://github.com/jyh1/mmaclone/wiki) (still under construction).
+
+## [Prebulid Windows Binary File]()
 
 ## Features that are likely to be added in future versions:
 1. More mathematical functions (`Sin`, `Cos`, `Mod` etc...)
