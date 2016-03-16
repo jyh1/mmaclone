@@ -121,7 +121,7 @@ opTable = [
             -- [function],
             [binary "?" PatternTest AssocRight],
             [appl,applPart],
-            [postfix "&" Function],
+            -- [postfix "&" Function],
             [binary "@" uniapply AssocRight],
             [ binary "/@" Map AssocRight,
               binary "//@" MapAll AssocRight,
@@ -161,14 +161,14 @@ opTable = [
           , [binary "/." Replace AssocLeft,
             binary "//." ReplaceRepeated AssocLeft]
           -- , [function]
-          -- , [postfix "&" Function]
+          , [postfix "&" Function]
           , [binary "//" (flip uniapply) AssocLeft]
           , [binary "=" Set AssocRight,
             binary ":=" SetDelayed AssocRight,
             postfix "=." Unset]
 
           , [binary ";" Compound AssocLeft]
-          , [appl,binary "@" uniapply AssocRight]
+          -- , [appl,binary "@" uniapply AssocRight]
           ]
 
 sub e1 e2 = Add e1 (Negate e2)

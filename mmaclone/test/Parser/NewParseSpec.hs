@@ -75,7 +75,7 @@ spec  = do
 
       it "& function" $ do
         test "P&" (Function pe)
-        test "P& @P" (Apply (Function pe) (Args [pe]))
+        test "(P&) @P" (Apply (Function pe) (Args [pe]))
     context "parse string" $ do
       it "read a common string" $ do
         test "\"a string\"" $ Str "a string"

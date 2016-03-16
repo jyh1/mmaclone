@@ -154,8 +154,8 @@ spec  = do
     context "lambda function" $ do
       it "& operator" $ do
         test "(1+#)&" (fun [plus [one,s1]])
-        test "(1+#)&[2]" (List [fun [plus [one,s1]],two])
-        test "(1 ##)&[2]" (List [fun [times [one,ss1]],two])
+        test "(1+#&)[2]" (List [fun [plus [one,s1]],two])
+        test "(1 ##&)[2]" (List [fun [times [one,ss1]],two])
 
     context "alternative" $ do
       it "| operator" $ do
