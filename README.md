@@ -27,6 +27,7 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
 (Some serious design errors are exposed during development, which I consider are inhibating
   the project from scaling up. So currently my primary focus would be on refactor
   rather than adding new features/functions)
+  
 1. More mathematical functions (`Sin`, `Cos`, `Mod` etc...)
 2. More built-in functions (`Level`, `Import`, `Derivative`etc...)
 3. More sophisticated pattern matching
