@@ -153,7 +153,7 @@ expr2LispVal (Alter e1 e2) =
 expr2LispVal (Negate e) = do
   e' <- expr2LispVal e
   return $ case e' of
-    Number n -> Number (negateN n)
+    Number n -> Number (- n)
     other -> negateE other
 
 expr2LispVal (Inverse e) = do

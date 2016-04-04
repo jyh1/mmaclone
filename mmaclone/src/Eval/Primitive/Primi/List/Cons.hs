@@ -16,8 +16,8 @@ rangel' ls = do
   hasValue $ fromNumberList (rangeLP ns)
 
 rangeLP :: [Number] -> [Number]
-rangeLP [n] = range one n one
-rangeLP [f,t] = range f t one
+rangeLP [n] = range 1 n 1
+rangeLP [f,t] = range f t 1
 rangeLP [f,t,d] = range f t d
 
 fromNumberList :: [Number] -> LispVal
@@ -25,11 +25,11 @@ fromNumberList = list . map Number
 
 range :: Number -> Number -> Number -> [Number]
 range i j d =
-  let n = numberTrunc $ divideN (minusN j i) d in
+  let n = truncate $ (j - i) / d in
     rangeFrom n i d
 
 rangeFrom :: Int -> Number -> Number -> [Number]
-rangeFrom n i d = take (n+1) (iterate (plus d) i)
+rangeFrom n i d = take (n+1) (iterate (+ d) i)
 
 toRangeArgs :: [LispVal] -> ThrowsError [Number]
 toRangeArgs ls = do

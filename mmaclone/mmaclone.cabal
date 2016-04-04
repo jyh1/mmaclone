@@ -22,7 +22,6 @@ library
                       , Eval.EvalHead
                       , Data.DataType
                       , Data.Number.Number
-                      , Data.Number.Hier
                       , Data.Environment.Environment
                       , Data.Attribute
                       , Eval.Environment

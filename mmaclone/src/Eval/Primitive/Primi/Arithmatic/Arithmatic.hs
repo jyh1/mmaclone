@@ -35,7 +35,7 @@ mergePlus num xs
 
 mergeTimes num [] = hasValue (Number num)
 mergeTimes num xs
-  | isZero num = hasValue $ Number zero
+  | isZero num = hasValue $ Number 0
   | isOne num = returnWithHead "Times" xs
   | otherwise = merge "Times" num xs
 
@@ -62,19 +62,19 @@ numericBinop f a b
   | otherwise = return Nothing
 
 minus, divide:: BinaryFun
-minus (Number a) (Number b) = hasValue (Number $ minusN a b)
+minus (Number a) (Number b) = hasValue (Number $  a - b)
 minus a b = hasValue $ minus' a b
   where
-    minus' a b = List [Atom "Plus", a, List [Atom "Times", Number $ Integer (-1), b]]
+    minus' a b = List [Atom "Plus", a, List [Atom "Times", Number (-1), b]]
 
-divide (Number a) (Number b) = hasValue (Number $ divideN a b)
+divide (Number a) (Number b) = hasValue (Number $ a / b)
 divide a b = hasValue $ divide' a b
   where
-    divide' a b = List [Atom "Times", a, List [Atom "Power", b, Number $ Integer (-1)]]
+    divide' a b = List [Atom "Times", a, List [Atom "Power", b, Number (-1)]]
 
 -- modl = numericBinop ((Just.). modN)
 powerl = binop "Power" $ numericBinop powerN
-plusl = numericPolop mergePlus groupPlus (returnWithHead "Plus") plus
-timesl = numericPolop mergeTimes groupTimes (returnWithHead "Times") times
+plusl = numericPolop mergePlus groupPlus (returnWithHead "Plus") (+)
+timesl = numericPolop mergeTimes groupTimes (returnWithHead "Times") (*)
 minusl = binop "Minus" minus
 dividel = binop "Divide" divide
