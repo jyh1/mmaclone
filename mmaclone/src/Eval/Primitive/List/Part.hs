@@ -1,4 +1,4 @@
-module Eval.Primitive.Primi.List.Part(partl) where
+module Eval.Primitive.List.Part(partl) where
 import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
@@ -6,12 +6,14 @@ import Eval.Primitive.PrimiType
 import Control.Monad
 import Control.Monad.Except
 
-partl = many1op "Part" part
+partl :: Primi
+partl = do
+  l <- getArgumentList
+  expr <- getExpression
+  case partWithPartError l of
+    Left err -> stateThrow $ fromPartError err expr
+    Right val -> return val
 
-part :: [LispVal] -> Result
-part l = case partWithPartError l of
-  Left err -> throwError (fromPartError err (list (Atom "Part":l)))
-  Right val -> hasValue val
 
 data PartSpeci = S Int | L [Int]
 data PartRes = Sres LispVal | Lres [LispVal]

@@ -10,8 +10,7 @@ import Data.DataType
 import Data.Environment.Environment
 import Data.Number.Number
 import Eval.Primitive.Primitives
-import Eval.Primitive.EvalPrimi.EvalPrimi
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiType hiding(eval)
 import Eval.Environment
 import Eval.EvalHead
 import Data.Attribute
@@ -23,6 +22,7 @@ import Data.Maybe(fromMaybe)
 import Data.List(sort)
 import Control.Monad.Except
 import qualified Data.Map.Strict as M
+import Control.Monad.Trans.State
 
 evalWithRecord :: Env -> Int -> LispVal -> IOThrowsError LispVal
 evalWithRecord env nn val = do
@@ -58,9 +58,10 @@ eval' _ x = return x
 -- eval head --------------------------------------
 evalPrimitiveHead :: LispVal -> Env -> Maybe LispFun
 evalPrimitiveHead (Atom name) env = do
-  fun <- M.lookup name primitives
-  let evalFun val@(List (_:args)) =
-        liftM (fromMaybe val) $ fun env args
+  primi <- M.lookup name primitives
+  let evalFun (List val) =
+        let primiEnv = PrimiEnv (eval env) env val False in
+          evalStateT primi primiEnv
   return evalFun
 
 evalHead :: LispVal -> Env -> LispFun
@@ -74,6 +75,7 @@ evalHead other _ = return
 
 
 -- attribute relating functions
+-- | evaluate arguments under the attributes specification of Head
 attributeEvaluateArgs :: (LispVal -> IOThrowsError LispVal) ->
   LispVal -> [LispVal] -> IOThrowsError [LispVal]
 attributeEvaluateArgs evalE h rests = do
@@ -81,6 +83,7 @@ attributeEvaluateArgs evalE h rests = do
   evaled <- attEvalHold evalE att rests
   return $ allAttr att h evaled
 
+-- | handle HoldAll HoldFirst HoldRest
 attEvalHold:: (LispVal -> IOThrowsError LispVal) ->
   [Attribute] -> [LispVal] -> IOThrowsError [LispVal]
 attEvalHold evalE atts vals
@@ -93,18 +96,6 @@ attEvalHold evalE atts vals
       return (first : tail vals)
   | otherwise = mapM evalE vals
 
+
 attTransform :: LispVal -> IOThrowsError LispVal
 attTransform val = return (attributeTransform attributes val)
-
-
-
--- require eval function
-primitives = M.fromList $ primitives' ++ requireEval
-
-evalPrimiToIOPrimi :: EvalPrimi -> IOPrimi
-evalPrimiToIOPrimi evalPrimi env =
-  evalPrimi (eval env)
--- | primitives that require require eval function
-requireEval :: [(String,IOPrimi)]
-requireEval = map transform evalPrimi
-  where transform (name, fun) = (name, evalPrimiToIOPrimi fun)

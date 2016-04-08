@@ -1,4 +1,4 @@
-module Eval.Primitive.IOPrimi.IO.Print
+module Eval.Primitive.IO.Print
         (printl) where
 
 import Eval.Primitive.PrimiType
@@ -8,7 +8,8 @@ import Show.Pretty
 
 import Control.Monad.Trans
 
-printl :: IOPrimi
-printl _ vals =
+printl :: Primi
+printl = do
+  vals <- getArgumentList
   let output = mconcat $ map showLispVal vals in
-    lift $ putStrLn output >> hasValue atomNull
+    (lift.lift) $ putStrLn output >> return atomNull

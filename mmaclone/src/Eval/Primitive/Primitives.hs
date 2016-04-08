@@ -1,9 +1,75 @@
-module Eval.Primitive.Primitives(primitives') where
+module Eval.Primitive.Primitives(primitives) where
 
-import Eval.Primitive.Primi.Primi
-import Eval.Primitive.IOPrimi.IOPrimi
 import Eval.Primitive.PrimiType
+import Eval.Primitive.Arithmatic.Arithmatic
+import Eval.Primitive.List.List
+import Eval.Primitive.Compare.Compare
+import Eval.Primitive.Logic.Logic
+import Eval.Primitive.Control.Branch
+import Eval.Primitive.Function.Lambda
+import Eval.Primitive.Replace.Replace
+import Eval.Primitive.Nest.Nest
+import Eval.Primitive.Set.Set
+import Eval.Primitive.IO.Print
+import Eval.Primitive.InOut.InOut
 
 
-primitives' :: [(String, IOPrimi)]
-primitives' = map (fmap toIOPrimi) primi ++ ioprimi
+import qualified Data.Map.Strict as M
+
+-- | Collections of all primitive function
+primitives :: M.Map String Primi
+primitives = M.fromList
+  [ ("CompoundExpression",compoundExpressionl)
+  , ("Minus", minusl)
+  , ("Divide", dividel)
+  , ("Plus",plusl)
+  , ("Times", timesl)
+  , ("Power", powerl)
+  -- list mainpulation
+  , ("car", carl)
+  , ("cdr", cdrl)
+  , ("cons", consl)
+  , ("Length", lengthl)
+  , ("Part", partl)
+  , ("Map", mapl)
+  , ("Apply",applyl)
+  -- list construction
+  , ("Range", rangel)
+
+  -- comparation
+  , ("Less", lessl)
+  , ("LessEqual" , lessEquall)
+  , ("Greater", greaterl)
+  , ("GreaterEqual", greaterEquall)
+  , ("Equal", equall)
+  , ("Inequality",inequalityl)
+  -- logic function
+  , ("Not", notl)
+  , ("And", andl)
+  , ("Or", orl)
+  -- branch
+  , ("If",ifl)
+
+  , ("Function", functionl)
+  -- replace
+  , ("Replace", replacel)
+  , ("ReplaceAll",replaceAlll)
+  , ("ReplaceRepeated", replaceRepeatedl)
+
+  , ("Nest", nestl)
+  , ("NestList", nestListl)
+
+  , ("Set",setl)
+  , ("SetDelayed", setDelayedl)
+
+  , ("Print", printl)
+
+  , ("In", inl)
+  , ("Out", outl)
+  ]
+
+
+compoundExpressionl :: Primi
+compoundExpressionl = do
+  many1op
+  fmap last getArgumentList

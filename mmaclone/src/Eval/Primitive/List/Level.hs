@@ -1,4 +1,4 @@
-module Eval.Primitive.Primi.List.Level
+module Eval.Primitive.List.Level
   (-- * Module for level specification related functions
   levelFromTo, unpackLevelSpeci,unpackNormalLevelSpeci)
     where
@@ -34,7 +34,7 @@ levelAt f n = levelFromTo f n n
 levelUpTo f = levelFromTo f 1
 
 
-unpack :: LispVal -> LispVal -> ThrowsError Int
+unpack :: LispVal -> LispVal -> IOThrowsError Int
 unpack val = unpackInt (Level val)
 
 -- | This function is used to unpack a level specification and
@@ -43,7 +43,7 @@ unpack val = unpackInt (Level val)
 unpackLevelSpeci :: (Monad m) =>
   Int -- ^ Default level (will be used when the second argument is empty).
   -> [LispVal] -- ^ Level specification to be unpacked, could be empty, or taken as n, {n}, {i, j}.
-  -> ThrowsError ((LispVal -> m LispVal) -> LispVal -> m LispVal)
+  -> IOThrowsError ((LispVal -> m LispVal) -> LispVal -> m LispVal)
 unpackLevelSpeci def [] = return $ \f -> levelAt f def
 unpackLevelSpeci _ [val@(List [Atom "List",n])] = do
   n' <- unpack val n
@@ -61,7 +61,7 @@ unpackLevelSpeci _ val = throwError $ Level (List val)
 -- | This function will specified the Monad context in the
 -- unpackLevelSpeci function to be Identity in order to free from
 -- the Monad context. Used when defining Map, Apply ...
-unpackNormalLevelSpeci :: Int -> [LispVal] -> ThrowsError LevelSpeci
+unpackNormalLevelSpeci :: Int -> [LispVal] -> IOThrowsError LevelSpeci
 unpackNormalLevelSpeci n val = do
   levelSpeci <- unpackLevelSpeci n val
   return $ \f x -> runIdentity $ levelSpeci (Identity . f) x

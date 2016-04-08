@@ -1,4 +1,6 @@
-module Eval.Primitive.Primi.List.Cons(rangel) where
+module Eval.Primitive.List.Cons
+  (-- * List Construction function
+    rangel) where
 
 import Data.DataType
 import Data.Number.Number
@@ -8,12 +10,15 @@ import Control.Monad
 import Control.Monad.Except
 
 rangel :: Primi
-rangel = manynop "Range" 1 3 rangel'
+rangel = do
+  between 1 3
+  ls <- getArgumentList
+  lift (rangel' ls)
 
-rangel' :: Primi
+rangel' :: [LispVal] -> IOThrowsError LispVal
 rangel' ls = do
   ns <- toRangeArgs ls
-  hasValue $ fromNumberList (rangeLP ns)
+  return $ fromNumberList (rangeLP ns)
 
 rangeLP :: [Number] -> [Number]
 rangeLP [n] = range 1 n 1
@@ -31,7 +36,7 @@ range i j d =
 rangeFrom :: Int -> Number -> Number -> [Number]
 rangeFrom n i d = take (n+1) (iterate (+ d) i)
 
-toRangeArgs :: [LispVal] -> ThrowsError [Number]
+toRangeArgs :: [LispVal] -> IOThrowsError [Number]
 toRangeArgs ls = do
   ns <- mapM unpackNum' ls
   return $ toListDouble ns

@@ -1,20 +1,21 @@
 {-#LANGUAGE FlexibleContexts #-}
-module Eval.Primitive.EvalPrimi.Nest.Nest(nestl, nestListl) where
+module Eval.Primitive.Nest.Nest(nestl, nestListl)where
 
 import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiType
-import Eval.Primitive.Primi.Replace.Replace
+import Eval.Primitive.Replace.Replace
 
 import Control.Monad
 import Control.Monad.Except
 
-nestl ,nestListl:: EvalPrimi
-nestl eval = withnop 3 "Nest" (nestl' eval)
-nestListl eval = withnop 3 "NestList" (nestListl' eval)
+nestl ,nestListl:: Primi
+nestl  = nestUnpack nest
+nestListl = nestUnpack nestList
 
+type Nest = Eval -> LispVal -> LispVal -> Int -> IOThrowsError LispVal
 
-nest,nestList :: Eval -> LispVal -> LispVal -> Int -> EvalResult
+nest,nestList :: Nest
 nest _ _ arg 0 = return arg
 nest eval f arg n = do
   evaled <- eval (applyHead f arg)
@@ -30,12 +31,11 @@ nestList eval f arg n = liftM list (nestList' eval f arg n)
 
 nestErr = Default "Nest :: non-negative machine-sized number expected"
 
--- nestUnpack :: (Eval -> LispVal -> LispVal -> Int -> EvalResult)
---    -> Eval -> [LispVal] -> IOResult
-nestUnpack nest eval [f,arg,n] = do
-  n' <- unpackIntWithThre 0 nestErr n
-  liftM Just $ nest eval f arg n'
-
-nestl' = nestUnpack nest
-
-nestListl' = nestUnpack nestList
+nestUnpack :: Nest -> Primi
+nestUnpack nest = do
+  withnop 3
+  [f,arg,n] <- getArgumentList
+  eval <- getEval
+  lift $ do
+    n' <- unpackIntWithThre 0 nestErr n
+    nest eval f arg n'

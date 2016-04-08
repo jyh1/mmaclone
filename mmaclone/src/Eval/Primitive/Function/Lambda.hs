@@ -1,6 +1,6 @@
 {-#LANGUAGE FlexibleContexts #-}
 
-module Eval.Primitive.Primi.Function.Lambda(evalLambda,functionl) where
+module Eval.Primitive.Function.Lambda(evalLambda,functionl) where
 
 import Data.DataType
 import Eval.Patt.Pattern
@@ -8,6 +8,7 @@ import Eval.Primitive.PrimiType
 
 import Control.Monad.Trans.Except
 import Control.Monad.Except
+import Control.Monad
 
 
 slotErr = Default "Slot should contain a non-negative integer"
@@ -24,14 +25,14 @@ unpackSlot vs [n] = do
   if length vs < n'+1 then
     throwError (SlotError (head vs))
   else return $ vs !! n'
-unpackSlot  _ other = throwError (NumArgs "Slot" 1 other)
+unpackSlot  _ other = throwError (NumArgs "Slot" 1 (length other))
 
 unpackSlotSeq vs [n] = do
   n' <- unpackSlotSeqNum n
   if length vs < n' then
     throwError (SlotError (head vs))
   else return $ wrapSequence (drop n' vs)
-unpackSlotSeq _ other = throwError (NumArgs "SlotSequence" 1 other)
+unpackSlotSeq _ other = throwError (NumArgs "SlotSequence" 1 (length other))
 
 
 replaceSlot :: [LispVal] -> LispVal -> ThrowsError LispVal
@@ -65,14 +66,17 @@ evalLambda (List lis@(List fun:args)) =
 
 
 functionl :: Primi
-functionl = manynop "Function" 1 3 checkFunction
+functionl = do
+  between 1 3
+  getArgumentList >>= checkFunction
 
+checkFunction :: [LispVal] -> Primi
 checkFunction [_] = noChange
 checkFunction (Atom _ :_) = noChange
 checkFunction (List (Atom "List":ps) :_) = do
-  mapM_ checkAtom ps
+  lift $ mapM_ checkAtom ps
   noChange
-checkFunction _ = throwError flpr
+checkFunction _ = stateThrow flpr
 
 checkAtom (Atom _) = return ()
 checkAtom _ = throwError flpr

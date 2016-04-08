@@ -1,4 +1,4 @@
-module Eval.Primitive.IOPrimi.Set.Set
+module Eval.Primitive.Set.Set
         (setl,setDelayedl) where
 
 import Eval.Primitive.PrimiType
@@ -12,14 +12,17 @@ import Control.Monad.IO.Class
 import Control.Monad.Trans.Except
 import Control.Monad.Except
 
-set :: IOBinary
-set env lhs rhs = liftM Just $ setVar env lhs rhs
 
-setl :: IOPrimi
-setl env = binop "Set" (set env)
+setl :: Primi
+setl = do
+  env <- getEnv
+  [lhs, rhs] <- getArgumentList
+  lift $ setVar env lhs rhs
 
-setDelayedl :: IOPrimi
-setDelayedl env ls = setl env ls >> return (Just atomNull)
+setDelayedl :: Primi
+setDelayedl = do
+  setl
+  return atomNull
 
 setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
 setVar envRef lhs rhs =
@@ -30,7 +33,3 @@ setVar envRef lhs rhs =
     return rhs
   else
     throwError $ SetError lhs
-
-
--- setVar' :: Context -> Pattern -> LispVal -> Context
--- setVar' cont lhs rhs

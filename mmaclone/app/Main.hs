@@ -11,7 +11,9 @@ import Parser.Trans
 import Show.Pretty
 
 info :: String
-info = "A simple Mathmatica clone (v0.1.0)\nCopyright Author Yonghao Jin here (c) 2016.\nContact me with jyh1@mail.ustc.edu.cn\n"
+info = unlines ["A simple Mathmatica clone (v0.1.0)",
+                "Copyright Author Yonghao Jin here (c) 2016.",
+                "Contact me with jyh1@mail.ustc.edu.cn"]
 
 main :: IO()
 main = do
@@ -34,4 +36,5 @@ repl env n = do
 report :: Int -> ThrowsError LispVal -> IO ()
 report _ (Left err) = print err
 report _ (Right (Atom "Null")) = return ()
-report n (Right val) = printf "Out[%d]= " n >> printLispVal val
+report n (Right val) =  printLispVal val
+-- printf "Out[%d]= " n >>

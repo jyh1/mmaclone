@@ -1,4 +1,4 @@
-module Eval.Primitive.Primi.Arithmatic.Arithmatic
+module Eval.Primitive.Arithmatic.Arithmatic
         (
         -- * Functions related with arithmatic. Plus, Times, Power etc...
         plusl,timesl,powerl,dividel,minusl) where
@@ -11,70 +11,60 @@ import Control.Monad.Except
 import Data.List
 
 
-numericPolop :: (Number -> [LispVal] -> Result) ->
-  ([LispVal] -> LispVal) ->
-  ([LispVal] -> Result) ->
-  (Number -> Number -> Number) -> [LispVal]
-  -> Result
-numericPolop _ _ _ _ [] = throwError $ NumArgs "Plus" 0 []
-numericPolop merges groupers tagHead op params = do
-  let (nums,others) = partition checkNum params
-      unpacked = map unpackNum nums
-      grouped = map groupers (group others)
-  if unpacked /= [] then do
-    let ans = foldl1 op unpacked
-    merges ans grouped
-  else tagHead grouped
+timesOrPlus :: (Number -> Number -> Number) ->
+  Number ->
+  (Number -> [LispVal] -> Primi) ->
+  Primi
+timesOrPlus mp zero merge = do
+  (nums, syms) <- fmap (partition checkNum) getArgumentList
+  let unpacked = map unpackNum nums
+      ans = foldl mp zero unpacked
+  merge ans syms
 
--- | Flatten expressions like Plus[a,Plus[b,c]] to Plus[a,b,c]
-mergePlus,mergeTimes :: Number -> [LispVal] -> Result
-mergePlus num [] = hasValue (Number num)
-mergePlus num xs
-  | isZero num = returnWithHead "Plus" xs
-  | otherwise = merge "Plus" num xs
+mergePlus,mergeTimes :: Number -> [LispVal] -> Primi
+mergePlus num [] = return (Number num)
+mergePlus 0 xs = tagHead xs
+mergePlus num xs = tagHead (Number num : xs)
 
-mergeTimes num [] = hasValue (Number num)
-mergeTimes num xs
-  | isZero num = hasValue $ Number 0
-  | isOne num = returnWithHead "Times" xs
-  | otherwise = merge "Times" num xs
+mergeTimes num [] = return (Number num)
+mergeTimes 0 xs = return (Number 0)
+mergeTimes 1 xs = tagHead xs
+mergeTimes num xs = tagHead (Number num : xs)
 
-returnWithHead :: String -> [LispVal] -> Result
-returnWithHead name xs = hasValue $ List (Atom name : xs)
-
-merge :: String -> Number -> [LispVal] -> Result
-merge name num xs = returnWithHead name (Number num : xs)
-
-groupPlus,groupTimes :: [LispVal] -> LispVal
-groupPlus [single] = single
-groupPlus xs = List [Atom "Times", integer (genericLength xs), head xs]
-
-groupTimes [single] = single
-groupTimes xs = List [Atom "Power", head xs, integer (genericLength xs)]
+-- groupPlus,groupTimes :: [LispVal] -> LispVal
+-- groupPlus [single] = single
+-- groupPlus xs = List [Atom "Times", Number (genericLength xs), head xs]
+--
+-- groupTimes [single] = single
+-- groupTimes xs = List [Atom "Power", head xs, Number (genericLength xs)]
 -- --------------------------------------------------
-numericBinop :: (Number -> Number -> Maybe Number) ->
-  BinaryFun
-numericBinop f a b
-  | checkNum a && checkNum b =
-    let a' = unpackNum a
-        b' = unpackNum b in
-      return $ fmap Number $ f a' b'
-  | otherwise = return Nothing
-
-minus, divide:: BinaryFun
-minus (Number a) (Number b) = hasValue (Number $  a - b)
-minus a b = hasValue $ minus' a b
+-- | expected exactly two arguments
+minus, divide :: [LispVal] -> LispVal
+minus [Number a, Number b] = Number $  a - b
+minus [a, b] = minus' a b
   where
     minus' a b = List [Atom "Plus", a, List [Atom "Times", Number (-1), b]]
 
-divide (Number a) (Number b) = hasValue (Number $ a / b)
-divide a b = hasValue $ divide' a b
+divide [Number a, Number b] = Number $ a / b
+divide [a, b] = divide' a b
   where
     divide' a b = List [Atom "Times", a, List [Atom "Power", b, Number (-1)]]
 
--- modl = numericBinop ((Just.). modN)
-powerl = binop "Power" $ numericBinop powerN
-plusl = numericPolop mergePlus groupPlus (returnWithHead "Plus") (+)
-timesl = numericPolop mergeTimes groupTimes (returnWithHead "Times") (*)
-minusl = binop "Minus" minus
-dividel = binop "Divide" divide
+minusOrDivide :: ([LispVal] -> LispVal) -> Primi
+minusOrDivide f = do
+  withnop 2
+  fmap f getArgumentList
+
+minusl, dividel, timesl, plusl :: Primi
+minusl = minusOrDivide minus
+dividel = minusOrDivide divide
+timesl = timesOrPlus (*) 1 mergeTimes
+plusl = timesOrPlus (+) 0 mergePlus
+
+powerl :: Primi
+powerl = do
+  withnop 2
+  [a, b] <- getArgumentList
+  case (a, b) of
+    (Number a1, Number b1) -> maybe noChange (return.Number) (powerN a1 b1)
+    _ -> noChange

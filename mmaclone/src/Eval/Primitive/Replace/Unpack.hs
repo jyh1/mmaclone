@@ -1,5 +1,4 @@
-
-module Eval.Primitive.Primi.Replace.Unpack
+module Eval.Primitive.Replace.Unpack
   (unpackReplaceArg) where
 
 import Data.DataType
@@ -15,7 +14,7 @@ unpack (List [Atom "RuleDelayed",a,b]) = Just (a,b)
 unpack _ = Nothing
 
 -- | unpack rule(s) arguemnts in function like Replace, ReplaceAll, etc.
-unpackReplaceArg :: LispVal -> ThrowsError [Rule]
+unpackReplaceArg :: LispVal -> IOThrowsError [Rule]
 unpackReplaceArg val =
   let err = throwError (reps val)
       fromUnpackMaybe = maybe err return

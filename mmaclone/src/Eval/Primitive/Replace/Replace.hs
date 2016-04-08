@@ -1,34 +1,44 @@
-module Eval.Primitive.Primi.Replace.Replace
+module Eval.Primitive.Replace.Replace
   (-- ^ Replace Functions
-  replacel,replaceAlll,replaceRepeatedl') where
+  replacel,replaceAlll,replaceRepeatedl) where
 
 import Data.DataType
 import Eval.Patt.Pattern
-import Eval.Primitive.Primi.Replace.Unpack
-import Eval.Primitive.Primi.List.Level
+import Eval.Primitive.Replace.Unpack
+import Eval.Primitive.List.Level
 import Eval.Primitive.PrimiType
 import Data.Environment.Environment
 
 import Control.Monad.Except
 
--- | Replace
-replacel = manynop "Replace" 2 3 replacel'
--- | ReplaceAll
-replaceAlll = withnop 2 "ReplaceAll" replaceAlll'
+replacel, replaceAlll :: Primi
+replacel = do
+  between 2 3
+  usesArgumentError replacel'
 
-replacel' :: Primi
+replaceAlll = do
+  withnop 2
+  usesArgumentError replaceAlll'
+
+replacel' :: EvalArguments
 replacel' (expr:rules:level) = do
   unpackedRules <- unpackReplaceArg rules
   levelSpeci <- unpackNormalLevelSpeci 0 level
-  hasValue (levelSpeci (`tryReplaceRuleList` unpackedRules) expr)
+  return (levelSpeci (`tryReplaceRuleList` unpackedRules) expr)
 
-replaceAlll' :: Primi
+replaceAlll' :: EvalArguments
 replaceAlll' [expr,rules] = do
   unpackedRules <- unpackReplaceArg rules
-  hasValue $ replaceAll unpackedRules expr
+  return $ replaceAll unpackedRules expr
 
+
+-- functions relating with replace repeated feature
+replaceRepeatedl :: Primi
+replaceRepeatedl = do
+  withnop 2
+  getArgumentList >>= replaceRepeatedl'
 -- | Replace until yielding no new result
-replaceRepeated :: Eval -> LispVal -> (LispVal -> LispVal) -> EvalResult
+replaceRepeated :: Eval -> LispVal -> (LispVal -> LispVal) -> IOThrowsError LispVal
 replaceRepeated eval old replace = do
   new <- eval (replace old)
   if new == old then
@@ -36,8 +46,8 @@ replaceRepeated eval old replace = do
   else
     replaceRepeated eval new replace
 
--- | Used in Eval.Primitive.EvalPrimi.Replace.ReplaceRepeated
-replaceRepeatedl' :: Eval -> [LispVal] -> IOResult
-replaceRepeatedl' eval [expr,rules] = do
-  unpackedRules <- liftThrows $ unpackReplaceArg rules
-  liftM Just (replaceRepeated eval expr (replaceAll unpackedRules))
+replaceRepeatedl' :: [LispVal] -> Primi
+replaceRepeatedl' [expr,rules] = do
+  eval <- getEval
+  unpackedRules <- lift $ unpackReplaceArg rules
+  lift $ replaceRepeated eval expr (replaceAll unpackedRules)

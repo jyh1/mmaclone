@@ -1,8 +1,8 @@
-module Eval.Primitive.Primi.Compare.Compare
+module Eval.Primitive.Compare.Compare
         (equall,lessl,lessEquall,greaterl,greaterEquall,inequalityl) where
 import Data.DataType
 import Data.Number.Number
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiType hiding(eval)
 
 import Control.Monad
 import Control.Monad.Except
@@ -15,7 +15,10 @@ greaterl = comparel greater
 greaterEquall = comparel greaterEqual
 
 comparel :: (Number -> Number -> Bool) -> Primi
-comparel comp ls = return $ do
+comparel comp = usesArgumentMaybe (compareMaybe comp)
+
+compareMaybe :: (Number -> Number -> Bool) -> [LispVal] -> Maybe LispVal
+compareMaybe comp ls = do
   unpacked <- unpack ls
   return (toBool $ compareFunction comp unpacked)
 
@@ -54,17 +57,20 @@ eval (Atom name) x y = do
   f <- lookup name compareTable
   f x y
 
-
 inequalityl :: Primi
-inequalityl xs =
+inequalityl = usesArgumentError inequal
+
+
+inequal :: [LispVal] -> IOThrowsError LispVal
+inequal xs =
   let l = length xs in
     if l >= 3 && odd l then do
       let res = inequalityl' xs
-      hasValue $ case res of
+      return $ case res of
         Atom _ -> res
         List xs -> List (Atom "Inequality" : xs)
     else
-      throwError (Default "Inequality's number of arguments expected to be an odd number>=3")
+      throwError (Default "Inequality's number of arguments expected to be an odd number >= 3")
 
 
 -- eliminate left

@@ -68,8 +68,8 @@ spec  = do
         test1 "xyz[1+2,3]" $ List [Atom "xyz", (Number . Integer) 3,
                                                         (Number . Integer) 3]
         test1 "a 3" $ List [Atom "Times", Number $ Integer 3, Atom "a"]
-      it "merge same head" $ do
-        test1 "x*x*2" $ List [Atom "Times", integer 2, List [Atom "Power", Atom "x",integer 2]]
+      -- it "merge same head" $ do
+      --   test1 "x*x*2" $ List [Atom "Times", integer 2, List [Atom "Power", Atom "x",integer 2]]
 
     context "sequence" $ do
       it "expand sequence" $ do

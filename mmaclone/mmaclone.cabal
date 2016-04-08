@@ -28,30 +28,26 @@ library
                       , Eval.Patt.Pattern
                       , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
-                      , Eval.Primitive.Primi.Primi
-                      , Eval.Primitive.Primi.Arithmatic.Arithmatic
-                      , Eval.Primitive.Primi.Compare.Compare
-                      , Eval.Primitive.Primi.List.List
-                      , Eval.Primitive.Primi.List.Elem
-                      , Eval.Primitive.Primi.List.Part
-                      , Eval.Primitive.Primi.List.Cons
-                      , Eval.Primitive.Primi.List.Map
-                      , Eval.Primitive.Primi.List.Level
-                      , Eval.Primitive.Primi.Control.Branch
-                      , Eval.Primitive.Primi.Logic.Not
-                      , Eval.Primitive.Primi.Function.Lambda
-                      , Eval.Primitive.Primi.Replace.Replace
-                      , Eval.Primitive.Primi.Replace.Unpack
-
-                      , Eval.Primitive.IOPrimi.IOPrimi
-                      , Eval.Primitive.IOPrimi.Set.Set
-                      , Eval.Primitive.IOPrimi.IO.Print
-                      , Eval.Primitive.IOPrimi.InOut.InOut
-
-                      , Eval.Primitive.EvalPrimi.EvalPrimi
-                      , Eval.Primitive.EvalPrimi.Logic.AndOr
-                      , Eval.Primitive.EvalPrimi.Replace.ReplaceRepeated
-                      , Eval.Primitive.EvalPrimi.Nest.Nest
+                      , Eval.Primitive.Arithmatic.Arithmatic
+                      , Eval.Primitive.Compare.Compare
+                      , Eval.Primitive.List.List
+                      , Eval.Primitive.List.Elem
+                      , Eval.Primitive.List.Part
+                      , Eval.Primitive.List.Cons
+                      , Eval.Primitive.List.Map
+                      , Eval.Primitive.List.Level
+                      , Eval.Primitive.Control.Branch
+                      , Eval.Primitive.Logic.Logic
+                      , Eval.Primitive.Function.Lambda
+                      , Eval.Primitive.Replace.Replace
+                      , Eval.Primitive.Replace.Unpack
+                      , Eval.Primitive.Nest.Nest
+                      , Eval.Primitive.Set.Set
+                      , Eval.Primitive.IO.Print
+                      , Eval.Primitive.InOut.InOut
+                      -- , Eval.Primitive.IOPrimi
+                      --
+                      -- , Eval.Primitive.EvalEvalPrimi
 
                       , Show.Pretty
   build-depends:       base >= 4.7 && < 5

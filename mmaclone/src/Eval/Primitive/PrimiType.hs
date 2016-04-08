@@ -10,8 +10,8 @@ import qualified Data.Map.Strict as M
 import Control.Monad
 import Control.Monad.Except
 import Control.Monad.Trans.State
-import Control.Lens
-import Control.Applicative((<$>))
+import Control.Lens hiding(List)
+import Data.Maybe
 
 -- * Types and common functions for defining primitive functions.
 
@@ -32,33 +32,23 @@ data PrimiEnv = PrimiEnv
 
 makeLenses ''PrimiEnv
 
--- Basic primitive function which only perform simple term rewriting
-type Primi = StateT PrimiEnv IOThrowsError LispVal
--- -- | Primitive function which will likely modifying enviroment or doing IO
--- type IOPrimi = Env -> [LispVal] -> IOResult
--- -- | Primitive function which would evaluate LispVal internally
--- type EvalPrimi = Eval -> [LispVal] -> IOResult
---
--- type SingleFun = LispVal -> Result
--- type BinaryFun = LispVal -> LispVal -> Result
--- type IOBinary = Env -> LispVal -> LispVal -> IOResult
+type StateResult a = StateT PrimiEnv IOThrowsError a
+
+-- | Basic primitive function which only perform simple term rewriting
+type Primi = StateResult LispVal
 
 type Primitives = M.Map String Primi
 
--- | Pack a LispVal in IOResult or Result
--- hasValue :: (Monad m) => LispVal -> m (Maybe LispVal)
--- hasValue = return . Just
+type EvalArguments = [LispVal] -> IOThrowsError LispVal
 
--- | Indicating that the evaluation will not provide new result
--- noChange :: (Monad m) => m (Maybe LispVal)
--- noChange = return Nothing
-
+stateThrow :: LispError -> StateResult a
+stateThrow = lift . throwError
 -- | The most genenral function to constraint the arguments number of
 -- primitive function
 checkArgsNumber :: (Int -> Bool) -> (LispVal -> Int -> IOThrowsError ()) ->
-  StateT PrimiEnv IOThrowsError ()
+  StateResult ()
 checkArgsNumber check throw = do
-  num <- (\x -> x - 1) <$> uses args length
+  num <- uses args ((\x -> x - 1) . length)
   unless (check num) $ do
     name <- uses args head
     lift (throw name num)
@@ -81,5 +71,51 @@ withnop n = checkArgsNumber (== n) throw
 -- | evaluate a LispVal with function in PrimiEnv context
 evaluate :: LispVal -> Primi
 evaluate val = do
-  evalFun <- use eval
+  evalFun <- getEval
   lift $ evalFun val
+
+-- | get evaluate function
+getEval :: StateResult Eval
+getEval = use eval
+
+--  | get environment reference
+getEnv :: StateResult Env
+getEnv = use env
+
+-- | return the arguments that is currently being evaluated
+getArgumentList :: StateResult [LispVal]
+getArgumentList = uses args tail
+
+-- | apply function to argument list
+usesArgumentList :: ([LispVal] -> a) -> StateResult a
+usesArgumentList f = uses args (f . tail)
+
+-- | return original expression if evaluate to nothing
+usesArgumentMaybe :: ([LispVal] -> Maybe LispVal) -> StateResult LispVal
+usesArgumentMaybe f = do
+  expr <- getExpression
+  usesArgumentList (fromMaybe expr . f)
+
+-- | lift a IOThrowsError to StateResult
+usesArgumentError :: EvalArguments -> StateResult LispVal
+usesArgumentError f = do
+  argument <- getArgumentList
+  lift (f argument)
+
+-- | return head
+getHead :: Primi
+getHead = uses args head
+
+-- | return whole expression to be evaluated
+getExpression :: Primi
+getExpression = uses args List
+
+-- | tag list with same head in the environment
+tagHead :: [LispVal] -> Primi
+tagHead args = do
+  h <- getHead
+  return (List (h:args))
+
+-- | return without evaluation
+noChange :: Primi
+noChange = uses args List
