@@ -240,7 +240,7 @@ spec  = do
     it "symbolic manipulation" $ do
       test3
         ["rules = {Log[x_ y_] :> Log[x] + Log[y], Log[x_^k_] :> k Log[x]}",
-        "Log[a (b c^d)^e] //. rules"] "Log[a]+(Log[b]+Log[c] d) e"
+        "Log[a (b c^d)^e] //. rules"] "Log[a]+e (Log[b]+d Log[c])"
 
 
 main = hspec spec

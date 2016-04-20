@@ -16,9 +16,9 @@ import Text.Printf
 -- ** LispVal
 data LispVal =
               Number Number
-            | List [LispVal]
-            | Atom String
             | String String
+            | Atom String
+            | List [LispVal]
             | Char Char
   deriving(Eq, Ord)
 
@@ -60,7 +60,7 @@ fullForm (List (l:ls)) =
   fullForm l ++ "[" ++ intercalate "," (map fullForm ls) ++ "]"
 fullForm (Number i) = show i
 fullForm (String s) = show s
-fullForm (Char c) = show c
+-- fullForm (Char c) = show c
 
 data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
 
@@ -85,7 +85,8 @@ unpackBool' x = throwError $ TypeMismatch "string" x
 
 unpackers :: [Unpacker]
 unpackers = [Unpacker unpackNum', Unpacker unpackString',
-            Unpacker unpackChar', Unpacker unpackBool']
+            Unpacker unpackChar',
+            Unpacker unpackBool']
 
 checkNum :: LispVal -> Bool
 checkNum (Number _) = True
