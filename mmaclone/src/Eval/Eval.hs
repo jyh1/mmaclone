@@ -59,9 +59,10 @@ eval' _ x = return x
 evalPrimitiveHead :: LispVal -> Env -> Maybe LispFun
 evalPrimitiveHead (Atom name) env = do
   primi <- M.lookup name primitives
-  let evalFun (List val) =
-        let primiEnv = PrimiEnv (eval env) env val False in
-          evalStateT primi primiEnv
+  let evalFun (List val) = do
+        context <- readCont env
+        let primiEnv = PrimiEnv (eval env) context val False
+        evalStateT primi primiEnv
   return evalFun
 
 evalHead :: LispVal -> Env -> LispFun

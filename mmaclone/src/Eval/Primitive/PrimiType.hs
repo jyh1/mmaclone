@@ -10,7 +10,7 @@ import qualified Data.Map.Strict as M
 import Control.Monad
 import Control.Monad.Except
 import Control.Monad.Trans.State
-import Control.Lens hiding(List)
+import Control.Lens hiding(List, Context)
 import Data.Maybe
 
 -- * Types and common functions for defining primitive functions.
@@ -25,7 +25,7 @@ type Eval = LispVal -> EvalResult
 -- | Envrionment for primitive function
 data PrimiEnv = PrimiEnv
   { _eval :: Eval
-  , _env :: Env
+  , _con :: Context
   , _args :: [LispVal]
   , _modified :: Bool
   }
@@ -78,9 +78,17 @@ evaluate val = do
 getEval :: StateResult Eval
 getEval = use eval
 
---  | get environment reference
-getEnv :: StateResult Env
-getEnv = use env
+--  | get context
+getCon :: StateResult Context
+getCon = use con
+
+-- | update context
+updateCon :: (Context -> Context) -> StateResult ()
+updateCon f = con %= f
+
+-- | return args
+getArgs :: StateResult [LispVal]
+getArgs = use args
 
 -- | return the arguments that is currently being evaluated
 getArgumentList :: StateResult [LispVal]

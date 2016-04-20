@@ -11,6 +11,7 @@ import Control.Monad
 import Control.Monad.Trans.Except
 import Control.Monad.Except
 
+
 inl, outl :: Primi
 inl = indexl
 outl = indexl
@@ -25,19 +26,17 @@ unpack name =
 plusLine :: LispVal -> LispVal
 plusLine val = List [Atom "Plus", atomLine, val]
 
-index :: String -> Env -> [LispVal] -> IOThrowsError LispVal
-index name env [n] = do
-  let fun = Atom name
+index :: LispVal -> Context -> [LispVal] -> IOThrowsError LispVal
+index fun@(Atom name) context [n] = do
   n' <- unpack name n
   if n' >= 0 then
-    evalWithEnv env (List [fun, n])
+    return $ replaceContext (List [fun, n]) context
   else
     return $ List [fun, plusLine n]
 
 indexl :: Primi
 indexl = do
   withnop 1
-  (Atom name)  <- getHead
-  env <- getEnv
-  args <- getArgumentList
-  lift $ index name env args
+  context <- getCon
+  h:args  <- getArgs
+  lift $ index h context args

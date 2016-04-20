@@ -15,21 +15,17 @@ import Control.Monad.Except
 
 setl :: Primi
 setl = do
-  env <- getEnv
   [lhs, rhs] <- getArgumentList
-  lift $ setVar env lhs rhs
+  setVar lhs rhs
+  return rhs
 
 setDelayedl :: Primi
 setDelayedl = do
   setl
   return atomNull
 
-setVar :: Env -> Pattern -> LispVal -> IOThrowsError LispVal
-setVar envRef lhs rhs =
-  if validSet lhs then liftIO $ do
-    match <- readIORef envRef
-    let newCont = updateContext lhs rhs match
-    writeIORef envRef newCont
-    return rhs
+setVar :: Pattern -> LispVal -> StateResult ()
+setVar lhs rhs =
+  if validSet lhs then updateCon (updateContext lhs rhs)
   else
     throwError $ SetError lhs
