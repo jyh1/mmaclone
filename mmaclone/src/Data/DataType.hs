@@ -23,7 +23,7 @@ data LispVal =
   deriving(Eq, Ord)
 
 type IOThrowsError = ExceptT LispError IO
-type LispFun = LispVal -> IOThrowsError LispVal
+-- type LispFun = LispVal -> IOThrowsError LispVal
 
 instance Show LispVal where
   show = fullForm

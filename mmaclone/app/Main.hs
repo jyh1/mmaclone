@@ -3,10 +3,12 @@ import Control.Monad
 import Control.Monad.Except
 import Text.Printf
 import System.IO
+import Control.Monad.Trans.State
 
 import Data.DataType
 import Data.Environment.Environment
 import Eval.Eval
+import Eval.Primitive.PrimiType
 import Parser.Trans
 import Show.Pretty
 
@@ -17,24 +19,33 @@ info = unlines ["A simple Mathmatica clone (v0.1.0)",
 
 main :: IO()
 main = do
-  env <- nullEnv
   putStrLn info
-  loop env 1
+  loop initialState 1
 
-loop :: Env  -> Int -> IO ()
+loop :: PrimiEnv -> Int -> IO ()
 loop env n = do
-  evaled <- runExceptT (repl env n)
-  report n evaled
-  loop env (n + 1)
+  res <- runExceptT (repl env n)
+  case res of
+    Right (res, newEnv) -> do
+      report n res
+      loop newEnv (n+1)
+    Left err -> do
+      print err
+      loop env (n+1)
 
-repl :: Env -> Int -> IOThrowsError LispVal
+
+getExpr :: IOThrowsError LispVal
+getExpr = do
+  string <- lift getLine
+  liftThrows (readExpr string)
+
+repl :: PrimiEnv -> Int -> IOThrowsError (LispVal, PrimiEnv)
 repl env n = do
   lift $ printf "In[%d]:= " n >> hFlush stdout
-  expr <- ExceptT (liftM readExpr getLine)
-  evalWithRecord env n expr
+  expr <- getExpr
+  runStateT (evalWithRecord n expr) env
 
-report :: Int -> ThrowsError LispVal -> IO ()
-report _ (Left err) = print err
-report _ (Right (Atom "Null")) = return ()
-report n (Right val) =  printLispVal val
+report :: Int -> LispVal -> IO ()
+report _ (Atom "Null") = return ()
+report n val =  printLispVal val
 -- printf "Out[%d]= " n >>

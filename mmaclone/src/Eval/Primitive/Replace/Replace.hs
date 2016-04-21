@@ -38,16 +38,15 @@ replaceRepeatedl = do
   withnop 2
   getArgumentList >>= replaceRepeatedl'
 -- | Replace until yielding no new result
-replaceRepeated :: Eval -> LispVal -> (LispVal -> LispVal) -> IOThrowsError LispVal
-replaceRepeated eval old replace = do
-  new <- eval (replace old)
+replaceRepeated :: LispVal -> (LispVal -> LispVal) -> Primi
+replaceRepeated old replace = do
+  new <- evaluate (replace old)
   if new == old then
     return new
   else
-    replaceRepeated eval new replace
+    replaceRepeated new replace
 
 replaceRepeatedl' :: [LispVal] -> Primi
 replaceRepeatedl' [expr,rules] = do
-  eval <- getEval
   unpackedRules <- lift $ unpackReplaceArg rules
-  lift $ replaceRepeated eval expr (replaceAll unpackedRules)
+  replaceRepeated expr (replaceAll unpackedRules)

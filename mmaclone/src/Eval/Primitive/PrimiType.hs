@@ -19,7 +19,17 @@ type Result = ThrowsError (Maybe LispVal)
 type IOResult = IOThrowsError (Maybe LispVal)
 
 type EvalResult = IOThrowsError LispVal
-type Eval = LispVal -> EvalResult
+
+type StateResult a = StateT PrimiEnv IOThrowsError a
+
+-- | Basic primitive function which only perform simple term rewriting
+type Primi = StateResult LispVal
+
+type Eval = LispVal -> Primi
+
+type Primitives = M.Map String Primi
+
+type EvalArguments = [LispVal] -> IOThrowsError LispVal
 
 
 -- | Envrionment for primitive function
@@ -32,14 +42,7 @@ data PrimiEnv = PrimiEnv
 
 makeLenses ''PrimiEnv
 
-type StateResult a = StateT PrimiEnv IOThrowsError a
 
--- | Basic primitive function which only perform simple term rewriting
-type Primi = StateResult LispVal
-
-type Primitives = M.Map String Primi
-
-type EvalArguments = [LispVal] -> IOThrowsError LispVal
 
 stateThrow :: LispError -> StateResult a
 stateThrow = lift . throwError
@@ -72,7 +75,7 @@ withnop n = checkArgsNumber (== n) throw
 evaluate :: LispVal -> Primi
 evaluate val = do
   evalFun <- getEval
-  lift $ evalFun val
+  evalFun val
 
 -- | get evaluate function
 getEval :: StateResult Eval

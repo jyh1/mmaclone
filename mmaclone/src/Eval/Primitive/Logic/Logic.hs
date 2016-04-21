@@ -13,15 +13,14 @@ unpackLogic :: LispVal -> Logic -> LispVal
 unpackLogic _ (Result val) = val
 unpackLogic h (NonReulst vals) = List (h: vals)
 
-logic :: Eval
-   -> LispVal
-   -> [LispVal] -> IOThrowsError Logic
-logic _ trivi [] = return (Result trivi)
-logic eval trivi (x:xs) =
-  let rest = logic eval trivi xs
+logic :: LispVal
+   -> [LispVal] -> StateResult Logic
+logic trivi [] = return (Result trivi)
+logic trivi (x:xs) =
+  let rest = logic trivi xs
       check = (trivi ==) in
   do
-    x' <- eval x
+    x' <- evaluate x
     if isBool x' then
       if check x' then
         rest
@@ -36,10 +35,9 @@ logic eval trivi (x:xs) =
 
 logicLift :: LispVal -> Primi
 logicLift triviality = do
-  evalFun <- getEval
   arguments <- getArgumentList
   h <- getHead
-  lift $ fmap (unpackLogic h) (logic evalFun triviality arguments)
+  fmap (unpackLogic h) (logic triviality arguments)
 
 andl,orl,notl :: Primi
 -- | short circut evaluation implemented

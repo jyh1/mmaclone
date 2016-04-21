@@ -9,6 +9,7 @@ import Data.Ratio
 import Data.Number.Number hiding(plus,times,one,less,lessEqual,greater,greaterEqual,equal)
 import System.IO.Unsafe
 import Control.Monad.Except
+import Control.Monad.Trans.State
 
 import Test.Hspec
 -- import Test.QuickCheck
@@ -26,16 +27,13 @@ test2 a b = test1 a (readVal b)
 test3 a b = test a (readVal b)
 
 testEval :: [LispVal] -> LispVal
-testEval exprs = unsafePerformIO $ do
-  env <- nullEnv
-  evaled <- runExceptT $ mapM (eval env) exprs
-  return (last (extractValue evaled))
-
+testEval exprs =
+  let expr = mapM eval exprs
+      evaled = runExceptT $ evalStateT expr initialState in
+    last (extractValue (unsafePerformIO evaled))
 
 -- double :: Double -> LispVal
 -- double = Number . Double
-
-
 
 spec :: Spec
 spec  = do

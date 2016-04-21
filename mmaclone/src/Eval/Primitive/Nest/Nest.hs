@@ -13,20 +13,20 @@ nestl ,nestListl:: Primi
 nestl  = nestUnpack nest
 nestListl = nestUnpack nestList
 
-type Nest = Eval -> LispVal -> LispVal -> Int -> IOThrowsError LispVal
+type Nest = LispVal -> LispVal -> Int -> Primi
 
 nest,nestList :: Nest
-nest _ _ arg 0 = return arg
-nest eval f arg n = do
-  evaled <- eval (applyHead f arg)
-  nest eval f evaled (n-1)
+nest _ arg 0 = return arg
+nest f arg n = do
+  evaled <- evaluate (applyHead f arg)
+  nest f evaled (n-1)
 
-nestList' _ _ arg 0 = return [arg]
-nestList' eval f arg n = do
-  evaled <- eval (applyHead f arg)
-  rest <- nestList' eval f evaled (n-1)
+nestList' _ arg 0 = return [arg]
+nestList' f arg n = do
+  evaled <- evaluate (applyHead f arg)
+  rest <- nestList' f evaled (n-1)
   return $ arg : rest
-nestList eval f arg n = liftM list (nestList' eval f arg n)
+nestList f arg n = liftM list (nestList' f arg n)
 
 
 nestErr = Default "Nest :: non-negative machine-sized number expected"
@@ -35,7 +35,5 @@ nestUnpack :: Nest -> Primi
 nestUnpack nest = do
   withnop 3
   [f,arg,n] <- getArgumentList
-  eval <- getEval
-  lift $ do
-    n' <- unpackIntWithThre 0 nestErr n
-    nest eval f arg n'
+  n' <- lift $ unpackIntWithThre 0 nestErr n
+  nest f arg n'

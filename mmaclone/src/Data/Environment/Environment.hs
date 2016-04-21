@@ -32,8 +32,8 @@ emptyDownValue = M.empty
 emptyDown :: Down
 emptyDown = Down M.empty []
 
-nullEnv :: IO Env
-nullEnv = newIORef (Context emptyOwnValue emptyDownValue)
+nullContext :: Context
+nullContext = Context emptyOwnValue emptyDownValue
 
 readCont :: Env -> IOThrowsError Context
 readCont = liftIO . readIORef

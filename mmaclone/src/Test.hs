@@ -6,6 +6,7 @@ import Eval.Eval
 
 import Data.Environment.Environment
 import Control.Monad.Except
+import Control.Monad.Trans.State
 
 
 import System.IO.Unsafe
@@ -80,9 +81,11 @@ rational = Number . Rational
 
 readVal = extractValue . readExpr
 
-testEvalOnce :: String -> LispVal
-testEvalOnce expr = unsafePerformIO $ do
+testEvalWith :: (LispVal -> Primi) -> String -> LispVal
+testEvalWith eval expr =
   let val = readVal expr
-  env <- nullEnv
-  evaled <- runExceptT $ eval' env val
-  return (extractValue evaled)
+      evaled = unsafePerformIO.runExceptT $ evalStateT (eval val) initialState in
+    extractValue evaled
+
+testEvalOnce = testEvalWith eval'
+runEval = testEvalWith eval
