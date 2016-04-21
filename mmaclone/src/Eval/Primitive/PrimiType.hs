@@ -37,7 +37,9 @@ data PrimiEnv = PrimiEnv
   { _eval :: Eval
   , _con :: Context
   , _args :: [LispVal]
-  , _modified :: Bool
+  -- , _modified :: Bool
+  , _dep :: Int
+  , _line :: Int
   }
 
 makeLenses ''PrimiEnv
@@ -85,9 +87,18 @@ getEval = use eval
 getCon :: StateResult Context
 getCon = use con
 
+getLineNumber :: StateResult Int
+getLineNumber = use line
+
 -- | update context
 updateCon :: (Context -> Context) -> StateResult ()
 updateCon f = con %= f
+
+setVariable :: LispVal -> LispVal -> StateResult ()
+setVariable lhs rhs = updateCon (updateContext lhs rhs)
+
+getVariable :: LispVal -> Primi
+getVariable lhs = uses con (replaceContext lhs)
 
 -- | return args
 getArgs :: StateResult [LispVal]

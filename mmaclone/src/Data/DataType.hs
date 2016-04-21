@@ -36,6 +36,11 @@ atomNull = Atom "Null"
 
 atomLine = Atom "$Line"
 
+atomLimit = Atom "$IterationLimit"
+
+atomIn = Atom "In"
+atomOut = Atom "Out"
+
 isBool (Atom "True") = True
 isBool (Atom "False") = True
 isBool _ = False
@@ -118,6 +123,7 @@ data LispError = NumArgs String Int Int
                 | SetError LispVal
                 | Level LispVal
                 | SlotError LispVal
+                | LimitExceed
 
 
 instance Show LispError where
@@ -137,6 +143,7 @@ instance Show LispError where
   show (SetError v) = "Cannot assign to object " ++ show v
   show (Level v) = show v ++ " is not a valid level specification"
   show (SlotError s) = printf "%s cannot be fully filled" (show s)
+  show (LimitExceed) = "Iteration Limit exceeded, try to increase $IterationLimit"
 
 type ThrowsError = Either LispError
 

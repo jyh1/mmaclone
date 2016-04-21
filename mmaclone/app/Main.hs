@@ -11,27 +11,30 @@ import Eval.Eval
 import Eval.Primitive.PrimiType
 import Parser.Trans
 import Show.Pretty
+import Control.Lens
 
 info :: String
 info = unlines ["A simple Mathmatica clone (v0.1.0)",
                 "Copyright Author Yonghao Jin here (c) 2016.",
                 "Contact me with jyh1@mail.ustc.edu.cn"]
 
+
+lift2 = lift . lift
+
 main :: IO()
 main = do
   putStrLn info
-  loop initialState 1
+  loop initialState
 
-loop :: PrimiEnv -> Int -> IO ()
-loop env n = do
-  res <- runExceptT (repl env n)
+loop :: PrimiEnv -> IO ()
+loop env = do
+  res <- runExceptT $ execStateT repl env
   case res of
-    Right (res, newEnv) -> do
-      report n res
-      loop newEnv (n+1)
+    Right newEnv ->
+      loop newEnv
     Left err -> do
       print err
-      loop env (n+1)
+      loop env
 
 
 getExpr :: IOThrowsError LispVal
@@ -39,13 +42,16 @@ getExpr = do
   string <- lift getLine
   liftThrows (readExpr string)
 
-repl :: PrimiEnv -> Int -> IOThrowsError (LispVal, PrimiEnv)
-repl env n = do
-  lift $ printf "In[%d]:= " n >> hFlush stdout
-  expr <- getExpr
-  runStateT (evalWithRecord n expr) env
+repl :: StateResult ()
+repl = do
+  n <- getLineNumber
+  lift2 $ printf "In[%d]:= " n >> hFlush stdout
+  expr <- lift getExpr
+  res <- evalWithRecord expr
+  new <- getLineNumber
+  lift2 $ report new res
+  line += 1
 
 report :: Int -> LispVal -> IO ()
 report _ (Atom "Null") = return ()
-report n val =  printLispVal val
--- printf "Out[%d]= " n >>
+report n val = printf "Out[%d]= " n >> printLispVal val

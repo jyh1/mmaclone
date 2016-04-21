@@ -26,6 +26,6 @@ setDelayedl = do
 
 setVar :: Pattern -> LispVal -> StateResult ()
 setVar lhs rhs =
-  if validSet lhs then updateCon (updateContext lhs rhs)
+  if validSet lhs then setVariable lhs rhs
   else
     throwError $ SetError lhs

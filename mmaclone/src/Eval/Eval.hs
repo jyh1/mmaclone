@@ -5,7 +5,8 @@ module Eval.Eval
     evalWithRecord,
     eval',
     initialState,
-    Primi
+    Primi,
+    StateResult
     ) where
 
 import Data.DataType
@@ -26,18 +27,34 @@ import qualified Data.Map.Strict as M
 import Control.Monad.Trans.State
 import Control.Lens hiding (List, Context)
 
-initialState = PrimiEnv eval nullContext [] False
+initialState = PrimiEnv eval nullContext [] 4096 1
 
-evalWithRecord :: Int -> LispVal -> Primi
-evalWithRecord nn val = do
-  let n = integer nn
-  eval (List [Atom "Set",atomLine, n])
-  eval (List [Atom "SetDelayed", List [Atom "In", n], val])
+evalWithRecord :: LispVal -> Primi
+evalWithRecord val = do
+  (Number limit) <- getVariable atomLimit
+  dep .= fromIntegral limit
+  updateInOut atomIn val
   evaled <- eval val
-  eval (List [Atom "Set", List [Atom "Out", n], evaled])
+  updateInOut atomOut evaled
+  return evaled
+
+updateInOut :: LispVal -> LispVal -> StateResult ()
+updateInOut atom val = do
+  n <-  uses line integer
+  setVariable (List [atom, n]) val
+
+checkLimit :: StateResult ()
+checkLimit = do
+  exceed <- uses dep (<=0)
+  if exceed
+    then
+      stateThrow LimitExceed
+    else
+      dep -= 1
 
 eval :: LispVal -> Primi
 eval val = do
+  checkLimit
   x1 <- eval' val
   if x1 == val then return x1 else eval x1
 
@@ -47,6 +64,8 @@ eval' (List (v:vs)) = do
   arguments <- attributeEvaluateArgs headE vs
   args .= headE : arguments
   attTransform <$> evalHead headE
+
+eval' (Atom "$Line") = uses line integer
 
 eval' val@(Atom _) = uses con (replaceContext val)
 
@@ -60,11 +79,6 @@ eval' x = return x
 evalPrimitiveHead :: LispVal -> Maybe Primi
 evalPrimitiveHead (Atom name) =
   M.lookup name primitives
-  -- let evalFun (List val) = do
-  --       context <- readCont env
-  --       let primiEnv = PrimiEnv eval context val False
-  --       evalStateT primi primiEnv
-  -- return evalFun
 
 evalWithEnv :: Primi
 evalWithEnv = do

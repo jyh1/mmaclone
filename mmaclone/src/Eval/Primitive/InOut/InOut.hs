@@ -3,7 +3,6 @@ module Eval.Primitive.InOut.InOut
 
 import Eval.Primitive.PrimiType
 import Data.DataType
-import Eval.Environment
 import Data.Environment.Environment
 
 import Data.IORef

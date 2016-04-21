@@ -25,7 +25,7 @@ makeLenses ''Down
 makeLenses ''Context
 
 emptyOwnValue :: OwnValue
-emptyOwnValue = M.empty
+emptyOwnValue = M.fromList [("$IterationLimit", Number 4096)]
 emptyDownValue :: DownValue
 emptyDownValue = M.empty
 
