@@ -1,5 +1,6 @@
 {-#LANGUAGE ExistentialQuantification #-}
 {-#LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-#LANGUAGE FlexibleContexts #-}
 module Data.DataType where
 
@@ -10,14 +11,15 @@ import Control.Monad.Trans.Except
 import           Text.ParserCombinators.Parsec(ParseError)
 import Data.List
 import Data.Number.Number
+import qualified Data.Text as T
 import Text.Printf
 
 -- * Module containing all foundamental types and functions
 -- ** LispVal
 data LispVal =
               Number Number
-            | String String
-            | Atom String
+            | String T.Text
+            | Atom T.Text
             | List [LispVal]
             | Char Char
   deriving(Eq, Ord)
@@ -26,7 +28,7 @@ type IOThrowsError = ExceptT LispError IO
 -- type LispFun = LispVal -> IOThrowsError LispVal
 
 instance Show LispVal where
-  show = fullForm
+  show = T.unpack . fullForm
 
 isNull :: LispVal -> Bool
 isNull (Atom "Null") = True
@@ -58,13 +60,14 @@ unBool (Atom "False") = False
 
 list ls = List $ Atom "List" : ls
 
-fullForm :: LispVal -> String
+tshow = T.pack . show
+fullForm :: LispVal -> T.Text
 fullForm (Atom s) = s
 fullForm (List []) = ""
 fullForm (List (l:ls)) =
-  fullForm l ++ "[" ++ intercalate "," (map fullForm ls) ++ "]"
-fullForm (Number i) = show i
-fullForm (String s) = show s
+  T.concat [fullForm l, "[", T.intercalate "," (map fullForm ls), "]"]
+fullForm (Number i) = tshow i
+fullForm (String s) = s
 -- fullForm (Char c) = show c
 
 data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
@@ -75,7 +78,7 @@ data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
 unpackNum' (Number n) = return n
 unpackNum' x = throwError $ TypeMismatch "number" x
 
-unpackString' :: LispVal -> ThrowsError String
+unpackString' :: LispVal -> ThrowsError T.Text
 unpackString' (String s) = return s
 unpackString' x = throwError $ TypeMismatch "string" x
 

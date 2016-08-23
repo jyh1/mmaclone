@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Parser.NewParse(Expr(..), parseExpr,Stage1,expr) where
 
 import Text.Parsec hiding (Empty)
@@ -8,12 +9,13 @@ import Text.Parsec.Language
 import Text.Parsec.Expr
 
 import Data.Number.Number
+import qualified Data.Text as T
 
 data Expr
   = Num Number
    | Lis [Expr]
    | Args [Expr]
-   | Var String
+   | Var T.Text
    | Add Expr Expr
   --  | Sub Expr Expr
    | Mul Expr Expr
@@ -61,7 +63,7 @@ data Expr
    | Function Expr
    | Slot Int
    | SlotSeq Int
-   | Str String
+   | Str T.Text
    | Chr Char
    | Out Int
    | None
@@ -72,7 +74,7 @@ data Expr
 opNames = words ("-> :> && || ! + - * / ; == < <= > >= : @ @@ /@ //@ @@@ \' !! != /. //. = :="
                   ++ " // & ? *) (* !! /; : | ^" )-- reserved operations
 
-lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
+lexerConfig = Token.LanguageDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.commentEnd = "*)"
                       , Token.commentLine = ""
                       , Token.identStart = letter <|> char '$' -- identifiers must start with a letter
@@ -80,6 +82,9 @@ lexerConfig = emptyDef { Token.commentStart = "(*" -- adding comments is easy
                       , Token.reservedNames = []
                       , Token.reservedOpNames = opNames
                       , Token.opLetter = oneOf "@/=.>!;&"
+                      , Token.caseSensitive = True
+                      , Token.nestedComments = False
+                      , Token.opStart = oneOf ":!#$%&*+./<=>?@\\^|-~"
                       }
 
 lexer = Token.makeTokenParser lexerConfig
@@ -234,10 +239,10 @@ partArgs =
   PartArgs <$> between (symbol "[[") (symbol "]]") (commaSep expr)
 
 var :: Parser Expr
-var = Var <$> identifier
+var = (Var . T.pack) <$> identifier
 
 stringE :: Parser Expr
-stringE = Str <$> stringLiteral
+stringE = (Str . T.pack) <$> stringLiteral
 
 charE :: Parser Expr
 charE = Chr <$> charLiteral
@@ -246,7 +251,7 @@ atomName :: Parser Expr
 atomName = do
   c <- letter
   cs <- many alphaNum
-  return $ Var (c:cs)
+  return $ (Var . T.pack) (c:cs)
 
 blk :: Parser Expr
 blk = string "_" *> return Blk
