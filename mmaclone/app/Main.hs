@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Main where
 import Control.Monad
 import Control.Monad.Except
@@ -12,10 +13,12 @@ import Eval.Primitive.PrimiType
 import Parser.Trans
 import Show.Pretty
 import Control.Lens
+import qualified Data.Text as T
+import qualified Data.Text.IO as T
 
-info :: String
-info = unlines ["A simple Mathmatica clone (v0.1.0)",
-                "Copyright Author Yonghao Jin here (c) 2016.",
+info :: T.Text
+info = T.unlines ["A simple Mathmatica clone (v0.1.0)",
+                "Copyright Yonghao Jin here (c) 2016.",
                 "Contact me with jyh1@mail.ustc.edu.cn"]
 
 
@@ -23,7 +26,7 @@ lift2 = lift . lift
 
 main :: IO()
 main = do
-  putStrLn info
+  T.putStrLn info
   loop initialState
 
 loop :: PrimiEnv -> IO ()

@@ -4,7 +4,7 @@
 module Data.DataType where
 
 import Control.Monad.Except
-import Data.IORef
+-- import Data.IORef
 import qualified Data.Map.Strict as M
 import Control.Monad.Trans.Except
 import           Text.ParserCombinators.Parsec(ParseError)
@@ -143,7 +143,7 @@ instance Show LispError where
   show (SetError v) = "Cannot assign to object " ++ show v
   show (Level v) = show v ++ " is not a valid level specification"
   show (SlotError s) = printf "%s cannot be fully filled" (show s)
-  show (LimitExceed) = "Iteration Limit exceeded, try to increase $IterationLimit"
+  show LimitExceed = "Iteration Limit exceeded, try to increase $IterationLimit"
 
 type ThrowsError = Either LispError
 
