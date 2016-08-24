@@ -9,16 +9,17 @@ import Data.IORef
 import Control.Monad
 import Control.Monad.Trans.Except
 import Control.Monad.Except
+import qualified Data.Text as T
 
 
 inl, outl :: Primi
 inl = indexl
 outl = indexl
 
-unpackError name = Default ("Machine-sized integer is expected in " ++ name)
+unpackError name = Default ("Machine-sized integer is expected in " `T.append` name)
 
 -- unpack the index arguement in In or Out
-unpack :: String -> LispVal -> IOThrowsError Integer
+unpack :: T.Text -> LispVal -> IOThrowsError Integer
 unpack name =
   unpackInt (unpackError name)
 

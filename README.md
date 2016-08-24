@@ -34,9 +34,10 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
 3. More sophisticated pattern matching
   * head specification (of the form Blank[*Head*], currently it will simply be ignored)
   * BlankSequence, BlankNullSequence
-4. RecursionLimit
+4. ~~RecursionLimit~~(Implemented)
 5. Negative index e.g. in `Part`
 6. Neagtive level specification
 7. Curried function e.g. `f[a][b]` (currently it will throw an error if one is trying to attach value to
   the curried form through `Set` or `SetDelayed`)
 8. Use iPython as frontend.
+9. ~~Replace String with Text~~(Implemented)

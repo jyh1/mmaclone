@@ -11,11 +11,13 @@ import qualified Data.Map.Strict as M
 import Control.Monad.Trans.Except
 import Control.Lens hiding (Context,List)
 import Data.Maybe
+import qualified Data.Text as T
+
 
 type ValueRule = M.Map LispVal LispVal
 type PatternRule = [Rule]
-type OwnValue = M.Map String LispVal
-type DownValue = M.Map String Down
+type OwnValue = M.Map T.Text LispVal
+type DownValue = M.Map T.Text Down
 data Down = Down {_value :: ValueRule,_pattern :: PatternRule}
 data Context = Context {_own :: OwnValue, _down :: DownValue}
 -- IORef

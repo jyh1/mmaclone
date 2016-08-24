@@ -4,6 +4,7 @@ import Data.DataType
 import qualified Data.Map.Strict as M
 import Data.Maybe
 import Data.List(sort)
+import qualified Data.Text as T
 -- import Data.List
 -- attributes
 data Attribute = HoldAll
@@ -14,7 +15,7 @@ data Attribute = HoldAll
                 | SequenceHold
                 | OneIdentity
     deriving (Show,Eq)
-type Attributes = M.Map String [Attribute]
+type Attributes = M.Map T.Text [Attribute]
 
 plusAttr :: [Attribute]
 plusAttr = [Orderless, Flatten,OneIdentity]
@@ -33,7 +34,7 @@ attributes = M.fromList[
               ("RuleDelayed",[HoldRest,SequenceHold])
               ]
 
-lookUpAttribute :: String -> Attributes -> [Attribute]
+lookUpAttribute :: T.Text -> Attributes -> [Attribute]
 lookUpAttribute name att = fromMaybe [] (M.lookup name att)
 
 getAttributes :: LispVal -> Attributes -> [Attribute]

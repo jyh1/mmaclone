@@ -7,6 +7,7 @@ import Data.Number.Number
 import Parser.NewParse
 import Control.Monad.Except
 import Control.Monad(msum)
+import qualified Data.Text as T
 
 readExpr :: String -> ThrowsError LispVal
 readExpr = transform . parseExpr
@@ -69,9 +70,9 @@ expr2LispVal (Compound e1 e2) =
 expr2LispVal (Apply h (Args args)) =
   listArgs apply h args
 
-expr2LispVal (Fact e) = do
+expr2LispVal (Fact e) =
   oneArg (addHead1 "Factorial") e
-expr2LispVal (Fact2 e) = do
+expr2LispVal (Fact2 e) =
   oneArg (addHead1 "Factorial2") e
 
 expr2LispVal (Part h (PartArgs args)) =
@@ -203,7 +204,7 @@ getEqTrans e = do
   expr <- msum $ map ($ e) eqUnpackers
   return $ expr2LispVal expr
 
-equalTrans :: String -> Expr -> Expr -> ThrowsError LispVal
+equalTrans :: T.Text -> Expr -> Expr -> ThrowsError LispVal
 equalTrans name e1 e2 = do
   let trans = getEqTrans e1
   case trans of
@@ -218,14 +219,14 @@ equalTrans name e1 e2 = do
         (List lis) -> List (lis ++ [Atom name,e2'])
 
 -- args transform
-addHead :: String -> [LispVal] -> LispVal
+addHead :: T.Text -> [LispVal] -> LispVal
 addHead na vs = List $ Atom na : vs
 
 
-addHead1 :: String -> LispVal -> LispVal
+addHead1 :: T.Text -> LispVal -> LispVal
 addHead1 atom v = List [Atom atom,v]
 
-addHead2 :: String -> LispVal -> LispVal -> LispVal
+addHead2 :: T.Text -> LispVal -> LispVal -> LispVal
 addHead2 atom v1 v2 = List [Atom atom,v1,v2]
 
 patternBlk h l = addHead1 "Pattern" (addHead1 h l)

@@ -18,7 +18,7 @@ import qualified Data.Text.IO as T
 
 info :: T.Text
 info = T.unlines ["A simple Mathmatica clone (v0.1.0)",
-                "Copyright Yonghao Jin here (c) 2016.",
+                "Copyright Yonghao Jin (c) 2016.",
                 "Contact me with jyh1@mail.ustc.edu.cn"]
 
 
