@@ -1,6 +1,5 @@
 {-#LANGUAGE ExistentialQuantification #-}
 {-#LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-#LANGUAGE FlexibleContexts #-}
 module Data.DataType where
 
@@ -60,7 +59,9 @@ unBool (Atom "False") = False
 
 list ls = List $ Atom "List" : ls
 
+tshow :: (Show s) => s -> T.Text
 tshow = T.pack . show
+
 fullForm :: LispVal -> T.Text
 fullForm (Atom s) = s
 fullForm (List []) = ""
@@ -112,16 +113,16 @@ double = Number . Double
 
 -- LispError
 
-data LispError = NumArgs String Int Int
-                | NumArgsMore String Int Int
-                | NumArgsBetween String Int Int Int
-                | TypeMismatch String LispVal
+data LispError = NumArgs T.Text Int Int
+                | NumArgsMore T.Text Int Int
+                | NumArgsBetween T.Text Int Int Int
+                | TypeMismatch T.Text LispVal
                 | Parser ParseError
-                | BadSpecialForm String LispVal
-                | NotFunction String String
-                | UnboundVar String String
-                | Default String
-                | PartE String LispVal
+                | BadSpecialForm T.Text LispVal
+                | NotFunction T.Text T.Text
+                | UnboundVar T.Text T.Text
+                | Default T.Text
+                | PartE T.Text LispVal
                 | Incomplete [LispVal]
                 | SetError LispVal
                 | Level LispVal
@@ -130,23 +131,26 @@ data LispError = NumArgs String Int Int
 
 
 instance Show LispError where
-  show (UnboundVar message varname) = message ++ ": " ++ varname
-  show (BadSpecialForm message form) = message ++ ": " ++ show form
-  show (NotFunction message func) = message ++ ": " ++ show func
-  show (NumArgs name expected found) = printf "%s is called with %d arguments, %d arguments are expected" name found expected
-  show (NumArgsMore name botom found) = printf "%s is called with %d arguments, %d or more arguments are expected" name found botom
-  show (NumArgsBetween name l r found) = printf "%s is called with %d arguments, between %d and %d arguments are exprected" name found l r
-  show (TypeMismatch expected found) = "Invalid type: expected " ++ expected
-                                        ++ ", found" ++ show found
-  show (Parser parseErr) = "Parse error at " ++ show parseErr
+  show = T.unpack . lispErrorToText
 
-  show (Incomplete s) = show s ++ "is incomplete.More input is needed"
-  show (PartE tag v) = show v ++" "++ tag
-  show (Default s) = s
-  show (SetError v) = "Cannot assign to object " ++ show v
-  show (Level v) = show v ++ " is not a valid level specification"
-  show (SlotError s) = printf "%s cannot be fully filled" (show s)
-  show LimitExceed = "Iteration Limit exceeded, try to increase $IterationLimit"
+lispErrorToText :: LispError -> T.Text
+lispErrorToText (UnboundVar message varname) = T.concat [message, ": ", varname]
+lispErrorToText (BadSpecialForm message form) = T.concat [message, ": ", fullForm form]
+lispErrorToText (NotFunction message func) = T.concat [message, ": ", func]
+lispErrorToText (NumArgs name expected found) = T.pack (printf "%s is called with %d arguments, %d arguments are expected" name found expected)
+lispErrorToText (NumArgsMore name botom found) = T.pack (printf "%s is called with %d arguments, %d or more arguments are expected" name found botom)
+lispErrorToText (NumArgsBetween name l r found) = T.pack(printf "%s is called with %d arguments, between %d and %d arguments are exprected" name found l r)
+lispErrorToText (TypeMismatch expected found) = T.concat ["Invalid type: expected ", expected,
+                                      ", found", fullForm found]
+lispErrorToText (Parser parseErr) = T.concat ["Parse error at ", tshow parseErr]
+
+lispErrorToText (Incomplete s) = T.concat [fullForm (List s), "is incomplete.More input is needed"]
+lispErrorToText (PartE tag v) = T.concat [fullForm v, " ", tag]
+lispErrorToText (Default s) = s
+lispErrorToText (SetError v) = T.concat ["Cannot assign to object ", fullForm v]
+lispErrorToText (Level v) = T.concat [fullForm v, " is not a valid level specification"]
+lispErrorToText (SlotError s) = T.pack (printf "%s cannot be fully filled" (fullForm s))
+lispErrorToText LimitExceed = "Iteration Limit exceeded, try to increase $IterationLimit"
 
 type ThrowsError = Either LispError
 

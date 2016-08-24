@@ -6,9 +6,10 @@ import Data.DataType
 import Data.Maybe
 import Data.Function(on)
 import Control.Monad
+import qualified Data.Text as T
 
 type Pattern = LispVal
-type Matched = (String, LispVal)
+type Matched = (T.Text, LispVal)
 type Rule = (Pattern, LispVal)
 
 getMatch :: Pattern -> LispVal -> Maybe [Matched]

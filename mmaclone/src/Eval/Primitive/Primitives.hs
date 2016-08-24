@@ -14,10 +14,11 @@ import Eval.Primitive.IO.Print
 import Eval.Primitive.InOut.InOut
 
 
+import qualified Data.Text as T
 import qualified Data.Map.Strict as M
 
 -- | Collections of all primitive function
-primitives :: M.Map String Primi
+primitives :: M.Map T.Text Primi
 primitives = M.fromList
   [ ("CompoundExpression",compoundExpressionl)
   , ("Minus", minusl)

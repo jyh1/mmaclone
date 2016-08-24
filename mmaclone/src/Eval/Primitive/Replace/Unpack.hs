@@ -4,9 +4,10 @@ module Eval.Primitive.Replace.Unpack
 import Data.DataType
 import Eval.Patt.Pattern
 
+import qualified Data.Text as T
 import Control.Monad.Except
 
-reps val = Default (show val ++ " cannot be used for replacing.")
+reps val = Default (tshow val `T.append` " cannot be used for replacing.")
 
 unpack :: LispVal -> Maybe Rule
 unpack (List [Atom "Rule",a,b]) = Just (a,b)

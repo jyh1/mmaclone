@@ -12,6 +12,8 @@ import Control.Monad.Except
 import Control.Monad.Trans.State
 import Control.Lens hiding(List, Context)
 import Data.Maybe
+import qualified Data.Text as T
+
 
 -- * Types and common functions for defining primitive functions.
 
@@ -27,7 +29,7 @@ type Primi = StateResult LispVal
 
 type Eval = LispVal -> Primi
 
-type Primitives = M.Map String Primi
+type Primitives = M.Map T.Text Primi
 
 type EvalArguments = [LispVal] -> IOThrowsError LispVal
 

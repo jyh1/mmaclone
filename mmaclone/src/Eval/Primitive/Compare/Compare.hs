@@ -7,6 +7,8 @@ import Eval.Primitive.PrimiType hiding(eval)
 import Control.Monad
 import Control.Monad.Except
 import Data.Maybe
+import qualified Data.Text as T
+
 
 equall = comparel equal
 lessl = comparel less
@@ -41,7 +43,7 @@ compareNumber f x y = do
   y' <- unpacknum y
   return $ f x' y'
 
-compareTable :: [(String,LispVal -> LispVal -> Maybe Bool)]
+compareTable :: [(T.Text, LispVal -> LispVal -> Maybe Bool)]
 compareTable = [
                 ("Equal",compareNumber equal),
                 ("Greater", compareNumber greater),

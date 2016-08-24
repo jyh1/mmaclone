@@ -2,8 +2,10 @@ module Show.Pretty(prettyPrint,showLispVal,printLispVal) where
 import Data.DataType
 import Data.Number.Number
 import Data.List
+import qualified Data.Text.IO as T
+import qualified Data.Text as T
 
-precedence :: [(String, Int)]
+precedence :: [(T.Text, Int)]
 precedence = [
               ("Power", 1),
               ("Times",2),
@@ -15,7 +17,7 @@ precedence = [
 leastPre :: Int
 leastPre = 6
 
-infixForm :: String -> String
+infixForm :: T.Text -> T.Text
 infixForm "Set" = "="
 infixForm "SetDelayed" = ":="
 infixForm "Times" = " "
@@ -23,19 +25,19 @@ infixForm "Plus" = "+"
 infixForm "Power" = "^"
 infixForm x = x
 
-getPrecedence :: String -> Maybe Int
+getPrecedence :: T.Text -> Maybe Int
 getPrecedence = flip lookup precedence
 
-prettyPrint :: LispVal -> String
+prettyPrint :: LispVal -> T.Text
 prettyPrint = prettyPrint' leastPre
 
-prettyPrint' :: Int -> LispVal -> String
+prettyPrint' :: Int -> LispVal -> T.Text
 prettyPrint' _ (List (Atom "List" : xs)) =
   let args = map prettyPrint xs in
-    curlyBrack $ intercalate "," args
+    curlyBrack $ T.intercalate "," args
 
 prettyPrint' now (List (Atom "Times" : Number (Integer (-1)): xs)) =
-  '-': prettyPrint' now (List (Atom "Times" : xs))
+  '-' `T.cons` prettyPrint' now (List (Atom "Times" : xs))
 
 
 prettyPrint' now (List (Atom name : xs)) =
@@ -47,38 +49,39 @@ prettyPrint' now (List (Atom name : xs)) =
           form = infixForm name
           result = addInfix form args in
         if now <= n then bracket result else result
-prettyPrint' _ x = show x
+prettyPrint' _ x = tshow x
 
-encloseWith :: String -> String -> String -> String
-encloseWith a b c = a ++ c ++ b
+encloseWith :: T.Text -> T.Text -> T.Text -> T.Text
+encloseWith a b c = T.concat [a, c, b]
 
-bracket :: String -> String
+bracket :: T.Text -> T.Text
 bracket = encloseWith "(" ")"
 
-curlyBrack :: String -> String
+curlyBrack :: T.Text -> T.Text
 curlyBrack = encloseWith "{" "}"
 
-functionWrap :: String -> [String] -> String
-functionWrap fun args = encloseWith (fun ++ "[") "]" (intercalate "," args)
+functionWrap :: T.Text -> [T.Text] -> T.Text
+functionWrap fun args = encloseWith (fun `T.append` "[") "]" (T.intercalate "," args)
 
-checkMinus :: String -> Bool
-checkMinus ('-':_) = True
-checkMinus _ = False
+checkMinus :: T.Text -> Bool
+checkMinus s
+  | T.head s == '-' = True
+  | otherwise = False
 
-addInfix :: String -> [String] -> String
+addInfix :: T.Text -> [T.Text] -> T.Text
 addInfix "+" xs = addInfixRule checkMinus id "+" xs
-addInfix "^" xs = addInfixRule checkMinus (('^':).bracket) "^" xs
-addInfix sym xs = intercalate sym xs
+addInfix "^" xs = addInfixRule checkMinus (T.cons '^' . bracket) "^" xs
+addInfix sym xs = T.intercalate sym xs
 
-addInfixRule :: (String -> Bool) -> (String -> String)
-   -> String -> [String] -> String
-addInfixRule _ _ _ [] = []
+addInfixRule :: (T.Text -> Bool) -> (T.Text -> T.Text)
+   -> T.Text -> [T.Text] -> T.Text
+addInfixRule _ _ _ [] = ""
 addInfixRule _ _ _ [x] = x
 addInfixRule check rule syb (x1:res@(x2:_))
-  | check x2 = x1 ++ rule (addInfixRule check rule syb res)
-  | otherwise = x1 ++ syb ++ addInfixRule check rule syb res
+  | check x2 = x1 `T.append` rule (addInfixRule check rule syb res)
+  | otherwise = x1 `T.append` syb `T.append` addInfixRule check rule syb res
 
 showLispVal (List [Atom "FullForm",val]) = fullForm val
 showLispVal val = prettyPrint val
 
-printLispVal = putStrLn . showLispVal
+printLispVal = T.putStrLn . showLispVal

@@ -7,9 +7,10 @@ import Eval.Patt.Pattern
 import Show.Pretty
 
 import Control.Monad.Trans
+import qualified Data.Text.IO as T
 
 printl :: Primi
 printl = do
   vals <- getArgumentList
   let output = mconcat $ map showLispVal vals in
-    (lift.lift) $ putStrLn output >> return atomNull
+    (lift.lift) $ T.putStrLn output >> return atomNull
