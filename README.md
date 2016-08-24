@@ -39,5 +39,5 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
 6. Neagtive level specification
 7. Curried function e.g. `f[a][b]` (currently it will throw an error if one is trying to attach value to
   the curried form through `Set` or `SetDelayed`)
-8. Use iPython as frontend.
+8. Use iPython as frontend
 9. ~~Replace String with Text~~(Implemented)
