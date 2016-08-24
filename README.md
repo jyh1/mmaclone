@@ -33,11 +33,12 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
 2. More built-in functions (`Level`, `Import`, `Derivative`etc...)
 3. More sophisticated pattern matching
   * head specification (of the form Blank[*Head*], currently it will simply be ignored)
+  * Pattern Test
   * BlankSequence, BlankNullSequence
 4. ~~RecursionLimit~~(Implemented)
 5. Negative index e.g. in `Part`
 6. Neagtive level specification
 7. Curried function e.g. `f[a][b]` (currently it will throw an error if one is trying to attach value to
   the curried form through `Set` or `SetDelayed`)
-8. Use iPython as frontend.
+8. Use iPython as frontend
 9. ~~Replace String with Text~~(Implemented)
