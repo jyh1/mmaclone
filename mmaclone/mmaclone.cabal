@@ -15,8 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Test
-                      , Parser.Trans
+  exposed-modules:
+                        Parser.Trans
                       , Parser.NewParse
                       , Eval.Eval
                       , Eval.EvalHead
