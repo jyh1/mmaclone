@@ -23,9 +23,12 @@ library
                       , Data.DataType
                       , Data.Number.Number
                       , Data.Environment.Environment
+                      , Data.Environment.EnvironmentType
+                      , Data.Environment.Update
                       , Data.Attribute
                       , Eval.Patt.Pattern
-                      , Eval.Primitive.PrimiType
+                      , Eval.Patt.PatternPrimi
+                      -- , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
                       , Eval.Primitive.Arithmatic.Arithmatic
                       , Eval.Primitive.Compare.Compare

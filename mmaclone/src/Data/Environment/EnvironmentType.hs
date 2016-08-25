@@ -1,18 +1,26 @@
-{-#LANGUAGE FlexibleContexts , TemplateHaskell#-}
-
-module Eval.Primitive.PrimiType where
+{-#LANGUAGE TemplateHaskell#-}
+module Data.Environment.EnvironmentType where
 
 import Data.DataType
-import Data.Number.Number
-import Data.Environment.EnvironmentType
+
 
 import qualified Data.Map.Strict as M
-import Control.Monad
-import Control.Monad.Except
-import Control.Monad.Trans.State
-import Control.Lens hiding(List, Context)
-import Data.Maybe
+import Control.Lens hiding (Context,List)
 import qualified Data.Text as T
+import Control.Monad.Trans.State
+
+
+
+type ValueRule = M.Map LispVal LispVal
+type PatternRule = [(LispVal, LispVal)]
+type OwnValue = M.Map T.Text LispVal
+type DownValue = M.Map T.Text Down
+data Down = Down {_value :: ValueRule,_pattern :: PatternRule}
+data Context = Context {_own :: OwnValue, _down :: DownValue}
+
+makeLenses ''Down
+makeLenses ''Context
+
 
 
 -- * Types and common functions for defining primitive functions.
@@ -45,3 +53,14 @@ data PrimiEnv = PrimiEnv
   }
 
 makeLenses ''PrimiEnv
+
+
+-- Pattern matching types
+type Pattern = LispVal
+type Matched = (T.Text, LispVal)
+
+type Rule = (Pattern, LispVal)
+
+type MaybeMatch = Maybe [Matched]
+type MatchResult = StateResult MaybeMatch
+type ReplaceResult = StateResult (Maybe LispVal)

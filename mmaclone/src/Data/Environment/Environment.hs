@@ -1,30 +1,18 @@
-{-#LANGUAGE TemplateHaskell#-}
 module Data.Environment.Environment where
 
 import Data.DataType
 import Eval.Patt.Pattern
+import Eval.Patt.PatternPrimi
+import Data.Environment.EnvironmentType
 
 
 import Control.Monad.Except
-import Data.IORef
 import qualified Data.Map.Strict as M
 import Control.Monad.Trans.Except
 import Control.Lens hiding (Context,List)
 import Data.Maybe
 import qualified Data.Text as T
 
-
-type ValueRule = M.Map LispVal LispVal
-type PatternRule = [Rule]
-type OwnValue = M.Map T.Text LispVal
-type DownValue = M.Map T.Text Down
-data Down = Down {_value :: ValueRule,_pattern :: PatternRule}
-data Context = Context {_own :: OwnValue, _down :: DownValue}
--- IORef
-type Env = IORef Context
-
-makeLenses ''Down
-makeLenses ''Context
 
 emptyOwnValue :: OwnValue
 emptyOwnValue = M.fromList [("$IterationLimit", Number 4096)]
@@ -37,14 +25,14 @@ emptyDown = Down M.empty []
 nullContext :: Context
 nullContext = Context emptyOwnValue emptyDownValue
 
-readCont :: Env -> IOThrowsError Context
-readCont = liftIO . readIORef
+-- readCont :: Env -> IOThrowsError Context
+-- readCont = liftIO . readIORef
 
 mergePatt :: PatternRule -> PatternRule -> PatternRule
 mergePatt = (++)
 addPatt = (:)
 
-insertPattern :: [Pattern] -> LispVal -> Down -> Down
+insertPattern :: [LispVal] -> LispVal -> Down -> Down
 insertPattern lhs rhs downV =
   pattern %~ addPatt (List lhs,rhs) $ downV
 
@@ -75,24 +63,28 @@ validSet (List (Atom _ : _)) = True
 validSet (Atom _) = True
 validSet _ = False
 
-replaceDown :: Down -> LispVal -> Maybe LispVal
+replaceDown :: Down -> LispVal -> ReplaceResult
 replaceDown downV lhs =
   let patt = downV ^. pattern.to (replaceRuleList lhs)-- (msum . map (replace lhs))
       val = downV ^. value.to (M.lookup lhs) in
-    mplus val patt
+    case val of
+      Nothing -> patt
+      just -> return just
 
-replaceDownValue :: LispVal -> DownValue -> LispVal
+replaceDownValue :: LispVal -> DownValue -> Primi
 replaceDownValue val@(List (Atom name : lhs)) downVal =
-  fromMaybe val $ do
-    downV <- M.lookup name downVal
-    replaceDown downV (List lhs)
+  liftM (fromMaybe val) $ do
+    let downV = M.lookup name downVal
+    case downV of
+      Nothing -> return Nothing
+      Just downV' -> replaceDown downV' (List lhs)
 
 replaceOwnValue :: LispVal -> OwnValue -> LispVal
 replaceOwnValue val@(Atom name) ownVal =
   fromMaybe val $ M.lookup name ownVal
 
-replaceContext :: LispVal -> Context -> LispVal
+replaceContext :: LispVal -> Context -> Primi
 replaceContext val@(Atom _) con =
-  con ^.own.to (replaceOwnValue val)
+  return $ con ^.own.to (replaceOwnValue val)
 replaceContext val@(List _) con =
   con ^. down.to (replaceDownValue val)

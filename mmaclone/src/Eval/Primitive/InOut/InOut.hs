@@ -1,9 +1,12 @@
 module Eval.Primitive.InOut.InOut
         (inl,outl) where
 
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
 import Data.DataType
+import Data.Environment.Update
+import Data.Environment.EnvironmentType
 import Data.Environment.Environment
+
 
 import Data.IORef
 import Control.Monad
