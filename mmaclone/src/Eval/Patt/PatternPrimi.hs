@@ -21,6 +21,7 @@ getMatch (List [Atom "PatternTest", p, f]) b = do
         test <- evaluate (applyHead f b)
         return $ if (trueQ test) then Just [] else Nothing
   matchAnd (getMatch p b) checkTest
+getMatch (Atom a) (Atom b) = fromBool $ a == b
 getMatch (Number a) (Number b) = fromBool $ a == b
 getMatch (String a) (String b) = fromBool $ a == b
 getMatch (Char a) (Char b) = fromBool $ a == b

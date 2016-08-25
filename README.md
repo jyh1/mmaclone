@@ -1,7 +1,7 @@
 # A simple term rewriting system with Mathematica's syntax
 
-After reading about the book [Write Yourself a Scheme in 48 Hours](https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours).
-I decide to write myself a simple Mathematica interpreter to learn more about Haskell and
+Inspired by the book [Write Yourself a Scheme in 48 Hours](https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours).
+I decide to write myself a simple Mathematica interpreter to learn more about Haskell as well as
 get a deeper understanding of Mahtematica.
 
 ## ScreenShot
@@ -32,8 +32,8 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
 1. More mathematical functions (`Sin`, `Cos`, `Mod` etc...)
 2. More built-in functions (`Level`, `Import`, `Derivative`etc...)
 3. More sophisticated pattern matching
-  * head specification (of the form Blank[*Head*], currently it will simply be ignored)
-  * Pattern Test
+  * head specification (of the form Blank[*Head*], currently it only support list type)
+  * ~~Pattern Test~~(Impelemented)
   * BlankSequence, BlankNullSequence
 4. ~~RecursionLimit~~(Implemented)
 5. Negative index e.g. in `Part`

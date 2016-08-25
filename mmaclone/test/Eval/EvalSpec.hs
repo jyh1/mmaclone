@@ -234,6 +234,20 @@ spec  = do
     it "pattern matching" $ do
       test
         ["a[0]=1","a[0.0]=1","a[0]","a[0.0]"] (integer 1)
+    it "pattern test" $ do
+      test
+        ["f[a_]=a","f[a_?(#>10&)]=10", "f[1100]"] (integer 10)
+      test
+        ["12/.x_?(#>111&)->1"] (integer 12)
+      test3
+        ["f[a_?(False&)]=100", "f[1000]"]  "f[1000]"
+      test
+        ["fib[n_]:=fib[n]=fib[n-1]+fib[n-2]",
+          "fib[n_?(#==1&)]=1", "fib[n_?(#==2&)]=1", "fib[40]"]
+        (integer 102334155)
+      test
+        ["zero[_]=False","zero[0]=True",
+          "f[_]=19","f[_?zero]=100", "f[0]"]  (integer 100)
 
     it "symbolic manipulation" $ do
       test3
