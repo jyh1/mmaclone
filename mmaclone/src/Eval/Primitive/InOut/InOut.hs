@@ -29,11 +29,11 @@ unpack name =
 plusLine :: LispVal -> LispVal
 plusLine val = List [Atom "Plus", atomLine, val]
 
-index :: LispVal -> Context -> [LispVal] -> IOThrowsError LispVal
+index :: LispVal -> Context -> [LispVal] -> Primi
 index fun@(Atom name) context [n] = do
-  n' <- unpack name n
+  n' <- lift (unpack name n)
   if n' >= 0 then
-    return $ replaceContext (List [fun, n]) context
+    replaceContext (List [fun, n]) context
   else
     return $ List [fun, plusLine n]
 
@@ -42,4 +42,4 @@ indexl = do
   withnop 1
   context <- getCon
   h:args  <- getArgs
-  lift $ index h context args
+  index h context args

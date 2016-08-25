@@ -1,9 +1,11 @@
 module Eval.Primitive.Set.Set
         (setl,setDelayedl) where
 
-import Eval.Primitive.PrimiType
 import Data.DataType
+import Eval.Primitive.PrimiFunc
 import Data.Environment.Environment
+import Data.Environment.EnvironmentType
+import Data.Environment.Update
 import Eval.Patt.Pattern
 
 import Data.IORef

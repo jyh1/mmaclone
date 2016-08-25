@@ -1,6 +1,7 @@
 module Eval.Primitive.Control.Branch(ifl) where
 import Data.DataType
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType
 
 import Data.Maybe
 

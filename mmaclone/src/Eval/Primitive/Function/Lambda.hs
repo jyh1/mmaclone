@@ -3,8 +3,9 @@
 module Eval.Primitive.Function.Lambda(evalLambda,functionl) where
 
 import Data.DataType
-import Eval.Patt.Pattern
-import Eval.Primitive.PrimiType
+import Eval.Patt.PatternPrimi
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType
 
 import Control.Monad.Trans.Except
 import Control.Monad.Except

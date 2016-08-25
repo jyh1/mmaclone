@@ -1,6 +1,7 @@
 module Eval.Primitive.Primitives(primitives) where
 
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType
 import Eval.Primitive.Arithmatic.Arithmatic
 import Eval.Primitive.List.List
 import Eval.Primitive.Compare.Compare

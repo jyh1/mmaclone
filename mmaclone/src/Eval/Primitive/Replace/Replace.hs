@@ -3,11 +3,13 @@ module Eval.Primitive.Replace.Replace
   replacel,replaceAlll,replaceRepeatedl) where
 
 import Data.DataType
-import Eval.Patt.Pattern
 import Eval.Primitive.Replace.Unpack
 import Eval.Primitive.List.Level
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
 import Data.Environment.Environment
+import Data.Environment.EnvironmentType
+import Data.Environment.Update
+import Eval.Patt.PatternPrimi
 
 import Control.Monad.Except
 
@@ -20,27 +22,28 @@ replaceAlll = do
   withnop 2
   usesArgumentError replaceAlll'
 
+
 replacel' :: EvalArguments
 replacel' (expr:rules:level) = do
-  unpackedRules <- unpackReplaceArg rules
-  levelSpeci <- unpackNormalLevelSpeci 0 level
-  return (levelSpeci (`tryReplaceRuleList` unpackedRules) expr)
+  unpackedRules <- lift $ unpackReplaceArg rules
+  levelSpeci <- lift $ unpackLevelSpeci 0 level
+  levelSpeci (`tryReplaceRuleList` unpackedRules) expr
 
 replaceAlll' :: EvalArguments
 replaceAlll' [expr,rules] = do
-  unpackedRules <- unpackReplaceArg rules
-  return $ replaceAll unpackedRules expr
+  unpackedRules <- lift $ unpackReplaceArg rules
+  replaceAll unpackedRules expr
 
 
 -- functions relating with replace repeated feature
 replaceRepeatedl :: Primi
 replaceRepeatedl = do
   withnop 2
-  getArgumentList >>= replaceRepeatedl'
+  usesArgumentError replaceRepeatedl'
 -- | Replace until yielding no new result
-replaceRepeated :: LispVal -> (LispVal -> LispVal) -> Primi
+replaceRepeated :: LispVal -> (LispVal -> Primi) -> Primi
 replaceRepeated old replace = do
-  new <- evaluate (replace old)
+  new <- replace old >>= evaluate
   if new == old then
     return new
   else

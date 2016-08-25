@@ -2,7 +2,8 @@ module Eval.Primitive.Compare.Compare
         (equall,lessl,lessEquall,greaterl,greaterEquall,inequalityl) where
 import Data.DataType
 import Data.Number.Number
-import Eval.Primitive.PrimiType hiding(eval)
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType hiding(eval)
 
 import Control.Monad
 import Control.Monad.Except
@@ -60,7 +61,7 @@ eval (Atom name) x y = do
   f x y
 
 inequalityl :: Primi
-inequalityl = usesArgumentError inequal
+inequalityl = usesArgumentError (lift . inequal)
 
 
 inequal :: [LispVal] -> IOThrowsError LispVal

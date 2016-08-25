@@ -8,10 +8,12 @@ import Control.Monad.Trans.State
 
 import Data.DataType
 import Data.Environment.Environment
+import Data.Environment.EnvironmentType
 import Eval.Eval
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
 import Parser.Trans
 import Show.Pretty
+
 import Control.Lens
 import qualified Data.Text as T
 import qualified Data.Text.IO as T

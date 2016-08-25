@@ -61,11 +61,6 @@ getLineNumber = use line
 updateCon :: (Context -> Context) -> StateResult ()
 updateCon f = con %= f
 
--- setVariable :: LispVal -> LispVal -> StateResult ()
--- setVariable lhs rhs = updateCon (updateContext lhs rhs)
---
--- getVariable :: LispVal -> Primi
--- getVariable lhs = uses con (replaceContext lhs)
 
 -- | return args
 getArgs :: StateResult [LispVal]
@@ -86,10 +81,11 @@ usesArgumentMaybe f = do
   usesArgumentList (fromMaybe expr . f)
 
 -- | lift a IOThrowsError to StateResult
-usesArgumentError :: EvalArguments -> StateResult LispVal
+usesArgumentError :: EvalArguments -> Primi
 usesArgumentError f = do
   argument <- getArgumentList
-  lift (f argument)
+  f argument
+
 
 -- | return head
 getHead :: Primi

@@ -3,7 +3,8 @@ module Eval.Primitive.Nest.Nest(nestl, nestListl)where
 
 import Data.DataType
 import Data.Number.Number
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType
 import Eval.Primitive.Replace.Replace
 
 import Control.Monad
@@ -26,7 +27,7 @@ nestList' f arg n = do
   evaled <- evaluate (applyHead f arg)
   rest <- nestList' f evaled (n-1)
   return $ arg : rest
-nestList f arg n = liftM list (nestList' f arg n)
+nestList f arg n = fmap list (nestList' f arg n)
 
 
 nestErr = Default "Nest :: non-negative machine-sized number expected"

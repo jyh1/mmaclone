@@ -39,7 +39,7 @@ type Eval = LispVal -> Primi
 
 type Primitives = M.Map T.Text Primi
 
-type EvalArguments = [LispVal] -> IOThrowsError LispVal
+type EvalArguments = [LispVal] -> Primi
 
 
 -- | Envrionment for primitive function

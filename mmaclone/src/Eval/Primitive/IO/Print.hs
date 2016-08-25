@@ -1,7 +1,8 @@
 module Eval.Primitive.IO.Print
         (printl) where
 
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType
 import Data.DataType
 import Eval.Patt.Pattern
 import Show.Pretty

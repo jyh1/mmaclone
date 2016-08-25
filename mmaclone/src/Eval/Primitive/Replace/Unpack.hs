@@ -2,7 +2,7 @@ module Eval.Primitive.Replace.Unpack
   (unpackReplaceArg) where
 
 import Data.DataType
-import Eval.Patt.Pattern
+import Data.Environment.EnvironmentType
 
 import qualified Data.Text as T
 import Control.Monad.Except

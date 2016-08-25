@@ -1,7 +1,8 @@
 module Eval.Primitive.List.Part(partl) where
 import Data.DataType
 import Data.Number.Number
-import Eval.Primitive.PrimiType
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType
 
 import Control.Monad
 import Control.Monad.Except

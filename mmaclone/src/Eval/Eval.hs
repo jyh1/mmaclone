@@ -11,9 +11,11 @@ module Eval.Eval
 
 import Data.DataType
 import Data.Environment.Environment
+import Data.Environment.Update
 import Data.Number.Number
 import Eval.Primitive.Primitives
-import Eval.Primitive.PrimiType hiding(eval)
+import Eval.Primitive.PrimiFunc
+import Data.Environment.EnvironmentType hiding(eval)
 import Eval.EvalHead
 import Data.Attribute
 
@@ -67,7 +69,7 @@ eval' (List (v:vs)) = do
 
 eval' (Atom "$Line") = uses line integer
 
-eval' val@(Atom _) = uses con (replaceContext val)
+eval' val@(Atom _) = use con >>= replaceContext val
 
 eval' n@(Number (Rational r))
   | denominator r == 1 = return (integer $ numerator r)
@@ -84,7 +86,7 @@ evalWithEnv :: Primi
 evalWithEnv = do
   lhs <- noChange
   if validSet lhs
-    then uses con (replaceContext lhs)
+    then use con >>= replaceContext lhs
     else noChange
 
 evalHead :: LispVal -> Primi

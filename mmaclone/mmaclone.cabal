@@ -15,8 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:
-                        Parser.Trans
+  exposed-modules:      Test
+                      , Parser.Trans
                       , Parser.NewParse
                       , Eval.Eval
                       , Eval.EvalHead
@@ -30,6 +30,7 @@ library
                       , Eval.Patt.PatternPrimi
                       -- , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
+                      , Eval.Primitive.PrimiFunc
                       , Eval.Primitive.Arithmatic.Arithmatic
                       , Eval.Primitive.Compare.Compare
                       , Eval.Primitive.List.List
