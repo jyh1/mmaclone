@@ -69,6 +69,7 @@ fullForm (List (l:ls)) =
   T.concat [fullForm l, "[", T.intercalate "," (map fullForm ls), "]"]
 fullForm (Number i) = tshow i
 fullForm (String s) = s
+fullForm (Char c) = tshow c
 -- fullForm (Char c) = show c
 
 data Unpacker = forall a. Ord a => Unpacker (LispVal -> ThrowsError a)
