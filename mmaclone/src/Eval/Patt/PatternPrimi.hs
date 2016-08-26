@@ -7,6 +7,8 @@ import Eval.Primitive.PrimiFunc
 import qualified Data.Text as T
 import Control.Monad
 import Data.Maybe
+import qualified Data.Map.Strict as M
+
 
 data MatchState a =
   MatchState {getMatchF :: MatchRes -> StateResult (Maybe (MatchRes, a))}
@@ -52,7 +54,7 @@ updateRules f =
 
 addNewMatch :: T.Text -> LispVal -> MatchState ()
 addNewMatch name expr =
-  updateRules ((name, expr):)
+  updateRules (M.insert name expr)
 
 matchFailed :: MatchState a
 matchFailed = MatchState (const (return Nothing))
@@ -69,7 +71,7 @@ patternTest cond =
     MatchState foo
 
 runMatching :: MatchState () -> MatchResult
-runMatching (MatchState f) = (fmap . fmap) fst (f emptyRules)
+runMatching (MatchState f) = (fmap . fmap) fst (f initialMatch)
 
 patternMatching :: Pattern -> LispVal -> MatchState ()
 patternMatching (List [Atom "Blank"]) _ = emptyMatch
@@ -94,18 +96,6 @@ patternMatching _ _ = matchFailed
 getMatch :: Pattern -> LispVal -> MatchResult
 getMatch p l = runMatching (patternMatching p l)
 
--- checkMatch :: MatchResult -> MaybeMatch -> MatchResult
--- checkMatch res (Just val) = do
---   res' <- res
---   return $ case res' of
---     Nothing -> Nothing
---     (Just mat) -> Just (val ++ mat)
--- checkMatch _ Nothing = return Nothing
---
--- matchAnd :: MatchResult -> MatchResult -> MatchResult
--- matchAnd a1 a2 = do
---   res1 <- a1
---   checkMatch a2 res1
 
 -- | convert bool to match result
 fromBool :: Bool -> MatchState ()
@@ -113,9 +103,9 @@ fromBool True = emptyMatch
 fromBool _ = matchFailed
 
 -- | replaceall a value with a set of match results
-internalReplace :: LispVal -> [Matched]  -> LispVal
+internalReplace :: LispVal -> MatchRes  -> LispVal
 internalReplace val@(Atom name) ms =
-  fromMaybe val (lookup name ms)
+  fromMaybe val (M.lookup name ms)
 internalReplace (List ls) ms =
   List $ map (`internalReplace` ms) ls
 internalReplace other _ = other

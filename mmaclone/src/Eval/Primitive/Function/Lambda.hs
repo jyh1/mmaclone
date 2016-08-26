@@ -10,6 +10,8 @@ import Data.Environment.EnvironmentType
 import Control.Monad.Trans.Except
 import Control.Monad.Except
 import Control.Monad
+import qualified Data.Map.Strict as M
+
 
 
 slotErr = Default "Slot should contain a non-negative integer"
@@ -43,7 +45,7 @@ replaceSlot vs (List val@(Atom "SlotSequence":inds)) =
   unpackSlotSeq vs inds
 replaceSlot _ val@(List (Atom "Function":_)) = return val
 replaceSlot vs (List lis) =
-  liftM List $ mapM (replaceSlot vs) lis
+  fmap List $ mapM (replaceSlot vs) lis
 replaceSlot _ val = return val
 
 unpackPara :: LispVal -> [LispVal] -> IOThrowsError [Matched]
@@ -57,7 +59,7 @@ unpackPara (List (Atom "List":paras)) vals =
 
 replaceVar paras args body = do
   matched <- unpackPara paras args
-  return $ internalReplace body matched
+  return $ internalReplace body (M.fromList matched)
 
 evalLambda :: Primi
 evalLambda  = do
