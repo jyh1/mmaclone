@@ -43,77 +43,72 @@ instance Monad MatchState where
     in
       MatchState foo
 
+
+updateRules :: (MatchRes -> MatchRes) -> MatchState ()
+updateRules f =
+  let foo res =
+        return (Just (f res, ())) in
+    MatchState foo
+
+addNewMatch :: T.Text -> LispVal -> MatchState ()
+addNewMatch name expr =
+  updateRules ((name, expr):)
+
 matchFailed :: MatchState a
 matchFailed = MatchState (const (return Nothing))
 
-emptyMatch :: MatchState Rules
-emptyMatch = return emptyRules
+emptyMatch :: MatchState ()
+emptyMatch = return ()
 
-patternMatching :: Pattern -> LispVal -> MatchState Rules
+patternTest :: LispVal -> MatchState ()
+patternTest cond =
+  let foo res = do
+        test <- evaluate cond
+        return $ if (trueQ test) then Just (res, ()) else Nothing
+  in
+    MatchState foo
+
+runMatching :: MatchState () -> MatchResult
+runMatching (MatchState f) = (fmap . fmap) fst (f emptyRules)
+
+patternMatching :: Pattern -> LispVal -> MatchState ()
 patternMatching (List [Atom "Blank"]) _ = emptyMatch
--- getMatch (List [Atom "Blank", Atom x]) (List (Atom y : _)) =
---   fromBool $ x == y
--- getMatch (List [Atom "Pattern", Atom name, pattern]) expr =
---   (fmap . fmap) ((name, expr): ) $ getMatch pattern expr
--- getMatch (List [Atom "PatternTest", p, f]) b = do
---   let checkTest = do
---         test <- evaluate (applyHead f b)
---         return $ if (trueQ test) then Just [] else Nothing
---   matchAnd (getMatch p b) checkTest
--- getMatch (Atom a) (Atom b) = fromBool $ a == b
--- getMatch (Number a) (Number b) = fromBool $ a == b
--- getMatch (String a) (String b) = fromBool $ a == b
--- getMatch (Char a) (Char b) = fromBool $ a == b
--- getMatch (List a) (List b) =
---   let sameL = length a == length b
---       every = getMatchList a b in
---     if sameL then every else return Nothing
--- getMatch _ _ = return Nothing
+patternMatching (List [Atom "Blank", Atom x]) (List (Atom y : _)) =
+  fromBool $ x == y
+patternMatching (List [Atom "Pattern", Atom name, pattern]) expr = do
+  patternMatching pattern expr
+  addNewMatch name expr
+patternMatching (List [Atom "PatternTest", p, f]) b = do
+  patternMatching p b
+  patternTest (applyHead f b)
+patternMatching (Atom a) (Atom b) = fromBool $ a == b
+patternMatching (Number a) (Number b) = fromBool $ a == b
+patternMatching (String a) (String b) = fromBool $ a == b
+patternMatching (Char a) (Char b) = fromBool $ a == b
+patternMatching (List a) (List b) =
+  let sameL = length a == length b
+      every = zipWithM_ patternMatching a b in
+    if sameL then every else matchFailed
+patternMatching _ _ = matchFailed
 
 getMatch :: Pattern -> LispVal -> MatchResult
-getMatch = undefined
--- getMatch (List [Atom "Blank"]) _ = return (Just [])
--- getMatch (List [Atom "Blank", Atom x]) (List (Atom y : _)) =
---   fromBool $ x == y
--- getMatch (List [Atom "Pattern", Atom name, pattern]) expr =
---   (fmap . fmap) ((name, expr): ) $ getMatch pattern expr
--- getMatch (List [Atom "PatternTest", p, f]) b = do
---   let checkTest = do
---         test <- evaluate (applyHead f b)
---         return $ if (trueQ test) then Just [] else Nothing
---   matchAnd (getMatch p b) checkTest
--- getMatch (Atom a) (Atom b) = fromBool $ a == b
--- getMatch (Number a) (Number b) = fromBool $ a == b
--- getMatch (String a) (String b) = fromBool $ a == b
--- getMatch (Char a) (Char b) = fromBool $ a == b
--- getMatch (List a) (List b) =
---   let sameL = length a == length b
---       every = getMatchList a b in
---     if sameL then every else return Nothing
--- getMatch _ _ = return Nothing
+getMatch p l = runMatching (patternMatching p l)
 
--- | mannualy write foldM
-getMatchList :: [Pattern] -> [LispVal] -> MatchResult
-getMatchList [] _ = return (Just [])
-getMatchList (p:ps) (l:ls) =
-  matchAnd (getMatch p l) (getMatchList ps ls)
-
-
-checkMatch :: MatchResult -> MaybeMatch -> MatchResult
-checkMatch res (Just val) = do
-  res' <- res
-  return $ case res' of
-    Nothing -> Nothing
-    (Just mat) -> Just (val ++ mat)
-checkMatch _ Nothing = return Nothing
-
-matchAnd :: MatchResult -> MatchResult -> MatchResult
-matchAnd a1 a2 = do
-  res1 <- a1
-  checkMatch a2 res1
+-- checkMatch :: MatchResult -> MaybeMatch -> MatchResult
+-- checkMatch res (Just val) = do
+--   res' <- res
+--   return $ case res' of
+--     Nothing -> Nothing
+--     (Just mat) -> Just (val ++ mat)
+-- checkMatch _ Nothing = return Nothing
+--
+-- matchAnd :: MatchResult -> MatchResult -> MatchResult
+-- matchAnd a1 a2 = do
+--   res1 <- a1
+--   checkMatch a2 res1
 
 -- | convert bool to match result
-fromBool :: Bool -> MatchState Rules
+fromBool :: Bool -> MatchState ()
 fromBool True = emptyMatch
 fromBool _ = matchFailed
 
