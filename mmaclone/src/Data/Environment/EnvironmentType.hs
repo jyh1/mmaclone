@@ -58,8 +58,12 @@ makeLenses ''PrimiEnv
 -- Pattern matching types
 type Pattern = LispVal
 type Matched = (T.Text, LispVal)
+type MatchRes = [Matched]
+
 
 type Rule = (Pattern, LispVal)
+type Rules = [Rule]
+emptyRules = []
 
 type MaybeMatch = Maybe [Matched]
 type MatchResult = StateResult MaybeMatch
