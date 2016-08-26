@@ -68,6 +68,8 @@ primitives = M.fromList
 
   , ("In", inl)
   , ("Out", outl)
+
+  , ("Condition", conditionl)
   ]
 
 
@@ -75,3 +77,8 @@ compoundExpressionl :: Primi
 compoundExpressionl = do
   many1op
   fmap last getArgumentList
+
+conditionl :: Primi
+conditionl = do
+  withnop 2
+  noChange

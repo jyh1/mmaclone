@@ -46,9 +46,13 @@ updateDown lhs
   | otherwise = insertValue lhs
 
 updateDownValue :: LispVal -> LispVal -> DownValue -> DownValue
-updateDownValue (List (Atom name : lhs)) rhs =
-  let initial = updateDown lhs rhs emptyDown
-      update = const (updateDown lhs rhs) in
+updateDownValue val rhs =
+  let
+    name = getSetName val
+    List lhs = getLhs val
+    initial = updateDown lhs rhs emptyDown
+    update = const (updateDown lhs rhs)
+  in
     M.insertWith update name initial
 
 updateContext :: LispVal -> LispVal -> Context -> Context
@@ -59,6 +63,8 @@ updateContext val@(List _) rhs =
 
 
 validSet :: LispVal -> Bool
+validSet (List [(Atom "Condition"), p, _]) = validSet p
+validSet (List ((Atom "Condition"):_)) = False
 validSet (List (Atom _ : _)) = True
 validSet (Atom _) = True
 validSet _ = False
@@ -71,13 +77,28 @@ replaceDown downV lhs =
       Nothing -> patt
       just -> return just
 
+getSetName :: LispVal -> T.Text
+getSetName (List (Atom "Condition":p:_)) = getSetName p
+getSetName (List (Atom name:_)) = name
+
+getLhs :: LispVal -> LispVal
+getLhs (List [Atom "Condition", p, t]) =
+  List [Atom "Condition", getLhs p, t]
+getLhs (List (Atom _: lhs)) = List lhs
+
+unpackLhs :: LispVal -> (T.Text, LispVal)
+unpackLhs val = (getSetName val, getLhs val)
+
 replaceDownValue :: LispVal -> DownValue -> Primi
-replaceDownValue val@(List (Atom name : lhs)) downVal =
-  liftM (fromMaybe val) $ do
-    let downV = M.lookup name downVal
-    case downV of
-      Nothing -> return Nothing
-      Just downV' -> replaceDown downV' (List lhs)
+-- replaceDownValue val@(List (Atom name : lhs)) downVal =
+replaceDownValue val downVal =
+  let name = getSetName val
+      lhs = getLhs val in
+    liftM (fromMaybe val) $ do
+      let downV = M.lookup name downVal
+      case downV of
+        Nothing -> return Nothing
+        Just downV' -> replaceDown downV' lhs
 
 replaceOwnValue :: LispVal -> OwnValue -> LispVal
 replaceOwnValue val@(Atom name) ownVal =

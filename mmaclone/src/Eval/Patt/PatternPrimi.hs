@@ -66,7 +66,7 @@ addNewMatch name expr = do
     Nothing -> updateMatch (M.insert name expr)
     Just True -> return ()
     Just False -> matchFailed
-    
+
 matchFailed :: MatchState a
 matchFailed = MatchState (const (return Nothing))
 
@@ -94,6 +94,11 @@ patternMatching (List [Atom "Pattern", Atom name, pattern]) expr = do
 patternMatching (List [Atom "PatternTest", p, f]) b = do
   patternMatching p b
   patternTest (applyHead f b)
+patternMatching (List [Atom "Condition", p, f]) b = do
+  patternMatching p b
+  match <- getMatchRes
+  patternTest (internalReplace f match)
+      
 patternMatching (Atom a) (Atom b) = fromBool $ a == b
 patternMatching (Number a) (Number b) = fromBool $ a == b
 patternMatching (String a) (String b) = fromBool $ a == b

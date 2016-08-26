@@ -260,6 +260,21 @@ spec  = do
       test
         ["{1,1,2,2,3}/.{x_,x_,y_,y_,z_} -> 2"] (integer 2)
 
+      test3
+        ["{{1,1},{0,0},{0,2}}/.{x_,y_}/;x+y==2 -> a"] "{a,{0,0},a}"
+      test3
+        ["{{1,1},{0,0},{0,2}}/.{x_,x_}/;x+x==2 -> a"] "{a,{0,0},{0,2}}"
+      test3
+        ["Condition[Condition[f[x_],x>1],x<2]=sdf","f[3/2]"] "sdf"
+      test3
+        ["Condition[Condition[f[x_],x>1],x<2]=sdf","f[0]"] "f[0]"
+      test3
+        ["Condition[Condition[f[x_],x>1],x<2]=sdf","f[2]"] "f[2]"
+      test3
+        ["q[i_,j_]:=q[i,j]=q[i-1,j]+q[i,j-1];q[i_,j_]/;i<0||j<0=0;q[0,0]=1"
+          ,"q[5,5]"] "252"
+
+
 
     it "symbolic manipulation" $ do
       test3

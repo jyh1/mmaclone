@@ -31,7 +31,8 @@ attributes = M.fromList[
               ("And",[HoldAll,OneIdentity]),
               ("Or",[HoldAll,OneIdentity]),
               ("Function", [HoldAll]),
-              ("RuleDelayed",[HoldRest,SequenceHold])
+              ("RuleDelayed",[HoldRest,SequenceHold]),
+              ("Condition", [HoldAll])
               ]
 
 lookUpAttribute :: T.Text -> Attributes -> [Attribute]
