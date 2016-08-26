@@ -249,6 +249,18 @@ spec  = do
         ["zero[_]=False","zero[0]=True",
           "f[_]=19","f[_?zero]=100", "f[0]"]  (integer 100)
 
+      test
+        ["f[x_, x_] = 100", "f[1,1]"] (integer 100)
+      test3
+        ["f[x_, x_]= 100", "f[1,2]"] "f[1,2]"
+      test3
+        ["{1,2,3}/.{x_,x_,y_} -> 2"] "{1,2,3}"
+      test
+        ["{1,1,2}/.{x_,x_,y_} -> 2"] (integer 2)
+      test
+        ["{1,1,2,2,3}/.{x_,x_,y_,y_,z_} -> 2"] (integer 2)
+
+
     it "symbolic manipulation" $ do
       test3
         ["rules = {Log[x_ y_] :> Log[x] + Log[y], Log[x_^k_] :> k Log[x]}",

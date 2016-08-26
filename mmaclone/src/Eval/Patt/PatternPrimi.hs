@@ -46,16 +46,27 @@ instance Monad MatchState where
       MatchState foo
 
 
-updateRules :: (MatchRes -> MatchRes) -> MatchState ()
-updateRules f =
+updateMatch :: (MatchRes -> MatchRes) -> MatchState ()
+updateMatch f =
   let foo res =
         return (Just (f res, ())) in
     MatchState foo
 
-addNewMatch :: T.Text -> LispVal -> MatchState ()
-addNewMatch name expr =
-  updateRules (M.insert name expr)
+getMatchRes :: MatchState MatchRes
+getMatchRes =
+  let foo res =
+        return (Just (res, res)) in
+    MatchState foo
 
+addNewMatch :: T.Text -> LispVal -> MatchState ()
+addNewMatch name expr = do
+  res <- getMatchRes
+  let checker = fmap (expr ==) (M.lookup name res)
+  case checker of
+    Nothing -> updateMatch (M.insert name expr)
+    Just True -> return ()
+    Just False -> matchFailed
+    
 matchFailed :: MatchState a
 matchFailed = MatchState (const (return Nothing))
 
