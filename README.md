@@ -30,6 +30,7 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
   rather than adding new features/functions)
 
 1. More mathematical functions (`Sin`, `Cos`, `Mod` etc...)
+2. Arbitrary precision floating arithmetic using GMP(GNU Multiple Precision Arithmetic Library), currently arbitrary integer, double and rational number are supported.
 2. More built-in functions (`Level`, `Import`, `Derivative`etc...)
 3. More sophisticated pattern matching
   * head specification (of the form Blank[*Head*], currently it only support list type)
