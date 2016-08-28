@@ -35,7 +35,7 @@ For more information please refer to the project [wiki](https://github.com/jyh1/
 3. More sophisticated pattern matching
   * head specification (of the form Blank[*Head*], currently it only support list type)
   * ~~Pattern Test~~(Impelemented)
-  * BlankSequence, BlankNullSequence
+  * ~~BlankSequence, BlankNullSequence~~(Implemented)
 4. ~~RecursionLimit~~(Implemented)
 5. Negative index e.g. in `Part`
 6. Neagtive level specification

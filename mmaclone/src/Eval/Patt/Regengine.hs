@@ -224,9 +224,11 @@ transformLispPattern = fromJust . parsePatt
 patternMatching :: ParsedPatt -> LispVal -> MatchState ()
 patternMatching (Single (Literal p)) l = fromBool $ p == l
 patternMatching (Single _) l = emptyMatch
-patternMatching (WithTest test p) l = do
-  patternMatching p l
-  test l
+patternMatching (WithTest test p) l =
+  let
+    allP = allPossibleMatch p l
+  in
+    tryMatchList (map (>> test l) allP)
 patternMatching (Alt alts) l = matchAlt alts l
 patternMatching (Bind name p) l = do
   patternMatching p l
@@ -234,6 +236,10 @@ patternMatching (Bind name p) l = do
 patternMatching (Then ps ts) (List ls) =
   matchThen ps ts ls
 patternMatching _ _ = matchFailed
+
+allPossibleMatch :: ParsedPatt -> LispVal -> [MatchState ()]
+allPossibleMatch (Then ps ts) (List ls) = matchThenAll ps ts ls
+allPossibleMatch patt lisp = [patternMatching patt lisp]
 
 tryMatchList :: [MatchState ()] -> MatchState ()
 tryMatchList [] = matchFailed
@@ -251,22 +257,25 @@ splitsFrom s st = [splitAt n st | n <- [s .. length st]]
 -- splits = splitsFrom 0
 -- frontSplit = splitsFrom 1
 
-matchThen :: [ParsedPatt] -> [PatternType] -> [LispVal] -> MatchState ()
-matchThen [] _ [] = return ()
-matchThen [] _ _ = matchFailed
-matchThen (p:ps) (t:ts) ls =
+matchThenAll :: [ParsedPatt] -> [PatternType] -> [LispVal] -> [MatchState ()]
+matchThenAll [] _ [] = [emptyMatch]
+matchThenAll [] _ _ = []
+matchThenAll (p:ps) (t:ts) ls =
   let
     allocateMatch n =
-      tryMatchList
-        [patternMatching p (wrapSequence fs) >> matchThen ps ts bs
-          | (fs, bs) <- splitsFrom n ls]
+      [patternMatching p (wrapSequence fs) >> rest
+        | (fs, bs) <- splitsFrom n ls, rest <- matchThenAll ps ts bs]
   in
     case t of
       One ->
-        if (ls == []) then matchFailed
-          else do
-            patternMatching p (head ls)
-            matchThen ps ts (tail ls)
+        if (ls == []) then []
+          else
+            map (patternMatching p (head ls) >>) (matchThenAll ps ts (tail ls))
       Seq ->
         allocateMatch 1
       NullSeq -> allocateMatch 0
+
+
+
+matchThen :: [ParsedPatt] -> [PatternType] -> [LispVal] -> MatchState ()
+matchThen p t l = tryMatchList (matchThenAll p t l)

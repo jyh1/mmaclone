@@ -273,6 +273,28 @@ spec  = do
       test3
         ["q[i_,j_]:=q[i,j]=q[i-1,j]+q[i,j-1];q[i_,j_]/;i<0||j<0=0;q[0,0]=1"
           ,"q[5,5]"] "252"
+    it "sequence test" $ do
+      -- Tests for sequence !!!
+      test3 ["{1,2,3}/.{x__,y_} -> y"] "3"
+      test3 ["f[x_,y__,z_]=Plus[x,y,z]", "f[1,2,3,4,5]"] "15"
+      test3 ["f[a_*b__]:=f[a]+Sequence@@(Map[f,{b}])", "f[x y z k l]"]
+        "f[k]+f[l]+f[x]+f[y]+f[z]"
+      test3 ["f[x__] := Length[{x}]", "{f[x, y, z], f[]}"]
+        "{3,f[]}"
+      test3 ["f[x___] := p[x, x]","{f[], f[1], f[1, a]}"]
+        "{p[],p[1,1],p[1,a,1,a]}"
+      test3 ["f[x___]:=p[x,Plus[x]]", "{f[1], f[1,2],f[1,2,x],f[1,2,3]}"]
+        "{p[1,1],p[1,2,3],p[1,2,x,3+x],p[1,2,3,6]}"
+      test3 ["f[x_,y___]:=Plus[y]^x", "{f[1,2,3], f[23,5,2], f[23,af,23,l],f[]}"]
+        "{5,27368747340080916343,(23+af+l)^23,f[]}"
+      test3 ["f[a, b, c] /. f[x__] -> p[x, x, x]"] "p[a,b,c,a,b,c,a,b,c]"
+      test3 ["h[a___, x_, b___, x_, c___] := hh[x] h[a, b, c]","h[2, 3, 2, 4, 5, 3]"] "h[4,5] hh[2] hh[3]"
+      test3
+        ["patt={x___,y_,z_,e___}/;y>z -> {x,z,y,e} ","{12,1,4,2,6,8,3,1,3456,12,6,1,43,1}//.patt"]
+        "{1,1,1,1,2,3,4,6,6,8,12,12,43,3456}"
+
+    it "alternative test" $ do
+      test3 ["{a, b, c, d, a, b, b, b} /. a | b -> x"] "{x,x,c,d,x,x,x,x}"
 
 
 
