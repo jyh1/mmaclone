@@ -34,7 +34,9 @@ patternEqui a b = a == b || blankEqui a b
 
 
 isPattern :: LispVal -> Bool
-isPattern (List (Atom "Pattern" : _)) = True
-isPattern (List (Atom "Blank":_)) = True
+isPattern (Atom "Pattern") = True
+isPattern (Atom "Blank") = True
+isPattern (Atom "BlankSequence") = True
+isPattern (Atom "BlankNullSequence") = True
 isPattern (List xs) = any isPattern xs
 isPattern _ = False

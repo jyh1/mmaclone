@@ -70,6 +70,7 @@ primitives = M.fromList
   , ("Out", outl)
 
   , ("Condition", conditionl)
+  , ("Pattern", patternl)
   ]
 
 
@@ -80,5 +81,10 @@ compoundExpressionl = do
 
 conditionl :: Primi
 conditionl = do
+  withnop 2
+  noChange
+
+patternl :: Primi
+patternl = do
   withnop 2
   noChange

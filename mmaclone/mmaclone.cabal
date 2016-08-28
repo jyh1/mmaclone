@@ -28,6 +28,7 @@ library
                       , Data.Attribute
                       , Eval.Patt.Pattern
                       , Eval.Patt.PatternPrimi
+                      , Eval.Patt.Regengine
                       -- , Eval.Primitive.PrimiType
                       , Eval.Primitive.Primitives
                       , Eval.Primitive.PrimiFunc

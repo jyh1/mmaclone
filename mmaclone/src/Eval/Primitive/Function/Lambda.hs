@@ -6,6 +6,7 @@ import Data.DataType
 import Eval.Patt.PatternPrimi
 import Eval.Primitive.PrimiFunc
 import Data.Environment.EnvironmentType
+import Eval.Patt.Regengine
 
 import Control.Monad.Trans.Except
 import Control.Monad.Except
