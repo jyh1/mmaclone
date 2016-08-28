@@ -27,12 +27,12 @@ replacel' :: EvalArguments
 replacel' (expr:rules:level) = do
   unpackedRules <- lift $ unpackReplaceArg rules
   levelSpeci <- lift $ unpackLevelSpeci 0 level
-  levelSpeci (`tryReplaceRuleList` unpackedRules) expr
+  levelSpeci (`tryReplaceRuleListP` unpackedRules) expr
 
 replaceAlll' :: EvalArguments
 replaceAlll' [expr,rules] = do
   unpackedRules <- lift $ unpackReplaceArg rules
-  replaceAll unpackedRules expr
+  replaceAllP unpackedRules expr
 
 
 -- functions relating with replace repeated feature
@@ -52,4 +52,4 @@ replaceRepeated old replace = do
 replaceRepeatedl' :: [LispVal] -> Primi
 replaceRepeatedl' [expr,rules] = do
   unpackedRules <- lift $ unpackReplaceArg rules
-  replaceRepeated expr (replaceAll unpackedRules)
+  replaceRepeated expr (replaceAllP unpackedRules)

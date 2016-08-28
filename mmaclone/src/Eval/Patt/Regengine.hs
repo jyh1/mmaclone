@@ -14,6 +14,11 @@ import qualified Data.Text as T
 
 -- MatchState facility
 
+type ParsedRule = (ParsedPatt, LispVal)
+
+fromRule :: Rule -> ParsedRule
+fromRule (p, l) = (transformLispPattern p, l)
+
 data MatchState a =
   MatchState {getMatchF :: MatchRes -> StateResult (Maybe (MatchRes, a))}
 
@@ -260,6 +265,10 @@ splitsFrom s st = [splitAt n st | n <- [s .. length st]]
 matchThenAll :: [ParsedPatt] -> [PatternType] -> [LispVal] -> [MatchState ()]
 matchThenAll [] _ [] = [emptyMatch]
 matchThenAll [] _ _ = []
+matchThenAll [p] [NullSeq] ls = [patternMatching p (wrapSequence ls)]
+matchThenAll [p] [Seq] ls
+  | ls == [] = []
+  | otherwise = [patternMatching p (wrapSequence ls)]
 matchThenAll (p:ps) (t:ts) ls =
   let
     allocateMatch n =

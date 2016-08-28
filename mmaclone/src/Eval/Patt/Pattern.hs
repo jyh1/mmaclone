@@ -22,7 +22,7 @@ blankEq a b
 blankEqui = blankEq `on` unpackPatt
 
 unpackPatt :: Pattern -> Pattern
-unpackPatt (List [Atom "Pattern",_,patt]) = patt
+unpackPatt (List [Atom "Pattern",_,patt]) = unpackPatt patt
 unpackPatt other = other
 
 patternEqui :: Pattern -> Pattern -> Bool
