@@ -4,6 +4,8 @@ import Data.DataType
 import Data.Environment.EnvironmentType
 import Eval.Primitive.PrimiFunc
 import Eval.Patt.Pattern
+import Data.Number.Number
+
 
 import Control.Monad
 import qualified Data.Map.Strict as M
@@ -167,6 +169,10 @@ makeCondition f _ = do
 makeBlankTest :: T.Text -> PattTest
 makeBlankTest name (List (Atom matched :_)) =
   fromBool (name == matched)
+makeBlankTest "Integer" (Number (Integer _)) = emptyMatch
+makeBlankTest "Rational" (Number (Rational _)) = emptyMatch
+makeBlankTest "Real" (Number (Double _)) = emptyMatch
+makeBlankTest "Symbol" (Atom _) = emptyMatch
 makeBlankTest _ _ = matchFailed
 
 blanks = ["Blank", "BlankSequence", "BlankNullSequence"]

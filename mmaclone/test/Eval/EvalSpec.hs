@@ -296,6 +296,11 @@ spec  = do
     it "alternative test" $ do
       test3 ["{a, b, c, d, a, b, b, b} /. a | b -> x"] "{x,x,c,d,x,x,x,x}"
 
+    it "head test" $ do
+      test3 ["f[x_g]=g","{f[g[2]], f[2]}"] "{g,f[2]}"
+      test3 ["f[x_Integer]=int", "{f[2], f[2.0],f[g]}"] "{int,f[2.0],f[g]}"
+      test3 ["f[x_Symbol]=sym", "{f[2], f[a], a=1;f[a]}"] "{f[2],sym,f[1]}"
+
 
 
     it "symbolic manipulation" $ do
