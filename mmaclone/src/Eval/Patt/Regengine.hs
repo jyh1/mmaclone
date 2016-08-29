@@ -175,18 +175,31 @@ makeBlankTest "Real" (Number (Double _)) = emptyMatch
 makeBlankTest "Symbol" (Atom _) = emptyMatch
 makeBlankTest _ _ = matchFailed
 
-blanks = ["Blank", "BlankSequence", "BlankNullSequence"]
-blankCons = zip blanks [Blank, BlankSeq, BlankNullSeq]
+mapSequence :: PattTest -> PattTest
+mapSequence k (List ((Atom "Sequence"): ls)) = mapM_ k ls
+mapSequence _ _ = matchFailed
+
 
 -- parse reg expr from LispVal
 type ParseLispval = LispVal -> Maybe ParsedPatt
 
 parseBlank :: ParseLispval
-parseBlank (List [Atom x]) =
-  fmap Single $ lookup x blankCons
+parseBlank (List [Atom "Blank"]) =
+  Just (Single Blank)
 parseBlank (List [Atom x, Atom y]) =
-  fmap (WithTest (makeBlankTest y) . Single) $ lookup x blankCons
+  Just (WithTest (makeBlankTest y) (Single Blank))
 parseBlank _ = Nothing
+
+
+blanks = ["BlankSequence", "BlankNullSequence"]
+blankCons = zip blanks [BlankSeq, BlankNullSeq]
+
+parseBlankSeq :: ParseLispval
+parseBlankSeq (List [Atom x]) =
+  fmap Single $ lookup x blankCons
+parseBlankSeq (List [Atom x, Atom y]) =
+  fmap (WithTest (mapSequence (makeBlankTest y)) . Single) $ lookup x blankCons
+parseBlankSeq _ = Nothing
 
 parsePattern :: ParseLispval
 parsePattern (List [Atom "Pattern", Atom name, pattern]) =
@@ -221,7 +234,7 @@ parseList _ = Nothing
 parseLiteral :: ParseLispval
 parseLiteral x = Just (liftLiteral x)
 
-parsers = [parseBlank, parsePattern, parsePatternTest,
+parsers = [parseBlank, parseBlankSeq, parsePattern, parsePatternTest,
   parseCondition, parseAlternative, parseList, parseLiteral]
 
 parsePatt :: ParseLispval
