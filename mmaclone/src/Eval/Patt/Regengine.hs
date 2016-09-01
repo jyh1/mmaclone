@@ -10,8 +10,6 @@ import Data.Number.Number
 import Control.Monad
 import qualified Data.Map.Strict as M
 import Data.Maybe
-
-
 import qualified Data.Text as T
 
 -- MatchState facility
@@ -176,7 +174,8 @@ makeBlankTest "Symbol" (Atom _) = emptyMatch
 makeBlankTest _ _ = matchFailed
 
 mapSequence :: PattTest -> PattTest
-mapSequence k (List ((Atom "Sequence"): ls)) = mapM_ k ls
+mapSequence k (List ((Atom "Sequence") : ls)) =
+  mapM_ k ls
 mapSequence _ _ = matchFailed
 
 
@@ -186,7 +185,7 @@ type ParseLispval = LispVal -> Maybe ParsedPatt
 parseBlank :: ParseLispval
 parseBlank (List [Atom "Blank"]) =
   Just (Single Blank)
-parseBlank (List [Atom x, Atom y]) =
+parseBlank (List [Atom "Blank", Atom y]) =
   Just (WithTest (makeBlankTest y) (Single Blank))
 parseBlank _ = Nothing
 
@@ -206,9 +205,17 @@ parsePattern (List [Atom "Pattern", Atom name, pattern]) =
   fmap (Bind name) $ parsePatt pattern
 parsePattern _ = Nothing
 
+patternTestType :: ParsedPatt -> PattTest -> PattTest
+patternTestType pp f =
+  case parsePatternType pp of
+    One -> f
+    _ -> mapSequence f
+
 parsePatternTest :: ParseLispval
 parsePatternTest (List [Atom "PatternTest", p, f]) =
-  fmap (WithTest (makePatternTest f)) $ parsePatt p
+  do
+    parsed <- parsePatt p
+    return (WithTest (patternTestType parsed (makePatternTest f)) parsed)
 parsePatternTest _ = Nothing
 
 parseCondition :: ParseLispval
@@ -291,7 +298,8 @@ matchThenAll [p] [Seq] ls
 matchThenAll (p:ps) (t:ts) ls =
   let
     allocateMatch n =
-      [patternMatching p (wrapSequence fs) >> rest
+      -- [patternMatching p (wrapSequence fs) >> rest
+      [rest >> patternMatching p (wrapSequence fs)
         | (fs, bs) <- splitsFrom n ls, rest <- matchThenAll ps ts bs]
   in
     case t of

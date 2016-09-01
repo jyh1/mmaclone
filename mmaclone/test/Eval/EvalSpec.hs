@@ -301,6 +301,13 @@ spec  = do
       test3 ["f[x_Integer]=int", "{f[2], f[2.0],f[g]}"] "{int,f[2.0],f[g]}"
       test3 ["f[x_Symbol]=sym", "{f[2], f[a], a=1;f[a]}"] "{f[2],sym,f[1]}"
 
+    it "sequence head test" $ do
+      test3 ["f[x__Integer]=2", "{f[2,3],f[a,2],f[2,a],f[2]}"] "{2,f[a,2],f[2,a],2}"
+      test3 ["f[x__Real] := Plus[x]/Length[{x}]", "{f[1.0,4.0],f[2,2],f[1.0,a]}"] "{2.5,f[2,2],f[1.0,a]}"
+
+    it "sequence pattern test" $ do
+      test3 ["f[___,y__?(#>2&)]={y}", "{f[2,3],f[1,1,1,2],f[112,1,1,3,4]}"] "{{3},f[1,1,1,2],{3,4}}"
+
 
 
     it "symbolic manipulation" $ do
