@@ -27,6 +27,7 @@ primitives = M.fromList
   , ("Plus",plusl)
   , ("Times", timesl)
   , ("Power", powerl)
+  , ("Log", logl)
   -- list mainpulation
   , ("car", carl)
   , ("cdr", cdrl)

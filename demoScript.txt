@@ -6,3 +6,12 @@ Map[fib,Range/@Range[10],{2}]
 Print/@fib/@{10,100}
 ({#,Plus[##2]}&) @@@(Range/@Range[2,10])
 %[[Range[1,9,2],2]]
+
+D[a_,x_]=0
+D[x_,x_]:=1
+D[a_+b__,x_]:=D[a,x]+D[Plus[b],x]
+D[a_ b__,x_]:=D[a,x] b+a D[Times[b],x]
+D[a_^(b_), x_]:= a^b(D[b,x] Log[a]+D[a,x]/a b)
+D[Log[a_], x_]:= D[a, x]/a
+D[Sin[a_], x_]:= D[a,x] Cos[a]
+D[Cos[a_], x_]:=-D[a,x] Sin[a]

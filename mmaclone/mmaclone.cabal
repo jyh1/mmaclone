@@ -73,6 +73,7 @@ executable mmaclone-exe
                      , mmaclone
                      , lens
                      , text
+                     , haskeline
   default-language:    Haskell2010
 
 test-suite mmaclone-test

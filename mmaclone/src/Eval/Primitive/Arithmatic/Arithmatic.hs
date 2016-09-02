@@ -1,7 +1,7 @@
 module Eval.Primitive.Arithmatic.Arithmatic
         (
         -- * Functions related with arithmatic. Plus, Times, Power etc...
-        plusl,timesl,powerl,dividel,minusl) where
+        plusl,timesl,powerl,dividel,minusl,logl) where
 import Data.DataType
 import Data.Number.Number
 import Eval.Primitive.PrimiFunc
@@ -68,4 +68,13 @@ powerl = do
   [a, b] <- getArgumentList
   case (a, b) of
     (Number a1, Number b1) -> maybe noChange (return.Number) (powerN a1 b1)
+    (a, Number 1) -> return a
+    _ -> noChange
+
+logl :: Primi
+logl = do
+  withnop 1
+  [a] <- getArgumentList
+  case a of
+    Number 1 -> return (Number 0)
     _ -> noChange

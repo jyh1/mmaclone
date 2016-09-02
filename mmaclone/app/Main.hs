@@ -17,6 +17,8 @@ import Show.Pretty
 import Control.Lens
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
+import System.Console.Haskeline
+
 
 info :: T.Text
 info = T.unlines ["A simple Mathmatica clone (v0.1.0)",
@@ -24,39 +26,55 @@ info = T.unlines ["A simple Mathmatica clone (v0.1.0)",
                 "Feel free to contact me via jyh1@mail.ustc.edu.cn"]
 
 
-lift2 = lift . lift
-
 main :: IO()
 main = do
   T.putStrLn info
-  loop initialState
+  runInputT defaultSettings (loop initialState)
 
-loop :: PrimiEnv -> IO ()
-loop env = do
-  res <- runExceptT $ execStateT repl env
+
+loop :: PrimiEnv -> InputT IO ()
+loop env =
+  let cl = env ^. line in
+    do
+      input <- getInputLine (printf "In[%d]:= " cl :: String)
+      case input of
+        Just input ->
+          repl env input
+        Nothing -> return ()
+
+
+
+repl :: PrimiEnv -> String -> InputT IO ()
+repl env input = do
+  res <- lift (runExceptT $ runStateT (evaluateExpression input) env)
   case res of
-    Right newEnv ->
-      loop newEnv
+    Right (ans, newEnv) ->
+      let ncl = newEnv ^. line in
+        do
+          when (ans /= "") $ outputStrLn ans 
+          loop newEnv
     Left err -> do
-      print err
+      outputStrLn (show err)
       loop env
 
 
-getExpr :: IOThrowsError LispVal
-getExpr = do
-  string <- lift getLine
+
+type Repl = InputT (StateT PrimiEnv IOThrowsError) ()
+
+getExpr :: String -> IOThrowsError LispVal
+getExpr string =
   liftThrows (readExpr string)
 
-repl :: StateResult ()
-repl = do
-  n <- getLineNumber
-  lift2 $ printf "In[%d]:= " n >> hFlush stdout
-  expr <- lift getExpr
+
+evaluateExpression :: String -> StateResult String
+evaluateExpression str = do
+  expr <- lift (getExpr str)
   res <- evalWithRecord expr
   new <- getLineNumber
-  lift2 $ report new res
   line += 1
+  return (report new res)
 
-report :: Int -> LispVal -> IO ()
-report _ (Atom "Null") = return ()
-report n val = printf "Out[%d]= " n >> printLispVal val
+
+report :: Int -> LispVal -> String
+report _ (Atom "Null") = ""
+report n val = printf "Out[%d]= " n ++ T.unpack (showLispVal val)
