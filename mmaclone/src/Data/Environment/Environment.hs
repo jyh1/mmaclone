@@ -15,7 +15,7 @@ import qualified Data.Text as T
 
 
 emptyOwnValue :: OwnValue
-emptyOwnValue = M.fromList [("$IterationLimit", Number 4096)]
+emptyOwnValue = M.fromList [("$IterationLimit", Number 50000)]
 emptyDownValue :: DownValue
 emptyDownValue = M.empty
 

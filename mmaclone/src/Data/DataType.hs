@@ -187,6 +187,10 @@ changeHead _ val = val
 addHead h (List ls) = List (h:ls)
 addHead _ _ = error "DataType.addHead :: Non list"
 
+sortList :: LispVal -> LispVal
+sortList (List (x:xs)) = List (x: sort xs)
+sortList val = val
+
 deleteSameHead :: [LispVal] -> LispVal -> [LispVal]
 deleteSameHead [] _ = []
 deleteSameHead (val@(List x):xs) h

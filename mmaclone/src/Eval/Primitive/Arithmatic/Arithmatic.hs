@@ -14,13 +14,15 @@ import Data.List
 
 timesOrPlus :: (Number -> Number -> Number) ->
   Number ->
+  UnpackArith ->
+  Packer ->
   (Number -> [LispVal] -> Primi) ->
   Primi
-timesOrPlus mp zero merge = do
-  (nums, syms) <- fmap (partition checkNum) getArgumentList
+timesOrPlus mp zero unpacker pack merge = do
+  (nums, syms) <- fmap (span checkNum) getArgumentList
   let unpacked = map unpackNum nums
       ans = foldl mp zero unpacked
-  merge ans syms
+  fmap sortList $ merge ans (totalSimplify unpacker pack syms)
 
 mergePlus,mergeTimes :: Number -> [LispVal] -> Primi
 mergePlus num [] = return (Number num)
@@ -59,8 +61,8 @@ minusOrDivide f = do
 minusl, dividel, timesl, plusl :: Primi
 minusl = minusOrDivide minus
 dividel = minusOrDivide divide
-timesl = timesOrPlus (*) 1 mergeTimes
-plusl = timesOrPlus (+) 0 mergePlus
+timesl = timesOrPlus (*) 1 unpackPower packPower mergeTimes
+plusl = timesOrPlus (+) 0 unpackTimes packTimes mergePlus
 
 powerl :: Primi
 powerl = do
@@ -68,6 +70,7 @@ powerl = do
   [a, b] <- getArgumentList
   case (a, b) of
     (Number a1, Number b1) -> maybe noChange (return.Number) (powerN a1 b1)
+    (_, Number 0) -> return (Number 1)
     (a, Number 1) -> return a
     _ -> noChange
 
@@ -78,3 +81,49 @@ logl = do
   case a of
     Number 1 -> return (Number 0)
     _ -> noChange
+
+type UnpackArith = LispVal -> (Number, [LispVal])
+type Packer = Number -> [LispVal] -> LispVal
+unpackTimes :: UnpackArith
+unpackTimes (List (Atom "Times" : Number a : res)) = (a, res)
+unpackTimes (List (Atom "Times" : res)) = (1, res)
+unpackTimes val = (1, [val])
+
+packTimes :: Packer
+packTimes 0 _ = Number 0
+packTimes 1 [res] = res
+packTimes 1 res = List (Atom "Times":res)
+packTimes n res = List (Atom "Times" : Number n : res)
+
+unpackPower :: UnpackArith
+unpackPower (List [Atom "Power", res, Number a]) = (a, [res])
+unpackPower val = (1, [val])
+
+packPower :: Packer
+packPower 0 _ = Number 1
+packPower 1 res = head res
+packPower n res = List [Atom "Power", head res, Number n]
+
+-- simplify :: UnpackArith -> Packer -> Number -> [LispVal] -> [LispVal] -> [LispVal]
+-- simplify unpacker pack n res val@(x:xs) =
+--   let (n2, res2) = unpacker x
+--       simplified = pack n res : totalSimplify unpacker pack val
+--   in
+--     if res == res2 then
+--       simplify unpacker pack (n + n2) res xs
+--     else
+--       simplified
+-- simplify _ pack n res [] = [pack n res]
+
+simplify :: [(Number, [LispVal])] -> [(Number, [LispVal])]
+simplify [] = []
+simplify [x] = [x]
+simplify ((n1, res1):(n2, res2):xs)
+  | res1 == res2 = (n1+n2, res1) : simplify xs
+  | otherwise = (n1, res1) : simplify ((n2,res2):xs)
+
+totalSimplify :: UnpackArith -> Packer -> [LispVal] -> [LispVal]
+totalSimplify unpacker pack xs =
+    let unpacked = map unpacker xs
+        sorted = sortOn snd unpacked in
+      map (uncurry pack) (simplify sorted)

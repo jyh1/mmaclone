@@ -41,6 +41,13 @@ spec  = do
     context "number evaluation" $ do
       it "plus" $ do
         test1 "1+2+3+4" $ (integer 10)
+        test2 "x+x+x"  "3 x"
+        test2 "x+2x+y+3x" "y+6x"
+        test2 "f[x]+2f[x]+g[x]+f[x]" "4f[x]+g[x]"
+      it "times" $ do
+        test2 "x x x" "x^3"
+        test2 "x^2 y x" "y x^3"
+        test2 "x^2+x^3+x^6+x^2" "x^3+x^6+2x^2"
       it "subtract" $ do
         test1 "3-2.0" (double 1.0)
       it "divide" $ do
@@ -314,6 +321,8 @@ spec  = do
       test3
         ["rules = {Log[x_ y_] :> Log[x] + Log[y], Log[x_^k_] :> k Log[x]}",
         "Log[a (b c^d)^e] //. rules"] "Log[a]+e (Log[b]+d Log[c])"
+      test3
+        ["{f[f[x]], f[x], g[f[x]], f[g[f[x]]]} //. f[x_] -> x"] "{x,x,g[x],g[x]}"
 
 
 main = hspec spec
