@@ -72,6 +72,7 @@ powerl = do
     (Number a1, Number b1) -> maybe noChange (return.Number) (powerN a1 b1)
     (_, Number 0) -> return (Number 1)
     (a, Number 1) -> return a
+    (List [Atom "Power", n1, n2], b) -> return (List [Atom "Power", n1, List[Atom "Times", b, n2]])
     _ -> noChange
 
 logl :: Primi

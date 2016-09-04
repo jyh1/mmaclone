@@ -15,3 +15,6 @@ D[a_^(b_), x_]:= a^b(D[b,x] Log[a]+D[a,x]/a b)
 D[Log[a_], x_]:= D[a, x]/a
 D[Sin[a_], x_]:= D[a,x] Cos[a]
 D[Cos[a_], x_]:=-D[a,x] Sin[a]
+Nest[D[#,x]&,x/Sin[x],5]
+
+{x___?(#<2&),y_,z___} -> {Length[{x],y}

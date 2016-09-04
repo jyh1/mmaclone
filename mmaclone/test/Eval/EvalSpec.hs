@@ -324,5 +324,15 @@ spec  = do
       test3
         ["{f[f[x]], f[x], g[f[x]], f[g[f[x]]]} //. f[x_] -> x"] "{x,x,g[x],g[x]}"
 
+    it "derivative" $ do
+      test3
+        ["D[a_,x_]=0","D[x_,x_]:=1", "D[a_+b__,x_]:=D[a,x]+D[Plus[b],x]",
+          "D[a_ b__,x_]:=D[a,x] b+a D[Times[b],x]",
+          "D[a_^(b_), x_]:= a^b(D[b,x] Log[a]+D[a,x]/a b)",
+          "D[Log[a_], x_]:= D[a, x]/a",
+          "D[Sin[a_], x_]:= D[a,x] Cos[a]",
+          "D[Cos[a_], x_]:=-D[a,x] Sin[a]","D[x/Sin[x]/Cos[x]^2,x]"]
+        "Plus[Times[x,Plus[Times[-1,Power[Cos[x],-1],Power[Sin[x],-2]],Times[2,Power[Cos[x],-3]]]],Times[Power[Cos[x],-2],Power[Sin[x],-1]]]"
+
 
 main = hspec spec
