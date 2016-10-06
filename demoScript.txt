@@ -1,7 +1,15 @@
+sortRule := {x___,y_,z_,k___}/;y>z -> {x,z,y,k}
+{64, 44, 71, 48, 96, 47, 59, 71, 73, 51, 67, 50, 26, 49, 49}//.sortRule
+{{1,1},{0,0},{0,2}}/.{x_,x_}/;x+x==2 -> a
 rules:={Log[x_ y_]:>Log[x]+Log[y],Log[x_^k_]:>k Log[x]}
 Log[a (b c^d)^e] //. rules
+fib[n_]:=fib[n]=fib[n-1]+fib[n-2];fib[0]=fib[1]=1;Null
+Print/@fib/@{10,100}
+({#,Plus[##2]}&) @@@(Range/@Range[2,10])
+%[[Range[1,9,2],2]]
+
 (If[#==0,1,# #0[#-1]]&)/@NestList[(2 #)&,5,2]
-fib[n_]:=fib[n]=fib[n-1]+fib[n-2];fib[0]=fib[1]=1
+
 Map[fib,Range/@Range[10],{2}]
 Print/@fib/@{10,100}
 ({#,Plus[##2]}&) @@@(Range/@Range[2,10])
@@ -17,4 +25,4 @@ D[Sin[a_], x_]:= D[a,x] Cos[a]
 D[Cos[a_], x_]:=-D[a,x] Sin[a]
 Nest[D[#,x]&,x/Sin[x],5]
 
-{x___?(#<2&),y_,z___} -> {Length[{x],y}
+{x___?(#<2&),y_,z___} -> {Length[{x}],y}
