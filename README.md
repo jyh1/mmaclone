@@ -22,8 +22,8 @@ achieve a deeper understanding about `Mahthematica`.
 This interpreter is intended to mimic every exact detail of `Mathematica`, including but not limited to its syntax, semantic,
 expression structure, evaluation details, etc. (All the scripts below were executed in the REPL session of the `mmaclone` program)
 
-1. The program support nearly all `Mathematica`'s syntax sugar, infix operators as well as their precedence.
-Inequality expression chain is parsed in the same way with `Mathematica`.
+1. The program support nearly all `Mathematica`'s syntax sugar, infix operators as well as their precedence. Inequality expression chain is parsed in the same way with `Mathematica`.
+
   ```
   In[1]:= FullForm[a==b>=c<=d<e]
   Out[1]= Inequality[a,Equal,b,GreaterEqual,c,LessEqual,d]
@@ -38,6 +38,7 @@ Inequality expression chain is parsed in the same way with `Mathematica`.
   Out[4]= Hold[Function[Times[1,SlotSequence[1]]][2]]
   ```
 2. Mathematica's powerful pattern matching is also implemented with scrupulous.
+
   ```
   (*The famous bubble sort implementation*)
   In[1]:= sortRule := {x___,y_,z_,k___}/;y>z -> {x,z,y,k}
@@ -78,6 +79,7 @@ Inequality expression chain is parsed in the same way with `Mathematica`.
   Out[20]= 252
   ```
 3. Some interesting scripts
+
   ```
   In[1]:= ((#+##&) @@#&) /@{{1,2},{2,2,2},{3,4}}
   Out[1]= {4,8,10}
