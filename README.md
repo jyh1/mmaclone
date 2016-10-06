@@ -28,7 +28,7 @@ Inequality expression chain is parsed in the same way with `Mathematica`.
 In[1]:= FullForm[a==b>=c<=d<e]
 Out[1]= Inequality[a,Equal,b,GreaterEqual,c,LessEqual,d]
 ```
-Some more complicated examples.
+  Some more complicated examples.
 ```
 In[2]:= FullForm[P@1@2//3]
 Out[2]= 3[P[1[2]]]
@@ -48,8 +48,7 @@ In[3]:= rules:={Log[x_ y_]:>Log[x]+Log[y],Log[x_^k_]:>k Log[x]}
 In[4]:= Log[a (b c^d)^e] //. rules
 Out[4]= Log[a]+e (Log[b]+d Log[c])
 ```
-Currently, the derivative function `D` is not built-in supported, but you could easily implement one with the powerful
-pattern matching facilities.
+  Currently, the derivative function `D` is not built-in supported, but you could easily implement one with the powerful pattern matching facilities.
 ```
 In[5]:= D[a_,x_]:=0
 In[6]:= D[x_,x_]:=1
@@ -65,7 +64,7 @@ Out[13]= -x^(-2) Sin[x]+Cos[x] x^(-1)
 In[14]:= D[%,x]
 Out[14]= -Cos[x] x^(-2)-(-2 x^(-3) Sin[x]+Cos[x] x^(-2))-x^(-1) Sin[x]
 ```
-Pattern test facility is of the same semantic with `Mathematica`'s.
+  Pattern test facility is of the same semantic with `Mathematica`'s.
 ```
 In[15]:= {{1,1},{0,0},{0,2}}/.{x_,x_}/;x+x==2 -> a
 Out[15]= {a,{0,0},{0,2}}
@@ -92,6 +91,8 @@ In[5]:= Print/@fib/@{10,100}
 354224848179261915075
 Out[5]= {Null,Null}
 ```
+
+## More
 Prebulid binary files are available on the [release page](https://github.com/jyh1/mmaclone/releases)
 
 For more information please refer to the project [wiki](https://github.com/jyh1/mmaclone/wiki) (still under construction).
