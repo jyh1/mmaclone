@@ -17,6 +17,7 @@ achieve a deeper understanding about `Mahthematica`.
   stack build
   stack exec mmaclone-exe
 ```
+Prebulid binary files are available on the [release page](https://github.com/jyh1/mmaclone/releases)
 
 ## Features
 This interpreter is intended to mimic every exact detail of `Mathematica`, including but not limited to its syntax, semantic,
@@ -95,7 +96,6 @@ expression structure, evaluation details, etc. (All the scripts below were execu
   ```
 
 ## More
-Prebulid binary files are available on the [release page](https://github.com/jyh1/mmaclone/releases)
 
 For more information please refer to the project [wiki](https://github.com/jyh1/mmaclone/wiki) (still under construction).
 
