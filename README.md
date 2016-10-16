@@ -2,7 +2,7 @@
 
 Inspired by the book [Write Yourself a Scheme in 48 Hours](https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours).
 I decide to write myself a simple Mathematica-like interpreter to learn more about Haskell as well as
-achieve a deeper understanding about `Mahthematica`.
+achieve a deeper understanding about `Mathematica`.
 
 ## ScreenShot
 
