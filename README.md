@@ -1,8 +1,8 @@
-# A simple term rewriting system with Mathematica's syntax
+# A simple term rewriting system with [Wolfram Language](https://www.wolfram.com/language/)'s syntax
 
 Inspired by the book [Write Yourself a Scheme in 48 Hours](https://en.wikibooks.org/wiki/Write_Yourself_a_Scheme_in_48_Hours).
-I decide to write myself a simple Mathematica-like interpreter to learn more about Haskell as well as
-achieve a deeper understanding about `Mathematica`.
+I decide to write myself a simple interpreter of Wolfram Language to learn more about Haskell as well as
+achieve a deeper understanding about `Mathematica`, which is the desktop IDE for `Wolfram Language`.
 
 ## ScreenShot
 
@@ -20,10 +20,10 @@ achieve a deeper understanding about `Mathematica`.
 Prebulid binary files are available on the [release page](https://github.com/jyh1/mmaclone/releases)
 
 ## Features
-This interpreter is intended to mimic every exact detail of `Mathematica`, including but not limited to its syntax, semantic,
+This interpreter is intended to mimic every exact detail of `Wolfram Language`, including but not limited to its syntax, semantic,
 expression structure, evaluation details, etc. (All the scripts below were executed in the REPL session of the `mmaclone` program)
 
-1. The program support nearly all `Mathematica`'s syntax sugar, infix operators as well as their precedence. Inequality expression chain is parsed in the same way with `Mathematica`.
+1. The program support nearly all `Wolfram Language`'s syntax sugar, infix operators as well as their precedence. E.g., inequality expression chain is parsed to the same AST with `Wolfram Language`.
 
   ```
   In[1]:= FullForm[a==b>=c<=d<e]
@@ -38,7 +38,7 @@ expression structure, evaluation details, etc. (All the scripts below were execu
   In[4]:= FullForm[Hold[(1 ##&)[2]]]
   Out[4]= Hold[Function[Times[1,SlotSequence[1]]][2]]
   ```
-2. Mathematica's powerful pattern matching is also implemented with scrupulous.
+2. `Wolfram Language`'s powerful pattern matching is also implemented with scrupulous.
 
   ```
   (*The famous bubble sort implementation*)
@@ -66,7 +66,7 @@ expression structure, evaluation details, etc. (All the scripts below were execu
   In[14]:= D[%,x]
   Out[14]= -Cos[x] x^(-2)-(-2 x^(-3) Sin[x]+Cos[x] x^(-2))-x^(-1) Sin[x]
   ```
-    Pattern test facility is of the same semantic with `Mathematica`'s.
+    Pattern test facility is of the same semantic with `Wolfram Language`'s.
   ```
   In[15]:= {{1,1},{0,0},{0,2}}/.{x_,x_}/;x+x==2 -> a
   Out[15]= {a,{0,0},{0,2}}
@@ -79,7 +79,7 @@ expression structure, evaluation details, etc. (All the scripts below were execu
   In[20]:= q[5,5]
   Out[20]= 252
   ```
-3. Some interesting scripts
+3. Some more interesting scripts
 
   ```
   In[1]:= ((#+##&) @@#&) /@{{1,2},{2,2,2},{3,4}}
