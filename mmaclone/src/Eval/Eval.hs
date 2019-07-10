@@ -1,4 +1,4 @@
-{-#LANGUAGE ExistentialQuantification#-}
+--{-# LANGUAGE ExistentialQuantification #-}
 module Eval.Eval
     (
     eval,
@@ -9,27 +9,28 @@ module Eval.Eval
     StateResult
     ) where
 
-import Data.DataType
-import Data.Environment.Environment
-import Data.Environment.Update
-import Data.Number.Number
-import Eval.Primitive.Primitives
-import Eval.Primitive.PrimiFunc
-import Data.Environment.EnvironmentType hiding(eval)
-import Eval.EvalHead
-import Data.Attribute
+import           Data.Attribute
+import           Data.DataType
+import           Data.Environment.Environment
+import           Data.Environment.EnvironmentType hiding (eval)
+import           Data.Environment.Update
+import           Data.Number.Number
+import           Eval.EvalHead
+import           Eval.Primitive.PrimiFunc
+import           Eval.Primitive.Primitives
 
 
-import Control.Monad
-import Data.Ratio
-import Data.Maybe(fromMaybe)
-import Data.List(sort)
-import Control.Monad.Except
-import qualified Data.Map.Strict as M
-import Control.Monad.Trans.State
-import Control.Lens hiding (List, Context)
+import           Control.Lens                     hiding (Context, List)
+import           Control.Monad
+import           Control.Monad.Except
+import           Control.Monad.Trans.State
+import           Data.List                        (sort)
+import qualified Data.Map.Strict                  as M
+import           Data.Maybe                       (fromMaybe)
+import           Data.Ratio
+import qualified Data.Text                        as T
 
-initialState = PrimiEnv eval nullContext [] 4096 1
+initialState = PrimiEnv eval nullContext [] initAttributes 4096 1
 
 evalWithRecord :: LispVal -> Primi
 evalWithRecord val = do
@@ -63,9 +64,10 @@ eval val = do
 eval' :: LispVal -> Primi
 eval' (List (v:vs)) = do
   headE <- eval v
+  attributes <- use attr
   arguments <- attributeEvaluateArgs headE vs
   args .= headE : arguments
-  attTransform <$> evalHead headE
+  attTransform attributes <$> evalHead headE
 
 eval' (Atom "$Line") = uses line integer
 
@@ -98,11 +100,13 @@ evalHead _ = noChange
 -- ------------------------------------------------
 
 
+
 -- attribute relating functions
 -- | evaluate arguments under the attributes specification of Head
 attributeEvaluateArgs ::
   LispVal -> [LispVal] -> StateResult [LispVal]
 attributeEvaluateArgs h rests = do
+  attributes <- use attr
   let att = getAttributes h attributes
   evaled <- attEvalHold att rests
   return $ allAttr att h evaled
@@ -121,5 +125,9 @@ attEvalHold atts vals
   | otherwise = mapM evaluate vals
 
 
-attTransform :: LispVal -> LispVal
-attTransform val = attributeTransform attributes val
+attTransform :: Attributes -> LispVal -> LispVal
+attTransform attributes val = attributeTransform attributes val
+
+
+
+

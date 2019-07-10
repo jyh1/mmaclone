@@ -33,7 +33,9 @@ library
                       , Eval.Primitive.Primitives
                       , Eval.Primitive.PrimiFunc
                       , Eval.Primitive.Arithmatic.Arithmatic
+                      , Eval.Primitive.Attributes.Attributes
                       , Eval.Primitive.Compare.Compare
+                      , Eval.Primitive.Module.Module
                       , Eval.Primitive.List.List
                       , Eval.Primitive.List.Elem
                       , Eval.Primitive.List.Part

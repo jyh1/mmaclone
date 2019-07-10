@@ -1,17 +1,17 @@
-{-#LANGUAGE FlexibleContexts#-}
+{-# LANGUAGE FlexibleContexts #-}
 module Eval.Primitive.PrimiFunc where
 
-import Data.DataType
-import Data.Number.Number
-import Data.Environment.EnvironmentType
+import           Data.DataType
+import           Data.Environment.EnvironmentType
+import           Data.Number.Number
 
-import qualified Data.Map.Strict as M
-import Control.Monad
-import Control.Monad.Except
-import Control.Monad.Trans.State
-import Control.Lens hiding(List, Context)
-import Data.Maybe
-import qualified Data.Text as T
+import           Control.Lens                     hiding (Context, List)
+import           Control.Monad
+import           Control.Monad.Except
+import           Control.Monad.Trans.State
+import qualified Data.Map.Strict                  as M
+import           Data.Maybe
+import qualified Data.Text                        as T
 
 stateThrow :: LispError -> StateResult a
 stateThrow = lift . throwError
@@ -60,6 +60,8 @@ getLineNumber = use line
 -- | update context
 updateCon :: (Context -> Context) -> StateResult ()
 updateCon f = con %= f
+
+
 
 
 -- | return args

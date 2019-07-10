@@ -1,22 +1,46 @@
 module Eval.Primitive.Primitives(primitives) where
 
-import Eval.Primitive.PrimiFunc
-import Data.Environment.EnvironmentType
-import Eval.Primitive.Arithmatic.Arithmatic
-import Eval.Primitive.List.List
-import Eval.Primitive.Compare.Compare
-import Eval.Primitive.Logic.Logic
-import Eval.Primitive.Control.Branch
-import Eval.Primitive.Function.Lambda
-import Eval.Primitive.Replace.Replace
-import Eval.Primitive.Nest.Nest
-import Eval.Primitive.Set.Set
-import Eval.Primitive.IO.Print
-import Eval.Primitive.InOut.InOut
+import           Data.Environment.EnvironmentType
+import           Eval.Primitive.Arithmatic.Arithmatic
+import           Eval.Primitive.Attributes.Attributes
+import           Eval.Primitive.Compare.Compare
+import           Eval.Primitive.Control.Branch
+import           Eval.Primitive.Function.Lambda
+import           Eval.Primitive.InOut.InOut
+import           Eval.Primitive.IO.Print
+import           Eval.Primitive.List.List
+import           Eval.Primitive.Logic.Logic
+import           Eval.Primitive.Module.Module
+import           Eval.Primitive.Nest.Nest
+import           Eval.Primitive.PrimiFunc
+import           Eval.Primitive.Replace.Replace
+import           Eval.Primitive.Set.Set
+
+import qualified Data.Map.Strict                      as M
+import qualified Data.Text                            as T
 
 
-import qualified Data.Text as T
-import qualified Data.Map.Strict as M
+import           Data.Attribute
+import           Data.DataType
+import           Data.Environment.Environment
+import           Data.Environment.Update
+import           Eval.Patt.Pattern
+import           Eval.Primitive.PrimiFunc
+
+import           Control.Monad
+import           Control.Monad.Except
+import           Control.Monad.IO.Class
+import           Control.Monad.Trans.Except
+import           Data.IORef
+
+import           Control.Lens                         hiding (Context, List)
+import           Control.Monad
+import           Control.Monad.Except
+import           Control.Monad.Trans.State
+import           Data.Maybe                           (fromMaybe)
+
+
+
 
 -- | Collections of all primitive function
 primitives :: M.Map T.Text Primi
@@ -72,6 +96,10 @@ primitives = M.fromList
 
   , ("Condition", conditionl)
   , ("Pattern", patternl)
+  , ("GetAttributes", getAttributesl)
+  , ("SetAttributes", setAttributesl)
+  , ("Module", modulel)
+  , ("Unset", unsetl)
   ]
 
 
@@ -89,3 +117,7 @@ patternl :: Primi
 patternl = do
   withnop 2
   noChange
+
+
+
+

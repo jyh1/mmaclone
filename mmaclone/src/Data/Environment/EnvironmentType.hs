@@ -1,13 +1,13 @@
-{-#LANGUAGE TemplateHaskell#-}
+{-# LANGUAGE TemplateHaskell #-}
 module Data.Environment.EnvironmentType where
 
-import Data.DataType
+import           Data.Attribute
+import           Data.DataType
 
-
-import qualified Data.Map.Strict as M
-import Control.Lens hiding (Context,List)
-import qualified Data.Text as T
-import Control.Monad.Trans.State
+import           Control.Lens              hiding (Context, List)
+import           Control.Monad.Trans.State
+import qualified Data.Map.Strict           as M
+import qualified Data.Text                 as T
 
 
 
@@ -42,13 +42,15 @@ type Primitives = M.Map T.Text Primi
 type EvalArguments = [LispVal] -> Primi
 
 
+
 -- | Envrionment for primitive function
 data PrimiEnv = PrimiEnv
   { _eval :: Eval
-  , _con :: Context
+  , _con  :: Context
   , _args :: [LispVal]
   -- , _modified :: Bool
-  , _dep :: Int
+  , _attr :: Attributes
+  , _dep  :: Int
   , _line :: Int
   }
 

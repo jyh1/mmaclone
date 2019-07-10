@@ -1,15 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Parser.NewParse(Expr(..), parseExpr,Stage1,expr) where
 
-import Text.Parsec hiding (Empty)
-import Text.Parsec.String
-import qualified Text.Parsec.Token as Token
-import Text.Parsec.Language
+import           Text.Parsec          hiding (Empty)
+import           Text.Parsec.Language
+import           Text.Parsec.String
+import qualified Text.Parsec.Token    as Token
 -- import Control.Applicative((*>))
-import Text.Parsec.Expr
+import           Text.Parsec.Expr
 
-import Data.Number.Number
-import qualified Data.Text as T
+import           Data.Number.Number
+import qualified Data.Text            as T
 
 data Expr
   = Num Number
@@ -69,6 +69,8 @@ data Expr
    | None
    | Cond Expr Expr
    | Alter Expr Expr
+   | GetAttributes Expr
+   | SetAttributes Expr Expr
    deriving (Show,Eq)
 
 opNames = words ("-> :> && || ! + - * / ; == < <= > >= : @ @@ /@ //@ @@@ \' !! != /. //. = :="
@@ -222,7 +224,7 @@ number = do
   num <- naturalOrFloat
   let numE = case num of
               Left a  -> Integer a
-              Right b  -> Double b
+              Right b -> Double b
   -- return (s $ Number numE)
   return (Num numE)
 
