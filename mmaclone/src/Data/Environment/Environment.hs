@@ -1,17 +1,19 @@
 module Data.Environment.Environment where
 
-import Data.DataType
-import Eval.Patt.Pattern
-import Eval.Patt.PatternPrimi
-import Data.Environment.EnvironmentType
+import           Data.DataType
+import           Data.Environment.EnvironmentType
+import           Eval.Patt.Pattern
+import           Eval.Patt.PatternPrimi
+
+import           Eval.Primitive.PrimiFunc
 
 
-import Control.Monad.Except
-import qualified Data.Map.Strict as M
-import Control.Monad.Trans.Except
-import Control.Lens hiding (Context,List)
-import Data.Maybe
-import qualified Data.Text as T
+import           Control.Lens                     hiding (Context, List)
+import           Control.Monad.Except
+import           Control.Monad.Trans.Except
+import qualified Data.Map.Strict                  as M
+import           Data.Maybe
+import qualified Data.Text                        as T
 
 
 emptyOwnValue :: OwnValue
@@ -64,10 +66,10 @@ updateContext val@(List _) rhs =
 
 validSet :: LispVal -> Bool
 validSet (List [(Atom "Condition"), p, _]) = validSet p
-validSet (List ((Atom "Condition"):_)) = False
-validSet (List (Atom _ : _)) = True
-validSet (Atom _) = True
-validSet _ = False
+validSet (List ((Atom "Condition"):_))     = False
+validSet (List (Atom _ : _))               = True
+validSet (Atom _)                          = True
+validSet _                                 = False
 
 replaceDown :: Down -> LispVal -> ReplaceResult
 replaceDown downV lhs =
@@ -75,11 +77,11 @@ replaceDown downV lhs =
       val = downV ^. value.to (M.lookup lhs) in
     case val of
       Nothing -> patt
-      just -> return just
+      just    -> return just
 
 getSetName :: LispVal -> T.Text
 getSetName (List (Atom "Condition":p:_)) = getSetName p
-getSetName (List (Atom name:_)) = name
+getSetName (List (Atom name:_))          = name
 
 getLhs :: LispVal -> LispVal
 getLhs (List [Atom "Condition", p, t]) =
@@ -97,7 +99,7 @@ replaceDownValue val downVal =
     liftM (fromMaybe val) $ do
       let downV = M.lookup name downVal
       case downV of
-        Nothing -> return Nothing
+        Nothing     -> return Nothing
         Just downV' -> replaceDown downV' lhs
 
 replaceOwnValue :: LispVal -> OwnValue -> LispVal
@@ -109,3 +111,13 @@ replaceContext val@(Atom _) con =
   return $ con ^.own.to (replaceOwnValue val)
 replaceContext val@(List _) con =
   con ^. down.to (replaceDownValue val)
+
+
+unset :: LispVal -> Context -> Context
+unset (Atom name) =
+  own %~ M.delete name
+unset val@(List _) =
+  down %~ M.delete (getSetName val)
+unset _ =
+  id
+

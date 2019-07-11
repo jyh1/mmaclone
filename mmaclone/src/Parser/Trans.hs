@@ -1,19 +1,19 @@
-{-#LANGUAGE ExistentialQuantification #-}
+{-# LANGUAGE ExistentialQuantification #-}
 
 module Parser.Trans(transform,negateE,inverseE,readExpr) where
 
-import Data.DataType hiding (addHead)
-import Data.Number.Number
-import Parser.NewParse
-import Control.Monad.Except
-import Control.Monad(msum)
-import qualified Data.Text as T
+import           Control.Monad        (msum)
+import           Control.Monad.Except
+import           Data.DataType        hiding (addHead)
+import           Data.Number.Number
+import qualified Data.Text            as T
+import           Parser.NewParse
 
 readExpr :: String -> ThrowsError LispVal
 readExpr = transform . parseExpr
 
 transform :: Stage1 -> ThrowsError LispVal
-transform (Left err) = throwError $ Parser err
+transform (Left err)   = throwError $ Parser err
 transform (Right expr) = expr2LispVal expr
 
 expr2LispVal :: Expr -> ThrowsError LispVal
@@ -151,11 +151,18 @@ expr2LispVal (Alter val@(Alter _ _) e) =
 expr2LispVal (Alter e1 e2) =
   twoArgs (addHead2 "Alternatives") e1 e2
 
+expr2LispVal (GetAttributes e) =
+  oneArg (addHead1 "GetAttributes") e
+
+expr2LispVal (SetAttributes e1 e2) =
+  twoArgs (addHead2 "SetAttributes") e1 e2
+
+
 expr2LispVal (Negate e) = do
   e' <- expr2LispVal e
   return $ case e' of
     Number n -> Number (- n)
-    other -> negateE other
+    other    -> negateE other
 
 expr2LispVal (Inverse e) = do
   e' <- expr2LispVal e
@@ -166,14 +173,14 @@ expr2LispVal (Inverse e) = do
 expr2LispVal other = return $ trivial other
 
 trivial :: Expr -> LispVal
-trivial (Num num) = Number num
-trivial (Var name) = Atom name
-trivial None = atomNull
-trivial (Slot n) = addHead1 "Slot" (integer n)
+trivial (Num num)   = Number num
+trivial (Var name)  = Atom name
+trivial None        = atomNull
+trivial (Slot n)    = addHead1 "Slot" (integer n)
 trivial (SlotSeq n) = addHead1 "SlotSequence" (integer n)
-trivial (Str s) = String s
-trivial (Chr c) = Char c
-trivial (Out n) = addHead1 "Out" (integer n)
+trivial (Str s)     = String s
+trivial (Chr c)     = Char c
+trivial (Out n)     = addHead1 "Out" (integer n)
 -- trivial (Lis lis) = (Atom "List") : lis
 
 negateE :: LispVal -> LispVal
@@ -184,17 +191,17 @@ inverseE n = List [Atom "Power", n, integer (-1)]
 
 -- equal unpacker -----------------------
 unPackEqual (Equal e1 e2) = Just (Equal e1 e2)
-unPackEqual _ = Nothing
+unPackEqual _             = Nothing
 unPackLess (Less e1 e2) = Just (Less e1 e2)
-unPackLess _ = Nothing
+unPackLess _            = Nothing
 unPackLessEq (LessEq e1 e2) = Just (LessEq e1 e2)
-unPackLessEq _ = Nothing
+unPackLessEq _              = Nothing
 unPackGreat (Great e1 e2) = Just (Great e1 e2)
-unPackGreat _ =Nothing
+unPackGreat _             =Nothing
 unPackGreatEq (GreatEq e1 e2) = Just (GreatEq e1 e2)
-unPackGreatEq _ = Nothing
+unPackGreatEq _               = Nothing
 unPackUnEq (UnEq e1 e2) = Just (UnEq e1 e2)
-unPackUnEq _ = Nothing
+unPackUnEq _            = Nothing
 
 eqUnpackers = [unPackEqual, unPackLess,unPackLessEq,
               unPackGreat,unPackGreatEq,unPackUnEq]
